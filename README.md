@@ -4,6 +4,7 @@ tendrils
 # TODOS
 ### Game
 * Mechanics and features
+* Reference here http://roguebasin.roguelikedevelopment.org/index.php?title=Articles
 
 ### Content
 * Models and importing
