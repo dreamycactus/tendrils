@@ -1,0 +1,24 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <StartProgram>..\..\Binaries\Win32\UDK.exe</StartProgram>
+    <CmdArgs>
+    </CmdArgs>
+    <LoadMapAtStartup>True</LoadMapAtStartup>
+    <StartupMap>AwesomeTestMap?GoalScore=0?TimeLimit=0?Game=MyGame.AwesomeGame</StartupMap>
+    <LoadGameType>False</LoadGameType>
+    <UserGameType>
+    </UserGameType>
+    <NoSound>False</NoSound>
+    <NoStartupMovies>False</NoStartupMovies>
+    <UseUnpublished>False</UseUnpublished>
+    <ForceWindowedMode>False</ForceWindowedMode>
+    <WindowWidth>1024</WindowWidth>
+    <WindowHeight>768</WindowHeight>
+    <ShowLogWindow>False</ShowLogWindow>
+    <LogWindowX>0</LogWindowX>
+    <LogWindowY>0</LogWindowY>
+    <LogToFile>False</LogToFile>
+    <LogFile>
+    </LogFile>
+  </PropertyGroup>
+</Project>

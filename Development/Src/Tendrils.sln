@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{E17AB4A1-DF35-4579-9E91-0CFFBFB6391A}") = "Tendrils", "Tendrils.ucproj", "{2121177E-ED93-409F-9136-2B7537CDD6EB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2121177E-ED93-409F-9136-2B7537CDD6EB}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2121177E-ED93-409F-9136-2B7537CDD6EB}.Debug|Win32.Build.0 = Debug|Win32
+		{2121177E-ED93-409F-9136-2B7537CDD6EB}.Release|Win32.ActiveCfg = Release|Win32
+		{2121177E-ED93-409F-9136-2B7537CDD6EB}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

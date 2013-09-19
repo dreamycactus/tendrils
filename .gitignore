@@ -1,4 +1,9 @@
 Binaries
 Development/Flash
 Engine
-UDKGame
+
+UDKGame/*
+!UDKGame/Config/
+
+.udkproj
+.exe
