@@ -31,7 +31,7 @@ DefaultProperties
     Mesh=SandboxPawnSkeletalMesh
  
     Components.Add(SandboxPawnSkeletalMesh)
-    ControllerClass=class'MyGame.CustomAIController'
+    ControllerClass=class'MyGame.SandboxAIController'
     InventoryManagerClass=class'MyGame.SandboxInventoryManager'
  
     bJumpCapable=false

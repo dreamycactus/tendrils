@@ -4,6 +4,13 @@ Engine
 
 UDKGame/*
 !UDKGame/Config/
+!UDKGame/Content/
+
+UDKGame/Content/*
+!UDKGame/Content/Maps
+
+UDKGame/Content/Maps/*
+!UDKGame/Content/Maps/tendrils
 
 .udkproj
 .exe

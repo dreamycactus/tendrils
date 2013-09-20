@@ -7,21 +7,20 @@ state PlayerWalking
 {
     function PlayerMove(float DeltaTime)
     {
-        local Vector arrow_loc, arrow_dir;
+        //local Vector arrow_loc, arrow_dir;
         super.PlayerMove(DeltaTime);
 
-        class'NavmeshPath_Toward'.static.TowardGoal(NavigationHandle, GoalActor );
-        class'NavMeshGoal_At'.static.AtLocation(NavigationHandle, GoalActor.Location );
-		`log( GoalActor.Location );
-        if (!NavigationHandle.FindPath())
-        {
-            `log("COULD NOT FIND PATH");
-        }
+  //      class'NavmeshPath_Toward'.static.TowardGoal(NavigationHandle, GoalActor );
+  //      class'NavMeshGoal_At'.static.AtLocation(NavigationHandle, GoalActor.Location );
+		//`log( GoalActor.Location );
+  //      if (!NavigationHandle.FindPath())
+  //      {
+  //      }
 
-        if (NavigationHandle.GetNextMoveLocation(arrow_dir,64.0))
-        {
-            DrawDebugLine(Pawn.Location,arrow_dir,255,0,0,false);
-        }
+  //      if (NavigationHandle.GetNextMoveLocation(arrow_dir,64.0))
+  //      {
+  //          DrawDebugLine(Pawn.Location,arrow_dir,255,0,0,false);
+  //      }
 		//`log( arrow_dir );
     }
 }
@@ -35,8 +34,6 @@ simulated event PostBeginPlay()
 	foreach AllActors( class'UTArmorPickup_BaseArmor', Act1 ) {
 		GoalActor = Act1;
 	}
-	`log( GoalActor );
-	`log( "=======================" );
 	class'NavMeshGoal_At'.static.AtActor( NavigationHandle, GoalActor );
 	class'NavmeshPath_Toward'.static.TowardGoal( NavigationHandle, GoalActor );
 }
