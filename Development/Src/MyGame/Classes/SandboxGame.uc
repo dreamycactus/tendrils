@@ -14,6 +14,7 @@ event PostBeginPlay()
 		Rooms = R;
 		break;
 	}
+	Rooms.Move( vect( 0.0, 5000.0, 0.0 ) );
 }
 
 event Tick( float DeltaTime ) 
@@ -22,7 +23,7 @@ event Tick( float DeltaTime )
 		`log( "======ROOMS NONE=====" );
 	} else {
 		`log( "Moving room============" );
-		Rooms.Move( vect( 0.0, 5.0, 0.0 ) );
+		//Rooms.Move( vect( 0.0, 5.0, 0.0 ) );
 	}
 }
 

@@ -58,6 +58,7 @@
     <Folder Include="IpDrv\Classes\" />
     <Folder Include="MyGame\" />
     <Folder Include="MyGame\Classes\" />
+    <Folder Include="Tendrils" />
     <Folder Include="OnlineSubsystemGameCenter\" />
     <Folder Include="OnlineSubsystemGameCenter\Classes\" />
     <Folder Include="OnlineSubsystemPC\" />
@@ -68,6 +69,7 @@
     <Folder Include="SubstanceAirEd\Classes\" />
     <Folder Include="SubstanceAir\" />
     <Folder Include="SubstanceAir\Classes\" />
+    <Folder Include="Tendrils\Classes" />
     <Folder Include="UDKBase\" />
     <Folder Include="UDKBase\classes\" />
     <Folder Include="UDN\" />
