@@ -8,6 +8,7 @@ UDKGame/*
 
 UDKGame/Content/*
 !UDKGame/Content/Maps
+!UDKGame/Content/Tendrils
 
 UDKGame/Content/Maps/*
 !UDKGame/Content/Maps/tendrils

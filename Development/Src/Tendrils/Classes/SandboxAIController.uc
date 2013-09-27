@@ -6,8 +6,8 @@ var() Vector TempDest;
 event Possess(Pawn inPawn, bool bVehicleTransition)
 {
     super.Possess(inPawn, bVehicleTransition); Pawn.SetMovementPhysics();
-	bAdvancedTactics = true;
-	bForceStrafe = true;
+    bAdvancedTactics = true;
+    bForceStrafe = true;
 } //I'm adding an default idle state so the Pawn doesn't try to follow a player that doesn' exist yet.
 
 auto state Idle
