@@ -4,13 +4,12 @@
     <CmdArgs>
     </CmdArgs>
     <LoadMapAtStartup>True</LoadMapAtStartup>
-    <StartupMap>MyTendrils?GoalScore=0?TimeLimit=0?Game=Tendrils.DrGame</StartupMap>
-    <LoadGameType>False</LoadGameType>
-    <UserGameType>
-    </UserGameType>
+    <StartupMap>tendrtest</StartupMap>
+    <LoadGameType>True</LoadGameType>
+    <UserGameType>Tendrils.DrGame</UserGameType>
     <NoSound>False</NoSound>
-    <NoStartupMovies>False</NoStartupMovies>
-    <UseUnpublished>False</UseUnpublished>
+    <NoStartupMovies>True</NoStartupMovies>
+    <UseUnpublished>True</UseUnpublished>
     <ForceWindowedMode>False</ForceWindowedMode>
     <WindowWidth>1024</WindowWidth>
     <WindowHeight>768</WindowHeight>
