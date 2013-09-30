@@ -1,4 +1,4 @@
-class DrCameraModule_TopDown implements DrCameraModule;
+class DrCameraModuleTopDown extends Object implements(DrCameraModule);
 
 var float CamHeight;
 var float CamHeightTarget;
@@ -6,6 +6,7 @@ var float MaxCamHeight;
 var float MinCamHeight;
 var float CamYaw;
 var float CamYawTarget;
+var DrCamera PlayerCamera;
 
 function Initialize();
 function OnBecomeActive( DrCameraModule Cam );
@@ -24,11 +25,21 @@ function UpdateCamera( Pawn p, DrCamera CamActor, float DT, out TViewTarget out_
     out_VT.POV.Rotation.Roll = 0;
 }
 
+function SetCamera( DrCamera C )
+{
+	PlayerCamera = c;
+}
+
+function DrCamera GetCamera()
+{
+	return PlayerCamera;
+}
+
 simulated function BecomeViewTarget( DrPlayerController PC )
 {
     if ( LocalPlayer( PC.Player ) != none ) {
         PC.SetBehindView( true );
-        DrRookiePawn( PC.Pawn ).SetMeshVisibility( PC.bBehindView );
+        //DrRookiePawn( PC.Pawn ).SetHidden( PC.bBehindView );
         PC.bNoCrosshair = true;
     }
 }

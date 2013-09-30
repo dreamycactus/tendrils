@@ -4,7 +4,7 @@
     <CmdArgs>
     </CmdArgs>
     <LoadMapAtStartup>True</LoadMapAtStartup>
-    <StartupMap>AwesomeTestMap?GoalScore=0?TimeLimit=0?Game=MyGame.AwesomeGame</StartupMap>
+    <StartupMap>MyTendrils?GoalScore=0?TimeLimit=0?Game=Tendrils.DrGame</StartupMap>
     <LoadGameType>False</LoadGameType>
     <UserGameType>
     </UserGameType>

@@ -10,10 +10,10 @@ simulated singular function Rotator GetBaseAimRotation()
 {
     local rotator POVRot;
 
-    PovRot = Controller.Pawn.Rotation;
+    POVRot = Pawn.Rotation;
     POVRot.Pitch = 0;
 
-    return POVRot.Rot;
+    return POVRot;
 }
 
 simulated event GetPlayerViewPoint( out vector oLocation, out Rotator oRotation )

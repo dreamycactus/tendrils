@@ -1,1 +1,1 @@
-Debug|Win32
+Debug|AnyCPU

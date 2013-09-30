@@ -28,8 +28,8 @@ function DrCameraModule CreateCamera( class<DrCameraModule> CameraClass )
     local DrCameraModule NewCam;
 
     NewCam = new(Outer) CameraClass;
-    NewCam.SetPlayerCamera( self );
-    NewCam.Init();
+    NewCam.SetCamera( self );
+    NewCam.Initialize();
 
     if ( CurrentCamera != none ) {
         CurrentCamera.OnBecomeInactive( NewCam );

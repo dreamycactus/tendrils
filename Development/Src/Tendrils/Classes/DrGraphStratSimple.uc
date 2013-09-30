@@ -16,6 +16,7 @@ function DrLevel GenLevelGraph( array<DrSection> Sections )
         for ( j = 0; j < PrevSec.Graph.LinkNodes.Length; ++j ) {
             if ( PrevSec.Graph.LinkNodes[j].Dest == none
                 && class'DrGraphCmp'.static.AddToSections( CurGraph.LinkNodes[0], PrevSec.Graph.LinkNodes[j] ) ) {
+
                 PrevSec = Sections[i];
                 `log( "Placed" @ Sections[i] @ "with" @ PrevSec.Graph.LinkNodes[j].Dest );
                 break;

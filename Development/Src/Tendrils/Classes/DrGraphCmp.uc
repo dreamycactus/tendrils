@@ -17,6 +17,7 @@ static function bool AddToSections( DrSectionLink ToAdd, DrSectionLink FromLink 
     ToAdd.Src.BaseRef.Move( FromLink.Location - ToAdd.Location );
 
     `log( "Rotated Section " @ UnrRotToDeg * DeltaRot );
+	`log( "From" @ FromLink.Location @ " to " @ ToAdd.Location );
     `log( "Moved Section by" @ ( FromLink.Location - ToAdd.Location ) );
 
     FromLink.Dest = ToAdd.Src;
