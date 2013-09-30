@@ -5,12 +5,12 @@
     <Platform Condition=" '$(Platform)' == '' ">Win32</Platform>
     <ProductVersion>1.0.0</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{2121177e-ed93-409f-9136-2b7537cdd6eb}</ProjectGuid>
+    <ProjectGuid>{38962b5a-0071-4aa2-8879-7175da201149}</ProjectGuid>
     <OutputType>UserMod</OutputType>
     <ProjectType>UnrealScript</ProjectType>
-    <RootNamespace>Tendrils</RootNamespace>
-    <AssemblyName>Tendrils</AssemblyName>
-    <Name>Tendrils</Name>
+    <RootNamespace>TestTest</RootNamespace>
+    <AssemblyName>TestTest</AssemblyName>
+    <Name>TestTest</Name>
     <TargetGame>UnrealEngine 3 Licensee</TargetGame>
     <BaseContentPath>..\..\Engine\Content</BaseContentPath>
     <GameContentPath>..\..\UDKGame\Content</GameContentPath>
@@ -18,7 +18,7 @@
     <UccPath>..\..\Binaries\Win32\UDK.exe</UccPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <DebugSymbols>True</DebugSymbols>
+    <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <UccUseUnpublished>False</UccUseUnpublished>
@@ -28,12 +28,6 @@
     <WindowHeight>768</WindowHeight>
     <ShowLogWindow>False</ShowLogWindow>
     <LogToFile>False</LogToFile>
-    <BuildArgs>
-    </BuildArgs>
-    <PreBuildEvent>ud</PreBuildEvent>
-    <PostBuildEvent>
-    </PostBuildEvent>
-    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DebugSymbols>false</DebugSymbols>
@@ -44,10 +38,6 @@
     <ForceWindowedMode>False</ForceWindowedMode>
     <ShowLogWindow>False</ShowLogWindow>
     <LogToFile>False</LogToFile>
-    <PreBuildEvent>ud</PreBuildEvent>
-    <PostBuildEvent>
-    </PostBuildEvent>
-    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="*\Classes\*.uc" />
@@ -68,6 +58,7 @@
     <Folder Include="IpDrv\Classes\" />
     <Folder Include="MyGame\" />
     <Folder Include="MyGame\Classes\" />
+    <Folder Include="TestTest" />
     <Folder Include="OnlineSubsystemGameCenter\" />
     <Folder Include="OnlineSubsystemGameCenter\Classes\" />
     <Folder Include="OnlineSubsystemPC\" />
@@ -80,7 +71,6 @@
     <Folder Include="SubstanceAir\Classes\" />
     <Folder Include="Tendrils\" />
     <Folder Include="Tendrils\Classes\" />
-    <Folder Include="TestTest\" />
     <Folder Include="TestTest\Classes\" />
     <Folder Include="UDKBase\" />
     <Folder Include="UDKBase\classes\" />

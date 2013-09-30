@@ -1,3 +1,4 @@
+C:\UDK\UDK-2013-07\Development\Src\obj\Win32\Release\TestTest.ucproj.UnrealScriptGeneratedFileListAbsolute.txt
 C:\UDK\UDK-2013-07\UDKGame\Script\Core.u
 C:\UDK\UDK-2013-07\UDKGame\Script\Engine.u
 C:\UDK\UDK-2013-07\UDKGame\Script\IpDrv.u
@@ -16,3 +17,4 @@ C:\UDK\UDK-2013-07\UDKGame\Script\UTEditor.u
 C:\UDK\UDK-2013-07\UDKGame\Script\UDN.u
 C:\UDK\UDK-2013-07\UDKGame\Script\UTGame.u
 C:\UDK\UDK-2013-07\UDKGame\Script\UTGameContent.u
+C:\UDK\UDK-2013-07\Development\Src\obj\TestTest.ucproj.UnrealScriptConfigurationLog.txt
