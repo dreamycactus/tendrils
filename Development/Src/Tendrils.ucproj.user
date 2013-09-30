@@ -10,7 +10,7 @@
     <NoSound>False</NoSound>
     <NoStartupMovies>True</NoStartupMovies>
     <UseUnpublished>True</UseUnpublished>
-    <ForceWindowedMode>False</ForceWindowedMode>
+    <ForceWindowedMode>True</ForceWindowedMode>
     <WindowWidth>1024</WindowWidth>
     <WindowHeight>768</WindowHeight>
     <ShowLogWindow>False</ShowLogWindow>

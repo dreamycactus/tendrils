@@ -2,6 +2,7 @@ class DrHUD extends HUD;
 
 var const Texture2D CursorTexture;
 var const Color     CursorColor;
+const Logging = false;
 
 event PostRender()
 {
@@ -19,7 +20,9 @@ event PostRender()
     }
 
     HitLoc = GetMouseWorldLoc();
-    `log( "=== HIT LOC " @ HitLoc );
+    if ( Logging ) {
+        `log( "=== HIT LOC " @ HitLoc );
+    }
     Super.PostRender();
 }
 

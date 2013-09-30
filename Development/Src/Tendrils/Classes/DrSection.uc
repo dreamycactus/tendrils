@@ -8,6 +8,10 @@ class DrSection extends Actor
 var(Tendrils) editconst DrGraphCmp Graph;
 var(Tendrils) Actor BaseRef;    // Reference to the InterpActor which all the room actors are attached to
 
+var(Tendrils) bool bLockCamAlign;
+var(Tendrils) float CustomCamAlignAngle;    // Set only if bLockCamAlign is true, overrides the default snap to 90 
+
+var DrLevel Level;
 simulated function PreBeginPlay()
 {
     local int i;

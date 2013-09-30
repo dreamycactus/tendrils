@@ -1,4 +1,4 @@
-class DrPlayerController extends UTPlayerController;
+class DrPlayerController extends PlayerController;
 
 var vector CurrentCameraLocation, DesiredCameraLocation;
 var rotator CurrentCameraRotation;
@@ -6,35 +6,21 @@ var rotator CurrentCameraRotation;
 var vector CamPos;
 var int RotationOffset;
 
-simulated singular function Rotator GetBaseAimRotation()
+simulated event GetPlayerViewPoint( out vector out_Loc, out Rotator out_Rot )
 {
-    local rotator POVRot;
-
-    POVRot = Pawn.Rotation;
-    POVRot.Pitch = 0;
-
-    return POVRot;
-}
-
-simulated event GetPlayerViewPoint( out vector oLocation, out Rotator oRotation )
-{
-	super.GetPlayerViewPoint( oLocation, oRotation );
+	super.GetPlayerViewPoint( out_Loc, out_Rot );
 	
 	if ( Pawn != none ) {
-		oLocation = CurrentCameraLocation;
-		oRotation = rotator( (oLocation * vect( 1, 1, 0 )) - oLocation );
+		//out_Loc = CurrentCameraLocation;
+        /* TODO Align rotation to room */
+	    //out_Rot = 
 	}
-
-	CurrentCameraRotation = oRotation;
 }
 
-//reliable client function ClientSetHUD( class<HUD> newHUDType )
-//{
-//	if ( myHUD != none ) {
-//		myHUD.Destroy();
-//	}
-//	myHUD = spawn( class'AwesomeHud', self );
-//}
+function AlignCameraToActor( Actor Act )
+{
+    DrCameraModuleTopDown( PlayerCamera ).CamYawTarget = Act.Rotation.Yaw;
+}
 
 state PlayerWalking
 {
@@ -119,7 +105,7 @@ function UpdateRotation( float DeltaTime )
 //simulated event PostBeginPlay()
 //{
 //    Super.PostBeginPlay();
-    //PlayerCamera.SetFOV( 30.0 );
+//    PlayerCamera.SetFOV( 30.0 );
 //    Pawn.CalcCamera( 
 //}
 
@@ -127,7 +113,6 @@ defaultproperties
 {
     InputClass=class'DrMouseInput'
     RotationOffset=16384
-    CameraClass=class'DrCameraModule_TopDown'
-    //CameraClass=class'SandboxCamera'
+    CameraClass=class'DrCamera'
     CamPos=(X=0.0,Y=0.0,Z=1024.0)
 }

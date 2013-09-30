@@ -1,8 +1,32 @@
 class DrRookiePawn extends UDKPawn;
 
-simulated function bool CalcCamera( float fDT, out vector out_CamLoc, out rotator out_CamRot, out float out_FOV )
+//simulated function bool CalcCamera( float fDT, out vector out_CamLoc, out rotator out_CamRot, out float out_FOV )
+//{
+//    super.CalcCamera( fDT, out_CamLoc, out_CamRot, out_FOV );
+//    //return false;
+//}
+
+simulated event BecomeViewTarget( PlayerController PC )
 {
-    return false;
+    local DrPlayerController DPC;
+
+    DPC = DrPlayerController( PC );
+
+    if ( DPC != none && DrCamera( DPC.PlayerCamera ) != none ) {
+        DrCamera( DPC.PlayerCamera ).BecomeViewTarget( DPC );
+    } else {
+        super.BecomeViewTarget( PC );
+    }
+}
+
+simulated singular function Rotator GetBaseAimRotation()
+{
+    local rotator POVRot;
+
+    POVRot = Rotation;
+    POVRot.Pitch = 0;
+
+    return POVRot;
 }
 
 DefaultProperties
