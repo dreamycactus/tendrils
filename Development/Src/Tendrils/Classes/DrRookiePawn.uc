@@ -41,6 +41,7 @@ DefaultProperties
 		AnimTreeTemplate=AnimTree'CH_AnimHuman_Tree.AT_CH_Human'
 		HiddenGame=FALSE
 		HiddenEditor=FALSE
+        CollideActors=true
     End Object
     Components.Add(RookiePawnSkeletalMesh)
 }

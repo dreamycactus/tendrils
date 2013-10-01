@@ -41,4 +41,3 @@ C:\UDK\UDK-2013-07\UDKGame\Script\UTGame.u
 C:\UDK\UDK-2013-07\UDKGame\Script\UTGameContent.u
 C:\UDK\UDK-2013-07\Development\Src\obj\Tendrils.ucproj.UnrealScriptConfigurationLog.txt
 C:\UDK\UDK-2013-07\UDKGame\Script\Tendrils.u
-C:\UDK\UDK-2013-07\UDKGame\Script\MyGame.u
