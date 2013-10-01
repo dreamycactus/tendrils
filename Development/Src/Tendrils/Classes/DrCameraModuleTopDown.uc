@@ -24,6 +24,8 @@ simulated function UpdateCamera( Pawn p, DrCamera CamActor, float DT, out TViewT
         CamHeight += ( CamHeightTarget - CamHeight ) * DT * PanRate;
     }
     
+    CamYawTarget = CamYawTarget % class'DrUtils'.const.MAXROT;
+   
     if ( CamYaw != CamYawTarget ) {
 		DeltaRot = ( CamYawTarget - CamYaw );
         CamYaw +=  ( Abs( DeltaRot ) > class'DrUtils'.const.MAXROT  ?  -DeltaRot : DeltaRot ) * DT * YawRotRate;
@@ -40,7 +42,18 @@ simulated function UpdateCamera( Pawn p, DrCamera CamActor, float DT, out TViewT
 
 function DrCamera GetCamera() { return PlayerCamera; }
 function SetCamera( DrCamera C ){ PlayerCamera = c; }
-function SetTargetYaw( int Yaw ) { CamYawTarget = Yaw; }
+function SetTargetYaw( int Yaw ) 
+{
+    Yaw = Yaw % (2 * class'DrUtils'.const.MAXROT);
+
+    if ( Yaw > class'DrUtils'.const.MAXROT ) {
+        Yaw -= 2 * class'DrUtils'.const.MAXROT;
+    } else if ( Yaw < -class'DrUtils'.const.MAXROT ){
+        Yaw += 2 * class'DrUtils'.const.MAXROT;
+    }
+    CamYawTarget = Yaw;
+    `log( "Set Yaw to " @ Yaw );
+}
 
 
 simulated function BecomeViewTarget( DrPlayerController PC )

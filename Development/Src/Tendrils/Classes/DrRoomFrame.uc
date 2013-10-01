@@ -8,17 +8,8 @@ var(Tendrils) float OverrideCamYaw;    // Set only if bLockCamAlign && bOverride
 event Touch (Actor Other, PrimitiveComponent OtherComp, Object.Vector HitLocation, Object.Vector HitNormal)
 {
     `log( "Touched RoomFrameA" @ self );
-    if ( bLockCamAlign && DrRookiePawn( Other ) != none && DrRookiePawn( Other ).CurrentRoom != self.Base ) {
+    if ( bLockCamAlign && DrRookiePawn( Other ) != none /*&& DrRookiePawn( Other ).CurrentRoom != self.Base */) {
         `log( "Touched RoomFrameB" @ self );
-		DrCamera ( DrPlayerController( DrRookiePawn( Other ).Controller ).PlayerCamera ).CurrentCamera.SetTargetYaw( Rotation.Yaw );
-	}
-}
-
-event RanInto ( Actor Other )
-{
-    `log( "Touched RoomFrameAA" @ self );
-	if ( bLockCamAlign && DrRookiePawn( Other ) != none && DrRookiePawn( Other ).CurrentRoom != self.Base ) {
-        `log( "Touched RoomFrameBB" @ self );
 		DrCamera ( DrPlayerController( DrRookiePawn( Other ).Controller ).PlayerCamera ).CurrentCamera.SetTargetYaw( Rotation.Yaw );
 	}
 }
@@ -38,5 +29,5 @@ DefaultProperties
 	bLockCamAlign=true
 	bOverrideCamAlign=false
     bCollideActors=true
-
+    CollisionType=COLLIDE_TouchAll
 }
