@@ -32,8 +32,6 @@ state PlayerWalking
 		AltAccel = PlayerInput.aForward * Z + PlayerInput.aStrafe * Y;
 		//AltAccel.Z = 0;
 		AltAccel = Pawn.AccelRate * Normal( AltAccel );
-		`log( AltAccel );
-
 		super.ProcessMove( DeltaTime, AltAccel, DoubleClickMove, DeltaRot );
 	}
 }
@@ -48,7 +46,6 @@ function PlayerTick( float DeltaTime )
 	super.PlayerTick( DeltaTime );
 	
 	if ( Pawn != none ) {
-		`log( Pawn.Base );
 	}
 }
 
