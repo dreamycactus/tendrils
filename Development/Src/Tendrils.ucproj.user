@@ -13,9 +13,9 @@
     <ForceWindowedMode>True</ForceWindowedMode>
     <WindowWidth>1024</WindowWidth>
     <WindowHeight>768</WindowHeight>
-    <ShowLogWindow>False</ShowLogWindow>
+    <ShowLogWindow>True</ShowLogWindow>
     <LogWindowX>0</LogWindowX>
-    <LogWindowY>0</LogWindowY>
+    <LogWindowY>-300</LogWindowY>
     <LogToFile>False</LogToFile>
     <LogFile>
     </LogFile>

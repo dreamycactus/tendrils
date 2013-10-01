@@ -3,6 +3,9 @@ interface DrCameraModule;
 function DrCamera GetCamera();
 function SetCamera( DrCamera C );
 
+function SetTargetYaw( int Yaw );
+
+
 function Initialize();
 function OnBecomeActive( DrCameraModule Cam );
 function OnBecomeInactive( DrCameraModule Cam );

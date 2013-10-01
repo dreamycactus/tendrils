@@ -1,10 +1,14 @@
 class DrRookiePawn extends UDKPawn;
 
+var Actor CurrentRoom;
+
 //simulated function bool CalcCamera( float fDT, out vector out_CamLoc, out rotator out_CamRot, out float out_FOV )
 //{
 //    super.CalcCamera( fDT, out_CamLoc, out_CamRot, out_FOV );
 //    //return false;
 //}
+
+
 
 simulated event BecomeViewTarget( PlayerController PC )
 {

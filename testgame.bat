@@ -1,0 +1,1 @@
+Binaries\Win32\UDK.exe tendrtest?game=Tendrils.DrGame -vadebug -nomoviestartup -useunpublished -windowed -resx=1024 -resy=768

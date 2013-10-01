@@ -1,5 +1,8 @@
 class DrCameraModuleTopDown extends Object implements(DrCameraModule);
 
+const YawRotRate = 3;
+const PanRate = 1.0;
+
 var float CamHeight;
 var float CamHeightTarget;
 var float MaxCamHeight;
@@ -15,33 +18,30 @@ function OnBecomeInactive( DrCameraModule Cam );
 
 simulated function UpdateCamera( Pawn p, DrCamera CamActor, float DT, out TViewTarget out_VT )
 {
-    TotalTime += DT;
-    CamYawTarget = class'DrUtils'.const.MAXROT * Sin( TotalTime / 20.0 );
+	local int DeltaRot;
+
     if ( CamHeight != CamHeightTarget ) {
-        CamHeight += ( CamHeightTarget - CamHeight ) * DT * 3;
+        CamHeight += ( CamHeightTarget - CamHeight ) * DT * PanRate;
     }
     
     if ( CamYaw != CamYawTarget ) {
-        CamYaw += ( CamYawTarget - CamYaw ) * DT * 3;
+		DeltaRot = ( CamYawTarget - CamYaw );
+        CamYaw +=  ( Abs( DeltaRot ) > class'DrUtils'.const.MAXROT  ?  -DeltaRot : DeltaRot ) * DT * YawRotRate;
+		CamYaw = CamYaw % ( 2 * class'DrUtils'.const.MAXROT );
     }
 
     out_VT.POV.Location = out_VT.Target.Location;
     out_VT.POV.Location.Z += CamHeight;
 
     out_VT.POV.Rotation.Pitch = -class'DrUtils'.const.MAXROT / 2;
-    out_VT.POV.Rotation.Yaw = 0;
+    out_VT.POV.Rotation.Yaw = CamYaw;
     out_VT.POV.Rotation.Roll = 0;
 }
 
-function SetCamera( DrCamera C )
-{
-	PlayerCamera = c;
-}
+function DrCamera GetCamera() { return PlayerCamera; }
+function SetCamera( DrCamera C ){ PlayerCamera = c; }
+function SetTargetYaw( int Yaw ) { CamYawTarget = Yaw; }
 
-function DrCamera GetCamera()
-{
-	return PlayerCamera;
-}
 
 simulated function BecomeViewTarget( DrPlayerController PC )
 {
@@ -63,4 +63,5 @@ DefaultProperties
     CamHeightTarget=2024.0
     MaxCamHeight=2048.0
     MinCamHeight=300.0
+	CamYawTarget=12000
 }

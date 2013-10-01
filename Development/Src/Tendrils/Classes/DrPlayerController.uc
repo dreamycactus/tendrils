@@ -19,7 +19,7 @@ simulated event GetPlayerViewPoint( out vector out_Loc, out Rotator out_Rot )
 
 function AlignCameraToActor( Actor Act )
 {
-    DrCameraModuleTopDown( PlayerCamera ).CamYawTarget = Act.Rotation.Yaw;
+    DrCamera( PlayerCamera ).CurrentCamera.SetTargetYaw( Act.Rotation.Yaw );
 }
 
 state PlayerWalking
@@ -28,10 +28,11 @@ state PlayerWalking
 	{
 		local vector X, Y, Z, AltAccel;
 
-		GetAxes( CurrentCameraRotation, X, Y, Z );
+		GetAxes( PlayerCamera.Rotation , X, Y, Z );
 		AltAccel = PlayerInput.aForward * Z + PlayerInput.aStrafe * Y;
-		AltAccel.Z = 0;
+		//AltAccel.Z = 0;
 		AltAccel = Pawn.AccelRate * Normal( AltAccel );
+		`log( AltAccel );
 
 		super.ProcessMove( DeltaTime, AltAccel, DoubleClickMove, DeltaRot );
 	}
@@ -47,8 +48,7 @@ function PlayerTick( float DeltaTime )
 	super.PlayerTick( DeltaTime );
 	
 	if ( Pawn != none ) {
-		DesiredCameraLocation = Pawn.Location + CamPos;
-		CurrentCameraLocation = DesiredCameraLocation;
+		`log( Pawn.Base );
 	}
 }
 
