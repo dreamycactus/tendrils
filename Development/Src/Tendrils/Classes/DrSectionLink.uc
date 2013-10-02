@@ -1,7 +1,6 @@
 class DrSectionLink extends Actor
     placeable;
 
-//var DrDoor DoorRef;
 var DrSection Src;
 var DrSection Dest;
 

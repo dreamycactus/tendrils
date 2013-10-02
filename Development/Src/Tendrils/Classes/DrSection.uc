@@ -6,30 +6,28 @@ class DrSection extends Actor
     placeable;
 
 var(Tendrils) editconst DrGraphCmp Graph;
-var(Tendrils) Actor BaseRef;    // Reference to the InterpActor which all the room actors are attached to
-var array<DrSectionChunk> SectionChunks;
+var array<DrSectionRoom> Rooms;
 
 var DrLevel Level;
-simulated function PreBeginPlay()
+simulated function Initialize()
 {
-    local int j;
-	local DrSectionChunk Chunk;
+	local DrSectionRoom Ro;
+    local DynamicSMActor Base;
+    local DrSectionLink Link;
+
+    if ( Attached.Length == 0 ) { `log( "No attachment to section " @ self ); return; }
 
 	Graph.Current = self;
 
-	foreach AllActors(class'DrSectionChunk', Chunk ) {
-		if ( BaseRef.Attached.Find( Chunk.BaseRef ) != -1 ) {
-			SectionChunks.AddItem( Chunk );
-			Chunk.Section = self;
-			for ( j = 0; j < Chunk.BaseRef.Attached.Length; ++j ) {
-				if ( DrSectionLink( Chunk.BaseRef.Attached[j] ) != none ) {
-					Graph.LinkNodes.AddItem( DrSectionLink( Chunk.BaseRef.Attached[j] ) );
-					Graph.LinkNodes[Graph.LinkNodes.Length - 1].Src = self;
-				}
-			}
+	foreach BasedActors( class'DrSectionRoom', Ro ) {
+        Rooms.AddItem( Ro );
+        foreach Ro.BasedActors( class'DynamicSMActor', Base ) {
+            foreach Base.BasedActors( class'DrSectionLink', Link ) {
+			    Link.Src = self;
+                Graph.LinkNodes.AddItem( Link );
+            }
 		}
 	}
-	Graph.Current = self;
 }
 
 DefaultProperties
