@@ -8,8 +8,6 @@ var Actor CurrentRoom;
 //    //return false;
 //}
 
-
-
 simulated event BecomeViewTarget( PlayerController PC )
 {
     local DrPlayerController DPC;

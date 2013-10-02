@@ -4,6 +4,7 @@ function DrCamera GetCamera();
 function SetCamera( DrCamera C );
 
 function SetTargetYaw( int Yaw );
+function SetTargetHeight( int Height );
 
 
 function Initialize();

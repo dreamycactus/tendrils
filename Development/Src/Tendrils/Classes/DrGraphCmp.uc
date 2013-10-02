@@ -3,7 +3,7 @@ class DrGraphCmp extends ActorComponent
 
 var DrSection Current;
 var array<DrSection> AdjSections;     // Adj nodes
-var() array<DrSectionLink> LinkNodes;    // Edges
+var array<DrSectionLink> LinkNodes;    // Edges
 
 
 static function bool AddToSections( DrSectionLink ToAdd, DrSectionLink FromLink )
@@ -13,12 +13,12 @@ static function bool AddToSections( DrSectionLink ToAdd, DrSectionLink FromLink 
     DeltaRot = ToAdd.Src.BaseRef.Rotation.Yaw + 
         FromLink.Rotation.Yaw - class'DrUtils'.const.MAXROT - ToAdd.Rotation.Yaw ;
     
-    ToAdd.Src.BaseRef.SetRotation( MakeRotator( 0, DeltaRot, 0 ) ); 
-    ToAdd.Src.BaseRef.Move( FromLink.Location - ToAdd.Location );
-
-    `log( "Rotated Section " @ UnrRotToDeg * DeltaRot );
+	`log( "Rotated Section " @ UnrRotToDeg * DeltaRot );
 	`log( "From" @ FromLink.Location @ " to " @ ToAdd.Location );
     `log( "Moved Section by" @ ( FromLink.Location - ToAdd.Location ) );
+
+    ToAdd.Src.BaseRef.SetRotation( MakeRotator( 0, DeltaRot, 0 ) ); 
+    ToAdd.Src.BaseRef.Move( FromLink.Location - ToAdd.Location );
 
     FromLink.Dest = ToAdd.Src;
     ToAdd.Dest = FromLink.Src;
