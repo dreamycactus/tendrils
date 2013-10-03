@@ -3,6 +3,11 @@ class DrGame extends UDKGame;
 var DrLevel Level;
 var DrLevelGen LevelGen;
 
+function array<int> TestArr( array<int> A ) {
+	A.Remove( 0, 1 );
+	return A;
+}
+
 event PostBeginPlay()
 {
     local array<DrSection> Sections;
@@ -14,9 +19,9 @@ event PostBeginPlay()
         Sec.Initialize();
         Sections.AddItem( Sec );
     }
-
+	
     `log( Sections.Length @ " Sections detected." );
-
+	class'DrGraphCmp'.static.TryConnectSection( Sections[1].Graph.LinkNodes[0], Sections[0].Graph.LinkNodes[0] );
     if ( !VerifyLevel( Sections ) ) {
         `log( "Level errors. Aborting level generation..." );
     }

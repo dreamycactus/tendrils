@@ -12,7 +12,7 @@ var DrLevel Level;
 simulated function Initialize()
 {
 	local DrSectionRoom Ro;
-    local DynamicSMActor Base;
+    local DynamicSMActor mBase;
     local DrSectionLink Link;
 
     if ( Attached.Length == 0 ) { `log( "No attachment to section " @ self ); return; }
@@ -21,12 +21,10 @@ simulated function Initialize()
 
 	foreach BasedActors( class'DrSectionRoom', Ro ) {
         Rooms.AddItem( Ro );
-        foreach Ro.BasedActors( class'DynamicSMActor', Base ) {
-            foreach Base.BasedActors( class'DrSectionLink', Link ) {
-			    Link.Src = self;
-                Graph.LinkNodes.AddItem( Link );
-            }
-		}
+        foreach Ro.BasedActors( class'DrSectionLink', Link ) {
+		    Link.Src = self;
+            Graph.LinkNodes.AddItem( Link );
+        }
 	}
 }
 

@@ -1,37 +1,71 @@
 class DrGraphStratSimple extends DrGraphStrategy;
 
-function DrLevel GenLevelGraph( array<DrSection> Sections )
+function DrLevel GenLevelGraph( array<DrSection> inSections )
 {
-    local int i, j;
-    local DrLevel Level;
+	local int iter;
+	local DrLevel out_Level;
+
+	iter = 0;
+	while ( iter++ < 20 ) {
+		if ( GenIter( inSections, out_Level ) ) {
+			break;
+		}
+	}
+	
+	if ( out_Level == none ) {
+		`log( "CRITICAL ERROR, UNABLE TO GENERATE FEASIBLE LEVEL" );
+	}
+
+	return out_Level;
+}
+
+function bool GenIter( array<DrSection> inSections, out DrLevel out_Level )
+{
+	local int i, j, k;
     local DrGraphCmp CurGraph;
-    local DrSection PrevSec;
-    local array<DrSectionLink> OpenLinks;
+    local array<DrSectionLink> OpenLinks, ShuffledLinks;
 
-    if ( Sections.Length == 0 ) { return none; }
+    if ( inSections.Length == 0 ) { return true; }
 
-    SortSections( Sections );
+    SortSections( inSections );
+	
+	inSections[0].SetLocation( vect( 0, 0, 0 ) );
+	OpenLinks = LinksConcat( OpenLinks, ShuffleLinks( inSections[0].Graph.LinkNodes ) );
 
-    PrevSec = Sections[0];
-    for ( i = 1; i < Sections.Length; ++i ) {
-        `log( "Looking at " @ Sections[i] );
-        CurGraph = Sections[i].Graph;
-        for ( j = 0; j < PrevSec.Graph.LinkNodes.Length; ++j ) {
-            if ( PrevSec.Graph.LinkNodes[j].Dest == none
-                && class'DrGraphCmp'.static.AddToSections( CurGraph.LinkNodes[0], PrevSec.Graph.LinkNodes[j] ) ) {
-
-                PrevSec = Sections[i];
-                `log( "Placed" @ Sections[i] @ "with" @ PrevSec.Graph.LinkNodes[j].Dest );
-                break;
-            }
+    for ( i = 1; i < inSections.Length; ++i ) {
+        `log( "Looking at " @ inSections[i] );
+        CurGraph = inSections[i].Graph;
+		ShuffledLinks = ShuffleLinks( CurGraph.LinkNodes );
+        for ( j = 0; j < ShuffledLinks.Length; ++j ) {
+			for ( k = 0; k < OpenLinks.Length; ++k ) {
+				if ( class'DrGraphCmp'.static.TryConnectSection( self, ShuffledLinks[j], OpenLinks[k]) ) {
+					`log( "Placed" @ inSections[i] @ "with" @ OpenLinks[k] @ "in section " @ OpenLinks[k].Src );
+					/* Update link edges */
+					inSections[i].Graph.LinkNodes[ inSections[i].Graph.LinkNodes.Find( ShuffledLinks[j] ) ].Dest = OpenLinks[k].Src;
+				    ShuffledLinks[j].Dest = OpenLinks[k].Src;
+					OpenLinks[k].Dest = ShuffledLinks[j].Src;
+					
+					/* add current node links to open list; remove connection link */
+					ShuffledLinks.Remove( j, 1 );
+					OpenLinks.Remove( k, 1 );
+					OpenLinks = LinksConcat( OpenLinks, ShuffledLinks );
+					goto SUCCESS;
+				}
+			}
         }
+		/* Failed to find any node to attach section. Need to restart */
+		CleanLinks( inSections );
+		out_Level = none;
+		return false;
+SUCCESS:
+
     }
 
-    Level = new class'DrLevel';
-    Level.Head = Sections[0];
-    Level.AllSections = Sections;
+    out_Level = new class'DrLevel';
+    out_Level.Head = inSections[0];
+    out_Level.AllSections = inSections;
 
-    return Level;
+    return true;
 }
 
 function array<DrSection> SortSections( array<DrSection> Sections )

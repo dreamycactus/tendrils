@@ -12,7 +12,7 @@ var DrGraphStrategy GraphStrat;
 
 simulated function PostBeginPlay()
 {
-
+	CollisionComponent = StaticMesh;
 	//for ( i = 0; i < BaseRef.Attached.Length; ++i ) {
 	//	if ( DrSectionLink( self.BaseRef.Attached[i] ) != none ) {
 	//		Links.AddItem( DrSectionLink( self.BaseRef.Attached[i] ) );
@@ -40,8 +40,8 @@ DefaultProperties
         Materials(0)=Material'EditorMaterials.WidgetMaterial_Z'
         Scale3D=(X=0.75,Y=0.75,Z=0.75)
         CollideActors=true
-        BlockActors=false
-        BlockRigidBody=false
+        BlockActors=true
+        BlockRigidBody=true
 	End Object
     Components.Add(HelperMesh)
     StaticMesh=HelperMesh
@@ -52,5 +52,7 @@ DefaultProperties
 	RoomInfo=RI
 
     bCollideActors=true
-    CollisionType=COLLIDE_BlockAll
+	bBlockActors=true
+	BlockRigidBody=true
+    CollisionType=ECollisionType.COLLIDE_BlockAll
 }
