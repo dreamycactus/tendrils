@@ -7,8 +7,19 @@ class DrSectionRoom extends InterpActor
 
 var(Tendrils) DrRoomInfoCmp RoomInfo;
 var(Tendrils) StaticMeshComponent StaticMesh;
+var DrSectionDopple Dopple;
 
 var DrGraphStrategy GraphStrat;
+
+function SpawnDopple()
+{
+	local StaticMeshComponent SM;
+
+	Dopple= Spawn( class'DrSectionDopple',,, Location + vect( 0, 0, 10 ), Rotation );
+	Dopple.SetBase( self );
+	Dopple.CollisionComponent = StaticMesh;
+	Dopple.AttachComponent( StaticMesh );
+}
 
 event PreBeginPlay()
 {
@@ -18,6 +29,7 @@ event PreBeginPlay()
 simulated event PostBeginPlay()
 {
 }
+
 
 event Touch( Actor Other, PrimitiveComponent OtherComp, vector HitLocation, vector HitNormal )
 {

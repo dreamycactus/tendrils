@@ -15,7 +15,7 @@
     <WindowHeight>768</WindowHeight>
     <ShowLogWindow>True</ShowLogWindow>
     <LogWindowX>0</LogWindowX>
-    <LogWindowY>-300</LogWindowY>
+    <LogWindowY>0</LogWindowY>
     <LogToFile>False</LogToFile>
     <LogFile>
     </LogFile>

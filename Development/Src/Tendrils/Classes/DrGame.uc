@@ -24,7 +24,8 @@ event PostBeginPlay()
     if ( !VerifyLevel( Sections ) ) {
         `log( "Level errors. Aborting level generation..." );
     }
-	Sections[0].Rooms[0].CollisionType= ECollisionType.COLLIDE_TouchAll;
+
+	Sections[0].Rooms[0].SpawnDopple();
     Strat = new class'DrGraphStratSimple';
     //Level = LevelGen.GenLevelGraph( Sections, Strat );
 }
