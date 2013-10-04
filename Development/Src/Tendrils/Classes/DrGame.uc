@@ -21,13 +21,12 @@ event PostBeginPlay()
     }
 	
     `log( Sections.Length @ " Sections detected." );
-	class'DrGraphCmp'.static.TryConnectSection( Sections[1].Graph.LinkNodes[0], Sections[0].Graph.LinkNodes[0] );
     if ( !VerifyLevel( Sections ) ) {
         `log( "Level errors. Aborting level generation..." );
     }
-
+    Sections[0].Move( vect( 2500, 0, 0) ); 
     Strat = new class'DrGraphStratSimple';
-    Level = LevelGen.GenLevelGraph( Sections, Strat );
+    //Level = LevelGen.GenLevelGraph( Sections, Strat );
 }
 
 function bool VerifyLevel( array<DrSection> Sections ) {

@@ -53,7 +53,6 @@ static function array<int> ShuffleInt( array<int> inLinks )
 function array<DrSectionLink> LinksConcat( array<DrSectionLink> All, array<DrSectionLink> ToAdd )
 {
 	local int i;
-	local array<DrSectionLink> Ret;
 
 	for ( i = 0; i < ToAdd.Length; ++i ) { 
 		All.AddItem( ToAdd[i] );

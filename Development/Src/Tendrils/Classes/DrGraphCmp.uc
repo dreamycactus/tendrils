@@ -19,7 +19,7 @@ static function bool TryConnectSection( DrGraphStrategy Strat, DrSectionLink ToA
         LevelLink.Rotation.Yaw - class'DrUtils'.const.MAXROT - ToAdd.Rotation.Yaw;
 
 	/* Move section to right above where we want to place it */
-	AboveSite= LevelLink.Location - ToAdd.Location;
+	AboveSite = LevelLink.Location - ToAdd.Src.Location + ToAdd.Location;
 	AboveSite.Z = 30000;
 	ToAdd.Src.SetLocation( AboveSite );
 	ToAdd.Src.SetRotation( MakeRotator( 0, DeltaRot, 0 ) );
@@ -27,9 +27,12 @@ static function bool TryConnectSection( DrGraphStrategy Strat, DrSectionLink ToA
 	/* Lower section down into place, if a collision happens during this, Strat.bRoomCollisionFlag
 	 * will be set by DrRoom...
 	 */
-	DestSite = AboveSite;
+	DestSite = vect( 0, 0, 0 );
 	DestSite.Z = LevelLink.Location.Z - ToAdd.Location.Z;
-	ToAdd.Src.Move( DestSite );
+    Strat.bRoomCollisionFlag = false; // Set flag before move
+
+    ToAdd.Src.Rooms[0].Move( DestSite );
+	//ToAdd.Src.Move( DestSite );
     
 	`log( "Trying to place section\nRotating section by " @ UnrRotToDeg * DeltaRot );
 	`log( "From" @ LevelLink.Location @ " to " @ ToAdd.Location );
@@ -38,6 +41,7 @@ static function bool TryConnectSection( DrGraphStrategy Strat, DrSectionLink ToA
 	if ( Strat.bRoomCollisionFlag ) {
 		ToAdd.Src.SetLocation( OriginalLoc );
 		ToAdd.Src.SetRotation( OriginalRot );
+        return false;
 	}
 
     return true;

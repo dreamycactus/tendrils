@@ -12,10 +12,9 @@ var DrLevel Level;
 simulated function Initialize()
 {
 	local DrSectionRoom Ro;
-    local DynamicSMActor mBase;
     local DrSectionLink Link;
 
-    if ( Attached.Length == 0 ) { `log( "No attachment to section " @ self ); return; }
+    if ( Attached.Length == 0 ) { `log( "No attachment to section " @ self,,'CRITICAL' ); return; }
 
 	Graph.Current = self;
 

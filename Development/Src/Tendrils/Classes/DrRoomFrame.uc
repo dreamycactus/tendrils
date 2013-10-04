@@ -17,7 +17,7 @@ event Touch (Actor Other, PrimitiveComponent OtherComp, Object.Vector HitLocatio
 DefaultProperties
 {
 	Begin Object Class=StaticMeshComponent Name=HelperMesh
-		StaticMesh=StaticMesh'MyTendrils.util.SectNodeFrame'
+		StaticMesh=StaticMesh'MyTendrils.frame'
         Materials(0)=Material'EditorMaterials.WidgetMaterial_Z'
         Scale3D=(X=0.75,Y=0.75,Z=0.75)
         CollideActors=true

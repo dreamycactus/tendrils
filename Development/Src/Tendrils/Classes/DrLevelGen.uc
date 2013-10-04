@@ -16,6 +16,14 @@ function DrHall GenHall( int Type, DrHall Hall )
 function DrLevel GenLevelGraph( array<DrSection> Sections, DrGraphStrategy Strat )
 {
     local DrLevel Level;
+    local int i, j;
+
+    /* Must initialize rooms with strat to register touch events...*/
+    for ( i = 0; i < Sections.Length; ++i ) {
+        for ( j = 0; j < Sections[i].Rooms.Length; ++j ) {
+            Sections[i].Rooms[j].GraphStrat = Strat;
+        }
+    }
 
     Level = Strat.GenLevelGraph( Sections );
     Level.AllSections = Sections;
