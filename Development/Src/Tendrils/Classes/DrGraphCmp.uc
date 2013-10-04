@@ -31,8 +31,11 @@ static function bool TryConnectSection( DrGraphStrategy Strat, DrSectionLink ToA
 	DestSite.Z = LevelLink.Location.Z - ToAdd.Location.Z;
     Strat.bRoomCollisionFlag = false; // Set flag before move
 
-    ToAdd.Src.Rooms[0].Move( DestSite );
-	//ToAdd.Src.Move( DestSite );
+    /* Spawn a ghost version of room for detecting collision.. a bit hacky */
+    ToAdd.Src.Rooms[0].SpawnDopple( Strat );
+    ToAdd.Src.Rooms[0].Dopple.Move( DestSite );
+    ToAdd.Src.Rooms[0].Dopple.Destroy();
+    ToAdd.Src.Rooms[0].Dopple = none;
     
 	`log( "Trying to place section\nRotating section by " @ UnrRotToDeg * DeltaRot );
 	`log( "From" @ LevelLink.Location @ " to " @ ToAdd.Location );
@@ -43,7 +46,8 @@ static function bool TryConnectSection( DrGraphStrategy Strat, DrSectionLink ToA
 		ToAdd.Src.SetRotation( OriginalRot );
         return false;
 	}
-
+    
+    ToAdd.Src.Move( DestSite );
     return true;
 }
 

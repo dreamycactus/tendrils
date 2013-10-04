@@ -3,6 +3,7 @@ class DrGame extends UDKGame;
 var DrLevel Level;
 var DrLevelGen LevelGen;
 var array<DrSection> Sections;
+
 function array<int> TestArr( array<int> A ) {
 	A.Remove( 0, 1 );
 	return A;
@@ -25,9 +26,10 @@ event PostBeginPlay()
         `log( "Level errors. Aborting level generation..." );
     }
 
-	Sections[0].Rooms[0].SpawnDopple();
     Strat = new class'DrGraphStratSimple';
-    //Level = LevelGen.GenLevelGraph( Sections, Strat );
+    Level = LevelGen.GenLevelGraph( Sections, Strat );
+    Sections[0].Rooms[0].bBlockActors = true;
+    Sections[1].Rooms[0].bBlockActors = true;
 }
 
 function bool VerifyLevel( array<DrSection> Sections ) {
@@ -56,11 +58,15 @@ function bool VerifyLevel( array<DrSection> Sections ) {
 
 event Tick( float DT )
 {
-	if ( Sections[0].Rooms[0].Location.Z < -250 ) {
-		Sections[0].Rooms[0].Move( vect( 0, 0, 700 ) );
-	} else if ( Sections[0].Rooms[0].Location.Z > 250 ){
-		Sections[0].Rooms[0].Move( vect( 0, 0, -700 ) );
-	}
+    local int i;
+
+    i = 0;
+ //   if ( Sections[0].Rooms[0].Dopple == none ) {
+ //       Sections[0].Rooms[0].SpawnDopple( none );
+ //   }
+ //   Sections[0].Rooms[0].Dopple.Move( vect( 0, 0, -1500 ) );
+	//Sections[0].Rooms[0].Dopple.Move( vect( 0, 0, 1500 ) );
+		
 }
 
 

@@ -9,7 +9,7 @@ static function Actor GetRoomBase( Actor Act )
 	local Actor Res;
 
 	Res = Act;
-	while ( Res != none && DrSectionRoom( Res.Base ) == none ) {
+	while ( Res != none && DrSectionRoom( Res ) == none ) {
 		Res = Res.Base;
 	}
     

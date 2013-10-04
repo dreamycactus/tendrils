@@ -10,13 +10,7 @@ var Actor CurrentRoom;
 
 event PostBeginPlay()
 {
-    local vector v;
-
-    v = vect( 0, 500, 0 );
-    Move( v );
-
-    v = vect( 0, 0, 2000 );
-    Move( v );
+    SetLocation( vect( -2000, 238, 500 ) );
 }
 
 simulated event BecomeViewTarget( PlayerController PC )
