@@ -2,7 +2,7 @@
  * DrSection contains DrSectionRooms, but these chunks aren't needed for graph calc
  * They just contain extra info about cam yaw and height hints...
  */
-class DrSectionRoom extends Actor
+class DrSectionRoom extends InterpActor
 	placeable;
 
 var(Tendrils) DrRoomInfoCmp RoomInfo;
@@ -15,11 +15,8 @@ event PreBeginPlay()
 	CollisionComponent = StaticMesh;
 }
 
-event PostBeginPlay()
+simulated event PostBeginPlay()
 {
-    local vector v;
-    v = Location;
-    Move( -Location );
 }
 
 event Touch( Actor Other, PrimitiveComponent OtherComp, vector HitLocation, vector HitNormal )
@@ -55,6 +52,7 @@ DefaultProperties
 	End Object
     Components.Add(HelperMesh)
     StaticMesh=HelperMesh
+	CollisionComponent=HelperMesh
 
 	Begin Object Class=DrRoomInfoCmp Name=RI
     End Object
@@ -64,6 +62,5 @@ DefaultProperties
     bCollideActors=true
 	bBlockActors=true
 	BlockRigidBody=true
-    bCollideWorld=true
     CollisionType=COLLIDE_BlockAll
 }

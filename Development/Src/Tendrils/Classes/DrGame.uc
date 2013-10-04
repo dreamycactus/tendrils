@@ -2,7 +2,7 @@ class DrGame extends UDKGame;
 
 var DrLevel Level;
 var DrLevelGen LevelGen;
-
+var array<DrSection> Sections;
 function array<int> TestArr( array<int> A ) {
 	A.Remove( 0, 1 );
 	return A;
@@ -10,7 +10,7 @@ function array<int> TestArr( array<int> A ) {
 
 event PostBeginPlay()
 {
-    local array<DrSection> Sections;
+    //local array<DrSection> Sections;
     local DrSection Sec;
     local DrGraphStratSimple Strat;
 
@@ -24,7 +24,7 @@ event PostBeginPlay()
     if ( !VerifyLevel( Sections ) ) {
         `log( "Level errors. Aborting level generation..." );
     }
-    Sections[0].Move( vect( 2500, 0, 0) ); 
+	Sections[0].Rooms[0].CollisionType= ECollisionType.COLLIDE_TouchAll;
     Strat = new class'DrGraphStratSimple';
     //Level = LevelGen.GenLevelGraph( Sections, Strat );
 }
@@ -55,6 +55,11 @@ function bool VerifyLevel( array<DrSection> Sections ) {
 
 event Tick( float DT )
 {
+	if ( Sections[0].Rooms[0].Location.Z < -250 ) {
+		Sections[0].Rooms[0].Move( vect( 0, 0, 700 ) );
+	} else if ( Sections[0].Rooms[0].Location.Z > 250 ){
+		Sections[0].Rooms[0].Move( vect( 0, 0, -700 ) );
+	}
 }
 
 
