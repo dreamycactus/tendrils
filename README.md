@@ -11,7 +11,7 @@ This is our schedule for non failure.
 Prototype           - Nov 15
 * Game mechanics working, code structure set up
 * Sample level with full structure, textures, and lighting
-* A fully rigged and simply textured model with at least one animation
+* A fully rigged and simply textured model with at least one animation!!
 
 Alpha               - December 20
 * Core game mechanics solid
