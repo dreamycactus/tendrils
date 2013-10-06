@@ -13,7 +13,7 @@ function DrLevel GenLevelGraph( array<DrSection> inSections )
 	}
 	
 	if ( out_Level == none ) {
-		`log( "CRITICAL ERROR, UNABLE TO GENERATE FEASIBLE LEVEL" );
+		`warn( "CRITICAL ERROR, UNABLE TO GENERATE FEASIBLE LEVEL" );
 	}
 
 	return out_Level;

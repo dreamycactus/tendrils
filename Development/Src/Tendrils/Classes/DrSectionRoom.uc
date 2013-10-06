@@ -2,22 +2,25 @@
  * DrSection contains DrSectionRooms, but these chunks aren't needed for graph calc
  * They just contain extra info about cam yaw and height hints...
  */
-class DrSectionRoom extends InterpActor
+class DrSectionRoom extends Actor
 	placeable;
 
 var(Tendrils) DrRoomInfoCmp RoomInfo;
-var DrSectionDopple Dopple;
+var DrSectionDoppler Dopple;
+var StaticMeshComponent StaticMeshComponent;
 
-function SpawnDopple( DrGraphStrategy GraphStrat )
+function SpawnDopple( DrSection Sec )
 {
-    local StaticMeshComponent SM;
-    
-	Dopple = Spawn( class'DrSectionDopple',,, Location, Rotation );
-    Dopple.SetBase( self );
-    Dopple.GraphStrat = GraphStrat;
-    SM = new class'StaticMeshComponent' ( self.StaticMeshComponent );
-	Dopple.AttachComponent( SM );
-    Dopple.CollisionComponent = SM;
+	Dopple = Spawn( class'DrSectionDoppler', none,, Location, Rotation );
+    Dopple.Section = Sec;
+    Dopple.StaticMeshComponent.SetStaticMesh( self.StaticMeshComponent.StaticMesh );
+    //Dopple.StaticMeshComponent.SetScale( 0.95 ); // Make doppler scale a little less than room's for robust collision
+}
+
+function DestroyDopple()
+{
+    Dopple.Destroy();
+    Dopple = none;
 }
 
 simulated event PostBeginPlay()
@@ -35,7 +38,6 @@ DefaultProperties
 
     Begin Object Class=StaticMeshComponent Name=HelperMesh
         Materials(0)=Material'EditorMaterials.WidgetMaterial_Z'
-        Scale3D=(X=0.75,Y=0.75,Z=0.75)
         CollideActors=true
         BlockRigidBody=true
 	End Object
@@ -48,9 +50,11 @@ DefaultProperties
     Components.Add(RI)
 	RoomInfo=RI
 
+    bCollideComplex=true
     bCollideActors=true
-	bBlockActors=false
+	bBlockActors=true
 	BlockRigidBody=true
-
+    BlockZeroExtent=true
+    BlockNonZeroExtent=true
     CollisionType=COLLIDE_BlockAll
 }

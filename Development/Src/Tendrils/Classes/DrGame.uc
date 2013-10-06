@@ -28,8 +28,6 @@ event PostBeginPlay()
 
     Strat = new class'DrGraphStratSimple';
     Level = LevelGen.GenLevelGraph( Sections, Strat );
-    Sections[0].Rooms[0].bBlockActors = true;
-    Sections[1].Rooms[0].bBlockActors = true;
 }
 
 function bool VerifyLevel( array<DrSection> Sections ) {
@@ -60,11 +58,13 @@ event Tick( float DT )
 {
     local int i;
 
-    i = 0;
+    i = 5;
+    
+
  //   if ( Sections[0].Rooms[0].Dopple == none ) {
  //       Sections[0].Rooms[0].SpawnDopple( none );
- //   }
- //   Sections[0].Rooms[0].Dopple.Move( vect( 0, 0, -1500 ) );
+ //   
+
 	//Sections[0].Rooms[0].Dopple.Move( vect( 0, 0, 1500 ) );
 		
 }
