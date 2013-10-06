@@ -1,25 +1,16 @@
 class DrRoomFrame extends Actor
     placeable;
 
-var(Tendrils) bool bLockCamAlign;           // Rotate camera when entering room
-var(Tendrils) bool bOverrideCamAlign;
-var(Tendrils) float OverrideCamYaw;    // Set only if bLockCamAlign && bOverrideCamAlign is true; forces rotation to certain degree
+var(Tendrils) bool bDisableCameraWork; // Check if don't want to rotate camera and change height in this room
+var DrRoomInfoCmp RoomInfo;                         // TRICKY. Only RoomInfo.HeightHint is used
 
 event Touch (Actor Other, PrimitiveComponent OtherComp, Object.Vector HitLocation, Object.Vector HitNormal)
 {
-    `log( "Touched RoomFrameA" @ self );
-    if ( bLockCamAlign && DrRookiePawn( Other ) != none && DrRookiePawn( Other ).CurrentRoom != self.Base ) {
-        `log( "Touched RoomFrameB" @ self );
+	if ( !bDisableCameraWork ) {
 		DrCamera ( DrPlayerController( DrRookiePawn( Other ).Controller ).PlayerCamera ).CurrentCamera.SetTargetYaw( Rotation.Yaw );
-	}
-}
-
-event RanInto ( Actor Other )
-{
-    `log( "Touched RoomFrameAA" @ self );
-	if ( bLockCamAlign && DrRookiePawn( Other ) != none && DrRookiePawn( Other ).CurrentRoom != self.Base ) {
-        `log( "Touched RoomFrameBB" @ self );
-		DrCamera ( DrPlayerController( DrRookiePawn( Other ).Controller ).PlayerCamera ).CurrentCamera.SetTargetYaw( Rotation.Yaw );
+		if ( RoomInfo != none ) {
+			DrPlayerController( DrRookiePawn( Other ).Controller ).HeightHint = RoomInfo.HeightHint;
+		}
 	}
 }
 
@@ -35,8 +26,8 @@ DefaultProperties
 	End Object
     Components.Add(HelperMesh)
 
-	bLockCamAlign=true
-	bOverrideCamAlign=false
-    bCollideActors=true
+	bDisableCameraWork=false
 
+    bCollideActors=true
+    CollisionType=COLLIDE_TouchAll
 }

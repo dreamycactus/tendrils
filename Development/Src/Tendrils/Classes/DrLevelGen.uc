@@ -16,9 +16,6 @@ function DrHall GenHall( int Type, DrHall Hall )
 function DrLevel GenLevelGraph( array<DrSection> Sections, DrGraphStrategy Strat )
 {
     local DrLevel Level;
-    //Level = new class'DrLevel';
-
-    //Sections.Sort( Compare );
 
     Level = Strat.GenLevelGraph( Sections );
     Level.AllSections = Sections;

@@ -4,10 +4,9 @@
 class DrGraphStrategy extends Object
     abstract;
 
-function DrLevel GenLevelGraph( array<DrSection> Sections )
-{
-    return none;
-}
+var bool bRoomCollisionFlag;
+
+function DrLevel GenLevelGraph( array<DrSection> Sections );
 
 DefaultProperties
 {

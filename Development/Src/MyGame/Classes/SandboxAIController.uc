@@ -74,5 +74,3 @@ Begin:
 DefaultProperties
 {
 }
-
-//Yep, that's it for now.

@@ -4,7 +4,7 @@
     <CmdArgs>
     </CmdArgs>
     <LoadMapAtStartup>True</LoadMapAtStartup>
-    <StartupMap>tendrtest</StartupMap>
+    <StartupMap>Section01Harry</StartupMap>
     <LoadGameType>True</LoadGameType>
     <UserGameType>Tendrils.DrGame</UserGameType>
     <NoSound>False</NoSound>

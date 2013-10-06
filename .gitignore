@@ -13,5 +13,8 @@ UDKGame/Content/*
 UDKGame/Content/Maps/*
 !UDKGame/Content/Maps/tendrils
 
+UDKGame/Config/*
+!UDKGame/Config/Default*.ini
+
 .udkproj
 .exe

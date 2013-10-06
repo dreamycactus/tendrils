@@ -3,11 +3,14 @@ class DrGraphStratSimple extends DrGraphStrategy;
 function DrLevel GenLevelGraph( array<DrSection> Sections )
 {
     local int i, j;
+    local DrLevel Level;
     local DrGraphCmp CurGraph;
     local DrSection PrevSec;
-    local DrLevel Level;
+    local array<DrSectionLink> OpenLinks;
 
     if ( Sections.Length == 0 ) { return none; }
+
+    SortSections( Sections );
 
     PrevSec = Sections[0];
     for ( i = 1; i < Sections.Length; ++i ) {
@@ -31,6 +34,10 @@ function DrLevel GenLevelGraph( array<DrSection> Sections )
     return Level;
 }
 
+function array<DrSection> SortSections( array<DrSection> Sections )
+{
+    return Sections;
+}
 DefaultProperties
 {
 }

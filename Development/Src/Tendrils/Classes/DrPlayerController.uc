@@ -1,7 +1,6 @@
 class DrPlayerController extends PlayerController;
 
-var vector CurrentCameraLocation, DesiredCameraLocation;
-var rotator CurrentCameraRotation;
+var float HeightHint;
 
 var vector CamPos;
 var int RotationOffset;
@@ -46,6 +45,7 @@ function PlayerTick( float DeltaTime )
 	super.PlayerTick( DeltaTime );
 	
 	if ( Pawn != none ) {
+		DrCamera( PlayerCamera ).CurrentCamera.SetTargetHeight( HeightHint );
 	}
 }
 
@@ -112,4 +112,5 @@ defaultproperties
     RotationOffset=16384
     CameraClass=class'DrCamera'
     CamPos=(X=0.0,Y=0.0,Z=1024.0)
+	HeightHint=700
 }

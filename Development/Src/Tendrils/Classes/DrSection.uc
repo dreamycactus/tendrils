@@ -6,17 +6,28 @@ class DrSection extends Actor
     placeable;
 
 var(Tendrils) editconst DrGraphCmp Graph;
-var(Tendrils) Actor BaseRef;    // Reference to the InterpActor which all the room actors are attached to
+var array<DrSectionRoom> Rooms;
 
 var DrLevel Level;
-simulated function PreBeginPlay()
+simulated function Initialize()
 {
-    local int i;
+	local DrSectionRoom Ro;
+    local DynamicSMActor Base;
+    local DrSectionLink Link;
 
-    Graph.Current = Self;
-    for ( i = 0; i < Graph.LinkNodes.Length; ++i ) {
-        Graph.LinkNodes[i].Src = Self;
-    }
+    if ( Attached.Length == 0 ) { `log( "No attachment to section " @ self ); return; }
+
+	Graph.Current = self;
+
+	foreach BasedActors( class'DrSectionRoom', Ro ) {
+        Rooms.AddItem( Ro );
+        foreach Ro.BasedActors( class'DynamicSMActor', Base ) {
+            foreach Base.BasedActors( class'DrSectionLink', Link ) {
+			    Link.Src = self;
+                Graph.LinkNodes.AddItem( Link );
+            }
+		}
+	}
 }
 
 DefaultProperties
@@ -29,6 +40,7 @@ DefaultProperties
     Begin Object Class=SpriteComponent Name=Sprite
         Sprite=Texture2D'EnvyEditorResources.DefensePoint'
         HiddenGame=True
+		Scale=10.0
     End Object
     Components.Add(Sprite)
 }
