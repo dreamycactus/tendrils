@@ -43,10 +43,10 @@ static function bool TryConnectSection( DrGraphStrategy Strat, DrSectionLink ToA
             ToAdd.Src.Rooms[i].DestroyDopple();
             return false;
 	    }
-        //ToAdd.Src.Rooms[0].DestroyDopple();
+        ToAdd.Src.Rooms[0].DestroyDopple();
     }
       
-    //ToAdd.Src.SetLocation( AboveSite + DestDelta );
+    ToAdd.Src.SetLocation( AboveSite + DestDelta );
     return true;
 }
 
