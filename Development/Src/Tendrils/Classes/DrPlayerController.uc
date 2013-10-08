@@ -45,7 +45,7 @@ function PlayerTick( float DeltaTime )
 	super.PlayerTick( DeltaTime );
 	
 	if ( Pawn != none ) {
-		DrCamera( PlayerCamera ).CurrentCamera.SetTargetHeight( HeightHint );
+		DrCamera( PlayerCamera ).CurrentCamera.SetTargetHeight( HeightHint + Pawn.Location.Z );
 	}
 }
 
