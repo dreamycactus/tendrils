@@ -2,10 +2,11 @@ class DrGame extends UDKGame;
 
 var DrLevel Level;
 var DrLevelGen LevelGen;
+var array<DrSection> Sections;
 
 event PostBeginPlay()
 {
-    local array<DrSection> Sections;
+    //local array<DrSection> Sections;
     local DrSection Sec;
     local DrGraphStratSimple Strat;
 
@@ -14,43 +15,29 @@ event PostBeginPlay()
         Sec.Initialize();
         Sections.AddItem( Sec );
     }
-
+	
     `log( Sections.Length @ " Sections detected." );
 
-    if ( !VerifyLevel( Sections ) ) {
-        `log( "Level errors. Aborting level generation..." );
-    }
-
     Strat = new class'DrGraphStratSimple';
+	if ( !Strat.VerifyLevel( Sections ) ) {
+		`warn( "CRITICAL: Illegal level format, not generating sections" );
+		return;
+	}
+
     Level = LevelGen.GenLevelGraph( Sections, Strat );
+
+	if ( !Strat.VerifyLevel( Sections ) ) {
+		`warn( "CRITICAL: Something went wrong with level generation" );
+		return;
+	}
 }
-
-function bool VerifyLevel( array<DrSection> Sections ) {
-    local int i, j;
-    local bool bGood;
-    bGood = true;
-    
-    /* Verify each section has rooms */
-    for ( i = 0; i < Sections.Length; ++i ) {
-        if ( Sections[i].Attached.Length < 1 ) {
-            `log( "CRITICAL: Section " @ Sections[i] @ " has no rooms!");
-            bGood = false;
-        }
-        /* Verify each room has a base */
-        for ( j = 0; j < Sections[i].Rooms.Length; ++j ) {
-            if ( Sections[i].Rooms[j].Attached.Length < 1 ) {
-                `log( "Critical: Room " @ Sections[i].Rooms[j] @ " has no base!" );
-                bGood = false;
-            }
-        }
-    }
-
-    return bGood;
-}
-
 
 event Tick( float DT )
 {
+    local int i;
+
+    i = 5;
+		
 }
 
 

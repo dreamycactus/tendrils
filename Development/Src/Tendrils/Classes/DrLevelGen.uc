@@ -17,7 +17,7 @@ function DrLevel GenLevelGraph( array<DrSection> Sections, DrGraphStrategy Strat
 {
     local DrLevel Level;
 
-    Level = Strat.GenLevelGraph( Sections );
+    Level = Strat.GenLevelGraph( Sections, Strat.MostRecentLS );
     Level.AllSections = Sections;
 
     return Level;

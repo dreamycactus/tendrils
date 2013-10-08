@@ -8,6 +8,10 @@ var Actor CurrentRoom;
 //    //return false;
 //}
 
+event PostBeginPlay()
+{
+}
+
 simulated event BecomeViewTarget( PlayerController PC )
 {
     local DrPlayerController DPC;
@@ -27,10 +31,13 @@ simulated singular function Rotator GetBaseAimRotation()
 
     POVRot = Rotation;
     POVRot.Pitch = 0;
-
     return POVRot;
 }
 
+event Tick( float DT )
+{
+    //`log( Location );
+}
 DefaultProperties
 {
     Begin Object class=SkeletalMeshComponent Name=RookiePawnSkeletalMesh

@@ -7,9 +7,9 @@ var DrSection Dest;
 DefaultProperties
 {
 	Begin Object Class=StaticMeshComponent Name=HelperMesh
-		StaticMesh=StaticMesh'MyTendrils.util.SectNodeFrame'
+		StaticMesh=StaticMesh'MyTendrils.frame'
         Materials(0)=Material'EditorMaterials.WidgetMaterial_Y'
-        Scale3D=(X=0.75,Y=0.75,Z=0.75)
+        Scale=0.3
         CollideActors=false
         BlockActors=false
         BlockRigidBody=false

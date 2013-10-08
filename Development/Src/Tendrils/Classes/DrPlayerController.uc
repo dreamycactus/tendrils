@@ -109,7 +109,7 @@ function UpdateRotation( float DeltaTime )
 defaultproperties
 {
     InputClass=class'DrMouseInput'
-    RotationOffset=16384
+    RotationOffset=0
     CameraClass=class'DrCamera'
     CamPos=(X=0.0,Y=0.0,Z=1024.0)
 	HeightHint=700
