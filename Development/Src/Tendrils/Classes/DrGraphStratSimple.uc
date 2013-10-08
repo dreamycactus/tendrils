@@ -5,6 +5,11 @@ function DrLevel GenLevelGraph( array<DrSection> inSections, delegate<LinkSelect
 	local int iter;
 	local DrLevel out_Level;
 
+    /* Sink all sections down low low low low */
+    for ( iter = 0; iter < inSections.Length; ++iter ) {
+        inSections[iter].SetRelativeLocation( vect( 0, 0, -5000 ) );
+    }
+
 	iter = 0;
 	while ( iter++ < 20 ) {
 		if ( GenIter( inSections, out_Level, LinkSelector ) ) {

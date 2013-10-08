@@ -8,6 +8,7 @@ var Actor CurrentRoom;
 //    //return false;
 //}
 
+
 event PostBeginPlay()
 {
 }
