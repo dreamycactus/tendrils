@@ -1,15 +1,16 @@
 class DrGraphStratSimple extends DrGraphStrategy;
 
-function DrLevel GenLevelGraph( array<DrSection> inSections )
+function DrLevel GenLevelGraph( array<DrSection> inSections, delegate<LinkSelect> LinkSelector )
 {
 	local int iter;
 	local DrLevel out_Level;
 
 	iter = 0;
 	while ( iter++ < 20 ) {
-		if ( GenIter( inSections, out_Level ) ) {
+		if ( GenIter( inSections, out_Level, LinkSelector ) ) {
 			break;
 		}
+		CleanLinks( inSections );
 	}
 	
 	if ( out_Level == none ) {
@@ -19,9 +20,9 @@ function DrLevel GenLevelGraph( array<DrSection> inSections )
 	return out_Level;
 }
 
-function bool GenIter( array<DrSection> inSections, out DrLevel out_Level )
+function bool GenIter( array<DrSection> inSections, out DrLevel out_Level, delegate<LinkSelect> LinkSelector )
 {
-	local int i, j, k;
+	local int i, j, k, l;
     local DrGraphCmp CurGraph;
     local array<DrSectionLink> OpenLinks, ShuffledLinks;
 
@@ -37,7 +38,11 @@ function bool GenIter( array<DrSection> inSections, out DrLevel out_Level )
         CurGraph = inSections[i].Graph;
 		ShuffledLinks = ShuffleLinks( CurGraph.LinkNodes );
         for ( j = 0; j < ShuffledLinks.Length; ++j ) {
-			for ( k = 0; k < OpenLinks.Length; ++k ) {
+			/* Allow different selection strategies for picking which nodes on open list
+			 * to examine. Limit the number of tries to the number of openlinks */
+			k = -1;
+			while ( OpenLinks.Length != 0 && k++ < Max( OpenLinks.Length, 10 ) ) {
+				l = LinkSelector( OpenLinks, l );
 				if ( class'DrGraphCmp'.static.TryConnectSection( self, ShuffledLinks[j], OpenLinks[k]) ) {
 					`log( "Placed" @ inSections[i] @ "with" @ OpenLinks[k] @ "in section " @ OpenLinks[k].Src );
 					/* Update link edges */
@@ -47,7 +52,7 @@ function bool GenIter( array<DrSection> inSections, out DrLevel out_Level )
 					
 					/* add current node links to open list; remove connection link */
 					ShuffledLinks.Remove( j, 1 );
-					OpenLinks.Remove( k, 1 );
+					OpenLinks.Remove( l, 1 );
 					OpenLinks = LinksConcat( OpenLinks, ShuffledLinks );
 					goto SUCCESS;
 				}
@@ -68,10 +73,6 @@ SUCCESS:
     return true;
 }
 
-function array<DrSection> SortSections( array<DrSection> Sections )
-{
-    return Sections;
-}
 DefaultProperties
 {
 }
