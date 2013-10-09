@@ -2,6 +2,8 @@ Binaries
 Development/Flash
 Engine
 
+Development/src/Tendrils.suo
+
 UDKGame/*
 !UDKGame/Config/
 !UDKGame/Content/

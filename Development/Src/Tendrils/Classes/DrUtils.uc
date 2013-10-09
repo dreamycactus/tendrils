@@ -9,12 +9,28 @@ static function Actor GetRoomBase( Actor Act )
 	local Actor Res;
 
 	Res = Act;
-	while ( Res != none && DrSectionRoom( Res.Base ) == none ) {
+	while ( Res != none && DrSectionRoom( Res ) == none ) {
 		Res = Res.Base;
 	}
-    
-    if ( Res.Base == none ) {
-        `log( "Actor is not connected to room!" @ Act );
+
+    if ( Res == none ) {
+        `log ( "Actor " @ Act @ " is not connected to a room " );
+    }
+
+	return Res;
+}
+
+static function Actor GetBaseSection( Actor Act )
+{
+    local Actor Res;
+
+	Res = Act;
+	while ( Res != none && DrSection( Res ) == none ) {
+		Res = Res.Base;
+	}
+
+    if ( Res == none ) {
+        `log ( "Actor " @ Act @ " is not connected to a section " );
     }
 
 	return Res;

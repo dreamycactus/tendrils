@@ -5,24 +5,48 @@ var DrSection Current;
 var array<DrSection> AdjSections;     // Adj nodes
 var array<DrSectionLink> LinkNodes;    // Edges
 
-
-static function bool AddToSections( DrSectionLink ToAdd, DrSectionLink FromLink )
+static function bool TryConnectSection( DrGraphStrategy Strat, DrSectionLink ToAdd, DrSectionLink LevelLink )
 {
     local int DeltaRot;
+	local vector AboveSite, DestDelta, OriginalLoc;
+    local Rotator OriginalRot;
+    local int i;
     
-    DeltaRot = ToAdd.Src.Attached[0].Rotation.Yaw + 
-        FromLink.Rotation.Yaw - class'DrUtils'.const.MAXROT - ToAdd.Rotation.Yaw ;
+	OriginalRot = ToAdd.Src.Rotation;
+    OriginalLoc = ToAdd.Src.Location;
+
+	/* Base Yaw + Dest Link Yaw - ( 180 + Src Link Yaw ) */
+    DeltaRot = ToAdd.Src.Rotation.Yaw + 
+        LevelLink.Rotation.Yaw - class'DrUtils'.const.MAXROT - ToAdd.Rotation.Yaw;
+
+    ToAdd.Src.SetRotation( MakeRotator( 0, DeltaRot, 0 ) );
     
-	`log( "Rotated Section " @ UnrRotToDeg * DeltaRot );
-	`log( "From" @ FromLink.Location @ " to " @ ToAdd.Location );
-    `log( "Moved Section by" @ ( FromLink.Location - ToAdd.Location ) );
+	/* Move section to right above where we want to place it */
+	AboveSite = LevelLink.Location + ToAdd.Src.Location - ToAdd.Location;
+	AboveSite.Z = 30000;
 
-    ToAdd.Src.Attached[0].SetRotation( MakeRotator( 0, DeltaRot, 0 ) ); 
-    ToAdd.Src.Attached[0].Move( FromLink.Location - ToAdd.Location );
+    ToAdd.Src.SetLocation( AboveSite );
 
-    FromLink.Dest = ToAdd.Src;
-    ToAdd.Dest = FromLink.Src;
+	/* Lower section down into place, if a collision happens during this, Strat.bRoomCollisionFlag
+	 * will be set by DrRoom...
+	 */
+	DestDelta = vect( 0, 0, 0 );
+	DestDelta.Z = LevelLink.Location.Z - ToAdd.Location.Z;
 
+    /* Spawn a ghost version of room for detecting collision.. a bit hacky */
+    for ( i = 0; i < ToAdd.Src.Rooms.Length; ++i ) {
+        ToAdd.Src.Rooms[i].SpawnDopple( ToAdd.Src );
+        ToAdd.Src.Rooms[i].Dopple.Move( DestDelta );
+        if ( ToAdd.Src.Rooms[i].Dopple.bRoomCollisionFlag ) {
+            ToAdd.Src.SetLocation( OriginalLoc );
+            ToAdd.Src.SetRotation( OriginalRot );
+            ToAdd.Src.Rooms[i].DestroyDopple();
+            return false;
+	    }
+        ToAdd.Src.Rooms[0].DestroyDopple();
+    }
+      
+    ToAdd.Src.SetLocation( AboveSite + DestDelta );
     return true;
 }
 

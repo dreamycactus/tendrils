@@ -6,27 +6,27 @@ class DrSectionRoom extends Actor
 	placeable;
 
 var(Tendrils) DrRoomInfoCmp RoomInfo;
-var(Tendrils) StaticMeshComponent StaticMesh;
+var DrSectionDoppler Dopple;
+var StaticMeshComponent StaticMeshComponent;
 
-var DrGraphStrategy GraphStrat;
-
-simulated function PostBeginPlay()
+function SpawnDopple( DrSection Sec )
 {
-
-	//for ( i = 0; i < BaseRef.Attached.Length; ++i ) {
-	//	if ( DrSectionLink( self.BaseRef.Attached[i] ) != none ) {
-	//		Links.AddItem( DrSectionLink( self.BaseRef.Attached[i] ) );
-	//	}
-	//}
+	Dopple = Spawn( class'DrSectionDoppler', none,, Location, Rotation );
+    Dopple.Section = Sec;
+    Dopple.StaticMeshComponent.SetStaticMesh( self.StaticMeshComponent.StaticMesh );
+    //Dopple.StaticMeshComponent.SetScale( 0.95 ); // Make doppler scale a little less than room's for robust collision
 }
 
-event Touch( Actor Other, PrimitiveComponent OtherComp, vector HitLocation, vector HitNormal )
+function DestroyDopple()
 {
-    if ( class'DrUtils'.static.GetRoomBase( Other ) != self ) {
-        `log( "Collision " @ self @ ", " @ Other );
-        GraphStrat.bRoomCollisionFlag = true;
-    }
+    Dopple.Destroy();
+    Dopple = none;
 }
+
+simulated event PostBeginPlay()
+{
+}
+
 DefaultProperties
 {
 	Begin Object Class=SpriteComponent Name=Sprite
@@ -38,19 +38,23 @@ DefaultProperties
 
     Begin Object Class=StaticMeshComponent Name=HelperMesh
         Materials(0)=Material'EditorMaterials.WidgetMaterial_Z'
-        Scale3D=(X=0.75,Y=0.75,Z=0.75)
         CollideActors=true
-        BlockActors=false
-        BlockRigidBody=false
+        BlockRigidBody=true
 	End Object
     Components.Add(HelperMesh)
-    StaticMesh=HelperMesh
+    StaticMeshComponent=HelperMesh
+    CollisionComponent=HelperMesh
 
 	Begin Object Class=DrRoomInfoCmp Name=RI
     End Object
     Components.Add(RI)
 	RoomInfo=RI
 
+    bCollideComplex=true
     bCollideActors=true
+	bBlockActors=true
+	BlockRigidBody=true
+    BlockZeroExtent=true
+    BlockNonZeroExtent=true
     CollisionType=COLLIDE_BlockAll
 }
