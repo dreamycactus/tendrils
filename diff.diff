@@ -1,188 +1,176 @@
 diff --git a/Development/Src/Tendrils.suo b/Development/Src/Tendrils.suo
-index 8d38466..e3d719c 100644
+index 70897dc..a32238d 100644
 Binary files a/Development/Src/Tendrils.suo and b/Development/Src/Tendrils.suo differ
-diff --git a/Development/Src/Tendrils/Classes/DrGame.uc b/Development/Src/Tendrils/Classes/DrGame.uc
-index 1de57fd..def64cc 100644
---- a/Development/Src/Tendrils/Classes/DrGame.uc
-+++ b/Development/Src/Tendrils/Classes/DrGame.uc
-@@ -25,9 +25,8 @@ event PostBeginPlay()
-         `log( "Level errors. Aborting level generation..." );
+diff --git a/Development/Src/Tendrils/Classes/DrCameraModuleTopDown.uc b/Development/Src/Tendrils/Classes/DrCameraModuleTopDown.uc
+index 8e27c95..d8241ca 100644
+--- a/Development/Src/Tendrils/Classes/DrCameraModuleTopDown.uc
++++ b/Development/Src/Tendrils/Classes/DrCameraModuleTopDown.uc
+@@ -1,7 +1,7 @@
+ class DrCameraModuleTopDown extends Object implements(DrCameraModule);
+ 
+ const YawRotRate = 3;
+-const PanRate = 1.0;
++const PanRate = 0.7;
+ 
+ var float Height;
+ var float HeightTarget;
+@@ -29,11 +29,11 @@ simulated function UpdateCamera( Pawn p, DrCamera CamActor, float DT, out TViewT
+     if ( Yaw != YawTarget ) {
+ 		DeltaRot = ( YawTarget - Yaw );
+         Yaw +=  ( Abs( DeltaRot ) > class'DrUtils'.const.MAXROT  ?  -DeltaRot : DeltaRot ) * DT * YawRotRate;
+-		Yaw = Yaw % ( 2 * class'DrUtils'.const.MAXROT );
++		Yaw = Yaw % ( class'DrUtils'.const.MAXROT );
      }
  
--	Sections[0].Rooms[0].SpawnDopple();
-     Strat = new class'DrGraphStratSimple';
--    //Level = LevelGen.GenLevelGraph( Sections, Strat );
-+    Level = LevelGen.GenLevelGraph( Sections, Strat );
- }
+     out_VT.POV.Location = out_VT.Target.Location;
+-    out_VT.POV.Location.Z += Height;
++    out_VT.POV.Location.Z = Height;
  
- function bool VerifyLevel( array<DrSection> Sections ) {
-@@ -56,11 +55,6 @@ function bool VerifyLevel( array<DrSection> Sections ) {
+     out_VT.POV.Rotation.Pitch = -class'DrUtils'.const.MAXROT / 2;
+     out_VT.POV.Rotation.Yaw = Yaw;
+diff --git a/Development/Src/Tendrils/Classes/DrGraphStratSimple.uc b/Development/Src/Tendrils/Classes/DrGraphStratSimple.uc
+index 76569f9..7dec09e 100644
+--- a/Development/Src/Tendrils/Classes/DrGraphStratSimple.uc
++++ b/Development/Src/Tendrils/Classes/DrGraphStratSimple.uc
+@@ -5,6 +5,11 @@ function DrLevel GenLevelGraph( array<DrSection> inSections, delegate<LinkSelect
+ 	local int iter;
+ 	local DrLevel out_Level;
  
- event Tick( float DT )
- {
--	if ( Sections[0].Rooms[0].Location.Z < -250 ) {
--		Sections[0].Rooms[0].Move( vect( 0, 0, 700 ) );
--	} else if ( Sections[0].Rooms[0].Location.Z > 250 ){
--		Sections[0].Rooms[0].Move( vect( 0, 0, -700 ) );
--	}
- }
- 
- 
-diff --git a/Development/Src/Tendrils/Classes/DrGraphCmp.uc b/Development/Src/Tendrils/Classes/DrGraphCmp.uc
-index 5b0cf6a..220c9ce 100644
---- a/Development/Src/Tendrils/Classes/DrGraphCmp.uc
-+++ b/Development/Src/Tendrils/Classes/DrGraphCmp.uc
-@@ -31,8 +31,11 @@ static function bool TryConnectSection( DrGraphStrategy Strat, DrSectionLink ToA
- 	DestSite.Z = LevelLink.Location.Z - ToAdd.Location.Z;
-     Strat.bRoomCollisionFlag = false; // Set flag before move
- 
--    ToAdd.Src.Rooms[0].Move( DestSite );
--	//ToAdd.Src.Move( DestSite );
-+    /* Spawn a ghost version of room for detecting collision.. a bit hacky */
-+    ToAdd.Src.Rooms[0].SpawnDopple( Strat );
-+    ToAdd.Src.Rooms[0].Dopple.Move( DestSite );
-+    //ToAdd.Src.Rooms[0].Dopple = none;
-+
-     
- 	`log( "Trying to place section\nRotating section by " @ UnrRotToDeg * DeltaRot );
- 	`log( "From" @ LevelLink.Location @ " to " @ ToAdd.Location );
-@@ -43,7 +46,7 @@ static function bool TryConnectSection( DrGraphStrategy Strat, DrSectionLink ToA
- 		ToAdd.Src.SetRotation( OriginalRot );
-         return false;
- 	}
--
-+    ToAdd.Src.Move( DestSite );
-     return true;
- }
- 
-diff --git a/Development/Src/Tendrils/Classes/DrLevelGen.uc b/Development/Src/Tendrils/Classes/DrLevelGen.uc
-index 5b2ca3e..c2b5a0a 100644
---- a/Development/Src/Tendrils/Classes/DrLevelGen.uc
-+++ b/Development/Src/Tendrils/Classes/DrLevelGen.uc
-@@ -16,14 +16,6 @@ function DrHall GenHall( int Type, DrHall Hall )
- function DrLevel GenLevelGraph( array<DrSection> Sections, DrGraphStrategy Strat )
- {
-     local DrLevel Level;
--    local int i, j;
--
--    /* Must initialize rooms with strat to register touch events...*/
--    for ( i = 0; i < Sections.Length; ++i ) {
--        for ( j = 0; j < Sections[i].Rooms.Length; ++j ) {
--            Sections[i].Rooms[j].GraphStrat = Strat;
--        }
--    }
- 
-     Level = Strat.GenLevelGraph( Sections );
-     Level.AllSections = Sections;
-diff --git a/Development/Src/Tendrils/Classes/DrSectionDopple.uc b/Development/Src/Tendrils/Classes/DrSectionDopple.uc
-index 1313dd6..e5d6fc6 100644
---- a/Development/Src/Tendrils/Classes/DrSectionDopple.uc
-+++ b/Development/Src/Tendrils/Classes/DrSectionDopple.uc
-@@ -1,13 +1,28 @@
- class DrSectionDopple extends Actor
- 	placeable;
- 
-+var DrGraphStrategy GraphStrat;
-+
- simulated event PostBeginPlay()
- {
- }
- 
-+event Touch( Actor Other, PrimitiveComponent OtherComp, vector HitLocation, vector HitNormal )
-+{
-+    `log( "Touch event" @ Other @ ", " @ self );
-+    if ( class'DrUtils'.static.GetRoomBase( Other ) != self.Base ) {
-+        /* Don't collide against links */
-+        if ( DrSectionLink ( Other ) == none && Pawn( Other ) == none ) {
-+            `log( "Room Collision " @ self @ ", " @ Other );
-+            GraphStrat.bRoomCollisionFlag = true;
-+        }
++    /* Sink all sections down low low low low */
++    for ( iter = 0; iter < inSections.Length; ++iter ) {
++        inSections[iter].SetRelativeLocation( vect( 0, 0, -5000 ) );
 +    }
++
+ 	iter = 0;
+ 	while ( iter++ < 20 ) {
+ 		if ( GenIter( inSections, out_Level, LinkSelector ) ) {
+diff --git a/Development/Src/Tendrils/Classes/DrPlayerController.uc b/Development/Src/Tendrils/Classes/DrPlayerController.uc
+index c2b2683..8c85ed8 100644
+--- a/Development/Src/Tendrils/Classes/DrPlayerController.uc
++++ b/Development/Src/Tendrils/Classes/DrPlayerController.uc
+@@ -45,7 +45,7 @@ function PlayerTick( float DeltaTime )
+ 	super.PlayerTick( DeltaTime );
+ 	
+ 	if ( Pawn != none ) {
+-		DrCamera( PlayerCamera ).CurrentCamera.SetTargetHeight( HeightHint );
++		DrCamera( PlayerCamera ).CurrentCamera.SetTargetHeight( HeightHint + Pawn.Location.Z );
+ 	}
+ }
+ 
+@@ -77,15 +77,15 @@ function UpdateRotation( float DeltaTime )
+     local Vector MouseVec;
+ 
+     MouseInput = DrMouseInput( PlayerInput );
+-    MouseVec.X =  MouseInput.MousePos.X - myHUD.SizeX / 2 ;
+-    MouseVec.Y =  MouseInput.MousePos.Y - myHUD.SizeY / 2;
++    MouseVec.X =  myHUD.SizeX / 2 - MouseInput.MousePos.X;
++    MouseVec.Y =  myHUD.SizeY / 2 - MouseInput.MousePos.Y;
+     MouseVec.Z = 0.0;
+ 
+     ViewRotation = Rotator( MouseVec );
+     ViewRotation.Yaw += RotationOffset;
+ 
+     if ( Pawn != none ) {
+-        Pawn.SetDesiredRotation(ViewRotation);
++        Pawn.SetDesiredRotation( ViewRotation );
+     }
+ 
+     DeltaRot = rot( 0, 0, 0 );
+diff --git a/Development/Src/Tendrils/Classes/DrPointLight.uc b/Development/Src/Tendrils/Classes/DrPointLight.uc
+new file mode 100644
+index 0000000..ecc6089
+--- /dev/null
++++ b/Development/Src/Tendrils/Classes/DrPointLight.uc
+@@ -0,0 +1,67 @@
++class DrPointLight extends PointLightMovable;
++
++var float SphereRadius;
++var PointLightComponent PLC;
++
++event simulated PostBeginPlay()
++{
++	foreach ComponentList( class'PointLightComponent', PLC ) {
++		break;
++	}
++    //CollisionComponent.SetActorCollision( true, false, true );
++	if ( PLC != none ) {
++		CollisionComponent.SetScale( PLC.Radius / SphereRadius );
++	}
 +}
 +
- DefaultProperties
- {
- 	bCollideActors=true
-+    BlockRigidBody=true
- 	bCollideWorld=true
- 	CollisionType=COLLIDE_TouchAll
++event Touch( Actor Other, PrimitiveComponent OtherComp, Vector HitLocation, Vector HitNormal )
++{
++	`log( "LIGHT TOUCH" @ Other );
++	if( DrRookiePawn( Other ) != None ) {
++		`log("touched player");
++	}
++}
++
++event UnTouch(Actor Other)
++{
++	//local NPlayer_Pawn P;
++	
++	//if( isInRange(Other) )
++	//	return;
++	//P = NPlayer_Pawn(Other);
++	//if( P != None)
++	//{
++	//	`log("removeing"@self);
++	//	P.removePointLight(self);	
++	//}
++	//`log("POINTlight"@self@"just UNtouched"@Other);
++}
++
++DefaultProperties
++{
++	bCollideActors=true
++    bCollideWorld=true
++    bBlockActors=false
++    bNoEncroachCheck=false
++	CollisionType=COLLIDE_TouchAll
++	SphereRadius=160.0
++
++	Begin Object Name=PointLightComponent0
++	    LightAffectsClassification=LAC_DYNAMIC_AND_STATIC_AFFECTING
++	    CastShadows=TRUE
++	    CastStaticShadows=false
++	    CastDynamicShadows=TRUE
++	    bForceDynamicLight=true
++	    UseDirectLightMap=FALSE
++	    LightingChannels=(BSP=false,Static=false,Dynamic=TRUE,bInitialized=TRUE)
++	End Object
++
++	Begin Object class='StaticMeshComponent' name=SphereCollision
++		CollideActors=true
++		BlockZeroExtent=true
++		BlockNonZeroExtent=true
++		StaticMesh=StaticMesh'EngineMeshes.Sphere'
++	End Object
++	CollisionComponent=SphereCollision
++	Components.Add(SphereCollision)
++}
+diff --git a/Development/Src/Tendrils/Classes/DrRookiePawn.uc b/Development/Src/Tendrils/Classes/DrRookiePawn.uc
+index 4c09d1f..6811ab8 100644
+--- a/Development/Src/Tendrils/Classes/DrRookiePawn.uc
++++ b/Development/Src/Tendrils/Classes/DrRookiePawn.uc
+@@ -8,6 +8,7 @@ var Actor CurrentRoom;
+ //    //return false;
+ //}
  
++
+ event PostBeginPlay()
+ {
+ }
 diff --git a/Development/Src/Tendrils/Classes/DrSectionRoom.uc b/Development/Src/Tendrils/Classes/DrSectionRoom.uc
-index c8aff10..33a790e 100644
+index 3d14f83..43013a1 100644
 --- a/Development/Src/Tendrils/Classes/DrSectionRoom.uc
 +++ b/Development/Src/Tendrils/Classes/DrSectionRoom.uc
-@@ -6,45 +6,20 @@ class DrSectionRoom extends InterpActor
- 	placeable;
- 
- var(Tendrils) DrRoomInfoCmp RoomInfo;
--var(Tendrils) StaticMeshComponent StaticMesh;
- var DrSectionDopple Dopple;
- 
--var DrGraphStrategy GraphStrat;
--
--function SpawnDopple()
-+function SpawnDopple( DrGraphStrategy GraphStrat )
- {
--	local StaticMeshComponent SM;
--
--	Dopple= Spawn( class'DrSectionDopple',,, Location + vect( 0, 0, 10 ), Rotation );
--	Dopple.SetBase( self );
--	Dopple.CollisionComponent = StaticMesh;
--	Dopple.AttachComponent( StaticMesh );
--}
--
--event PreBeginPlay()
--{
--	CollisionComponent = StaticMesh;
-+	Dopple = Spawn( class'DrSectionDopple',,, Location, Rotation );
-+    Dopple.SetBase( self );
-+    Dopple.GraphStrat = GraphStrat;
-+	Dopple.AttachComponent( StaticMeshComponent );
-+    Dopple.CollisionComponent = StaticMeshComponent;
- }
- 
- simulated event PostBeginPlay()
- {
--}
--
--
--event Touch( Actor Other, PrimitiveComponent OtherComp, vector HitLocation, vector HitNormal )
--{
--    `log( "Touch event" @ Other @ ", " @ self );
--    if ( class'DrUtils'.static.GetRoomBase( Other ) != self ) {
--        if ( DrSectionLink ( Other ) == none ) {
--            `log( "Collision " @ self @ ", " @ Other );
--            GraphStrat.bRoomCollisionFlag = true;
--        }
--    }
--}
--
--event Bump( Actor Other, PrimitiveComponent OtherComp, Vector HitNormal )
--{
--     `log( "Bump event" @ Other @ ", " @ self );
-+    CollisionComponent=StaticMeshComponent;
- }
- 
- DefaultProperties
-@@ -60,11 +35,10 @@ DefaultProperties
-         Materials(0)=Material'EditorMaterials.WidgetMaterial_Z'
-         Scale3D=(X=0.75,Y=0.75,Z=0.75)
-         CollideActors=true
--        BlockRigidBody=false
-+        BlockRigidBody=true
- 	End Object
-     Components.Add(HelperMesh)
--    StaticMesh=HelperMesh
--	CollisionComponent=HelperMesh
-+    StaticMeshComponent=HelperMesh
- 
- 	Begin Object Class=DrRoomInfoCmp Name=RI
-     End Object
-@@ -74,5 +48,6 @@ DefaultProperties
+@@ -54,7 +54,5 @@ DefaultProperties
      bCollideActors=true
  	bBlockActors=true
  	BlockRigidBody=true
-+
+-    BlockZeroExtent=true
+-    BlockNonZeroExtent=true
      CollisionType=COLLIDE_BlockAll
  }
 diff --git a/Development/Src/obj/Win32/Debug/Tendrils.ucproj.UnrealScriptGeneratedFileListAbsolute.txt b/Development/Src/obj/Win32/Debug/Tendrils.ucproj.UnrealScriptGeneratedFileListAbsolute.txt
@@ -229,5 +217,8 @@ index 2be685e..31ab3be 100644
 +C:\UDK\UDK-2013-07\UDKGame\Script\UTGameContent.u
 +C:\UDK\UDK-2013-07\UDKGame\Script\Tendrils.u
 diff --git a/UDKGame/Content/Maps/tendrils/PlaceTest.udk b/UDKGame/Content/Maps/tendrils/PlaceTest.udk
-index 7ad9015..d72d2a3 100644
+index fe2226f..9e0b210 100644
 Binary files a/UDKGame/Content/Maps/tendrils/PlaceTest.udk and b/UDKGame/Content/Maps/tendrils/PlaceTest.udk differ
+diff --git a/UDKGame/Content/Maps/tendrils/Section03.udk b/UDKGame/Content/Maps/tendrils/Section03.udk
+index 220b5c6..0e100c6 100644
+Binary files a/UDKGame/Content/Maps/tendrils/Section03.udk and b/UDKGame/Content/Maps/tendrils/Section03.udk differ
