@@ -20,9 +20,6 @@ event PostRender()
     }
 
     HitLoc = GetMouseWorldLoc();
-    if ( Logging ) {
-        `log( "=== HIT LOC " @ HitLoc );
-    }
     Super.PostRender();
 }
 

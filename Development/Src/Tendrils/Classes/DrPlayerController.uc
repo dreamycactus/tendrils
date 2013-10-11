@@ -74,18 +74,23 @@ function UpdateRotation( float DeltaTime )
 {
     local Rotator   DeltaRot, NewRotation, ViewRotation;
     local DrMouseInput MouseInput;
-    local Vector MouseVec;
+    local Vector MouseVec, M1, M2;
 
     MouseInput = DrMouseInput( PlayerInput );
-    MouseVec.X =  myHUD.SizeX / 2 - MouseInput.MousePos.X;
-    MouseVec.Y =  myHUD.SizeY / 2 - MouseInput.MousePos.Y;
+    MouseVec.X =  myHUD.SizeX / 2.0 - float( MouseInput.MousePos.X );
+    MouseVec.Y =  myHUD.SizeY / 2.0 - float( MouseInput.MousePos.Y );
     MouseVec.Z = 0.0;
+
+    myHUD.Canvas.DeProject( MouseInput.MousePos, M1, M2 );
+    `log( M1 @ ", " @ M2 );
+
+    Trace( HitLoc, HitNorm, MouseWorldOrg + MouseWorldDir * 65536.f, MouseWorldOrg, true,,, TRACEFLAG_Bullet );
 
     ViewRotation = Rotator( MouseVec );
     ViewRotation.Yaw += RotationOffset;
 
     if ( Pawn != none ) {
-        Pawn.SetDesiredRotation( ViewRotation );
+        Pawn.SetRotation( ViewRotation );
     }
 
     DeltaRot = rot( 0, 0, 0 );

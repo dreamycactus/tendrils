@@ -48,12 +48,12 @@ function bool GenIter( array<DrSection> inSections, out DrLevel out_Level, deleg
 			k = -1;
 			while ( OpenLinks.Length != 0 && k++ < Max( OpenLinks.Length, 10 ) ) {
 				l = LinkSelector( OpenLinks, l );
-				if ( class'DrGraphCmp'.static.TryConnectSection( self, ShuffledLinks[j], OpenLinks[k]) ) {
-					`log( "Placed" @ inSections[i] @ "with" @ OpenLinks[k] @ "in section " @ OpenLinks[k].Src );
+				if ( class'DrGraphCmp'.static.TryConnectSection( self, ShuffledLinks[j], OpenLinks[l]) ) {
+					`log( "Placed" @ inSections[i] @ "with" @ OpenLinks[l] @ "in section " @ OpenLinks[l].Src );
 					/* Update link edges */
-					inSections[i].Graph.LinkNodes[ inSections[i].Graph.LinkNodes.Find( ShuffledLinks[j] ) ].Dest = OpenLinks[k].Src;
-				    ShuffledLinks[j].Dest = OpenLinks[k].Src;
-					OpenLinks[k].Dest = ShuffledLinks[j].Src;
+					inSections[i].Graph.LinkNodes[ inSections[i].Graph.LinkNodes.Find( ShuffledLinks[j] ) ].Dest = OpenLinks[l].Src;
+				    ShuffledLinks[j].Dest = OpenLinks[l].Src;
+					OpenLinks[l].Dest = ShuffledLinks[j].Src;
 					
 					/* add current node links to open list; remove connection link */
 					ShuffledLinks.Remove( j, 1 );
