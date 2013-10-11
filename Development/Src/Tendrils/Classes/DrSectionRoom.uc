@@ -54,7 +54,5 @@ DefaultProperties
     bCollideActors=true
 	bBlockActors=true
 	BlockRigidBody=true
-    BlockZeroExtent=true
-    BlockNonZeroExtent=true
     CollisionType=COLLIDE_BlockAll
 }

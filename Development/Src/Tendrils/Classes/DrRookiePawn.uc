@@ -1,4 +1,4 @@
-class DrRookiePawn extends UDKPawn;
+class DrRookiePawn extends DrPawn;
 
 var Actor CurrentRoom;
 
@@ -8,8 +8,14 @@ var Actor CurrentRoom;
 //    //return false;
 //}
 
-event PostBeginPlay()
+function AddDefaultInventory()
 {
+    InvManager.CreateInventory( class'UTWeap_LinkGun' ); //InvManager is the pawn's InventoryManager
+}
+
+simulated event PostBeginPlay()
+{
+    super.PostBeginPlay();
 }
 
 simulated event BecomeViewTarget( PlayerController PC )
@@ -49,4 +55,6 @@ DefaultProperties
         CollideActors=true
     End Object
     Components.Add(RookiePawnSkeletalMesh)
+
+    InventoryManagerClass=class'Tendrils.DrInventoryManagerRookie'
 }

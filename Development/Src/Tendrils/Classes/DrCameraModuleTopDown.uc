@@ -1,7 +1,7 @@
 class DrCameraModuleTopDown extends Object implements(DrCameraModule);
 
 const YawRotRate = 3;
-const PanRate = 1.0;
+const PanRate = 0.7;
 
 var float Height;
 var float HeightTarget;
@@ -29,11 +29,11 @@ simulated function UpdateCamera( Pawn p, DrCamera CamActor, float DT, out TViewT
     if ( Yaw != YawTarget ) {
 		DeltaRot = ( YawTarget - Yaw );
         Yaw +=  ( Abs( DeltaRot ) > class'DrUtils'.const.MAXROT  ?  -DeltaRot : DeltaRot ) * DT * YawRotRate;
-		Yaw = Yaw % ( 2 * class'DrUtils'.const.MAXROT );
+		Yaw = Yaw % ( class'DrUtils'.const.MAXROT );
     }
 
     out_VT.POV.Location = out_VT.Target.Location;
-    out_VT.POV.Location.Z += Height;
+    out_VT.POV.Location.Z = Height;
 
     out_VT.POV.Rotation.Pitch = -class'DrUtils'.const.MAXROT / 2;
     out_VT.POV.Rotation.Yaw = Yaw;
