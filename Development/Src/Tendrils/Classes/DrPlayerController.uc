@@ -1,5 +1,9 @@
 class DrPlayerController extends PlayerController;
 
+var vector MouseWorldOrg;
+var vector MousePosWorldDir;
+var vector MouseHitPos;
+
 var float HeightHint;
 
 var vector CamPos;
@@ -72,25 +76,16 @@ function NotifyChangedWeapon( Weapon PrevW, Weapon NewW )
 
 function UpdateRotation( float DeltaTime )
 {
-    local Rotator   DeltaRot, NewRotation, ViewRotation;
-    local DrMouseInput MouseInput;
-    local Vector MouseVec, M1, M2;
+    local Rotator DeltaRot, NewRotation, ViewRotation;
+	local Vector out_HitNorm, out_HitLoc;
 
-    MouseInput = DrMouseInput( PlayerInput );
-    MouseVec.X =  myHUD.SizeX / 2.0 - float( MouseInput.MousePos.X );
-    MouseVec.Y =  myHUD.SizeY / 2.0 - float( MouseInput.MousePos.Y );
-    MouseVec.Z = 0.0;
+    Trace( out_HitLoc, out_HitNorm, MouseWorldOrg + MousePosWorldDir * 65536.f, MouseWorldOrg, true,,, TRACEFLAG_Bullet );
 
-    myHUD.Canvas.DeProject( MouseInput.MousePos, M1, M2 );
-    `log( M1 @ ", " @ M2 );
-
-    Trace( HitLoc, HitNorm, MouseWorldOrg + MouseWorldDir * 65536.f, MouseWorldOrg, true,,, TRACEFLAG_Bullet );
-
-    ViewRotation = Rotator( MouseVec );
+    ViewRotation = Rotator( out_HitLoc - Pawn.Location );
     ViewRotation.Yaw += RotationOffset;
 
     if ( Pawn != none ) {
-        Pawn.SetRotation( ViewRotation );
+        Pawn.SetDesiredRotation( ViewRotation );
     }
 
     DeltaRot = rot( 0, 0, 0 );
