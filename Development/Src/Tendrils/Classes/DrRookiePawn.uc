@@ -10,7 +10,7 @@ var Actor CurrentRoom;
 
 function AddDefaultInventory()
 {
-    InvManager.CreateInventory( class'UTWeap_LinkGun' ); //InvManager is the pawn's InventoryManager
+    InvManager.CreateInventory( class'DrWeaponShotty' ); //InvManager is the pawn's InventoryManager
 }
 
 simulated event PostBeginPlay()

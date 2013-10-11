@@ -3,7 +3,8 @@
  * contains info pertaining to how rooms are connected.
  */
 class DrSection extends Actor
-    placeable;
+    placeable
+    ClassGroup(Tendrils);
 
 var(Tendrils) editconst DrGraphCmp Graph;
 var array<DrSectionRoom> Rooms;
