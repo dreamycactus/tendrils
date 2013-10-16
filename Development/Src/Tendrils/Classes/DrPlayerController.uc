@@ -9,16 +9,42 @@ var float HeightHint;
 var vector CamPos;
 var int RotationOffset;
 
-simulated event GetPlayerViewPoint( out vector out_Loc, out Rotator out_Rot )
+exec function StartIronsight()
 {
-	super.GetPlayerViewPoint( out_Loc, out_Rot );
+	local DrInventoryManager IM;
 	
-	if ( Pawn != none ) {
-		//out_Loc = CurrentCameraLocation;
-        /* TODO Align rotation to room */
-	    //out_Rot = 
+	IM = DrInventoryManager( Pawn.InvManager );
+
+	if ( Pawn.IsInState( 'Move' ) ) {
+		Pawn.GroundSpeed = DrPawn( Pawn ).WalkSpeed;
+		if ( DrWeapon( IM.SelectedItem ) != none ) {
+			IM.SetCurrentWeapon( IM.SelectedItem );
+		}
+	}
+	
+}
+
+exec function EndIronsight()
+{
+	Pawn.InvManager.SetCurrentWeapon( none );
+
+	if ( Pawn.IsInState( 'Move' ) ) {
+		Pawn.GroundSpeed = DrPawn( Pawn ).WalkSpeed;
 	}
 }
+
+exec function StartFire( optional byte FireModeNum )
+{
+	if ( WorldInfo.Pauser == PlayerReplicationInfo ) {
+		SetPause( false );
+		return;
+	}
+
+	if ( Pawn != None && !bCinematicMode ) {
+		Pawn.StartFire( FireModeNum );
+	}
+}
+
 
 function AlignCameraToActor( Actor Act )
 {
@@ -105,6 +131,18 @@ function UpdateRotation( float DeltaTime )
 //    PlayerCamera.SetFOV( 30.0 );
 //    Pawn.CalcCamera( 
 //}
+
+simulated event GetPlayerViewPoint( out vector out_Loc, out Rotator out_Rot )
+{
+	super.GetPlayerViewPoint( out_Loc, out_Rot );
+	
+	if ( Pawn != none ) {
+		//out_Loc = CurrentCameraLocation;
+        /* TODO Align rotation to room */
+	    //out_Rot = 
+	}
+}
+
 
 defaultproperties
 {

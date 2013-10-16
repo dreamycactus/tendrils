@@ -1,4 +1,4 @@
-class DrRookiePawn extends DrPawn;
+class DrRookiePawn extends DrGunPawn;
 
 var Actor CurrentRoom;
 
