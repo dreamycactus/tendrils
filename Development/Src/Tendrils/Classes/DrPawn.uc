@@ -24,11 +24,11 @@ var float RecoilRegen;
 var float RecoilShake;
 var float RecoilMax;
 
-state SMove
+state SRun
 {
 }
 
-state SStun
+state SWalk
 {
 }
 

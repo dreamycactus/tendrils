@@ -5,6 +5,21 @@ class DrWeaponShotty extends DrWeapon
 var int Shells; // Amount of bullets to be shot!
 var bool bIsShotgun; // Used as a detector if the weapon should fire as a shotgun or normally.
 
+simulated function rotator AddSpread( rotator BaseAim )
+{
+	local vector X, Y, Z;
+	local float CurrentSpread, RandY, RandZ;
+
+	CurrentSpread = Spread[CurrentFireMode];
+    /* Approximate gaussian */
+    RandY = ( FRand() - FRand() ) * CurrentSpread;
+    RandZ = ( FRand() - FRand() ) * CurrentSpread;
+
+	GetAxes( BaseAim, X, Y, Z );
+
+	return rotator(X + RandY * CurrentSpread * Y + RandZ * CurrentSpread * Z);
+}
+
 simulated function Projectile ProjectileFire() // Main function from UTWeapon
 {
     local int s;
@@ -23,6 +38,19 @@ simulated function Projectile ProjectileFire() // Main function from UTWeapon
         return None;
 }
 
+simulated event SetInitialState()
+{
+    GotoState( 'Inactive' );
+}
+
+simulated function bool ShouldRefire()
+{
+	if ( CurrentFireMode == 0 ) {
+        EndFire( CurrentFireMode );
+        return false;
+    }
+}
+
 DefaultProperties
 {
     ShotCost(0)=0 // keep these for testing purpose!
@@ -39,14 +67,16 @@ DefaultProperties
 	WeaponFireTypes(0)=EWFT_Projectile // First fire mode is a projectile
 	WeaponFireTypes(1)=EWFT_InstantHit // second is a instanthit!
 
-	WeaponProjectiles(0)=class'UTProj_Rocket' // The projectile you want the gun to fire!
+
+	WeaponProjectiles(0)=class'UTProj_LinkPlasma' // The projectile you want the gun to fire!
 	FireInterval(0)=+0.3 // Fire speed!
-	Spread(0)=0.22 // the spread of the bullets!
+	Spread(0)=0.5 // the spread of the bullets!
+    
 
 	// Weapon SkeletalMesh
 	Begin Object class=AnimNodeSequence Name=MeshSequenceA
 	End Object
-        AttachmentClass=class'UTAttachment_ShockRifle'
+    AttachmentClass=class'UTAttachment_ShockRifle'
 
 	// Weapon SkeletalMesh
 	Begin Object Name=FirstPersonMesh

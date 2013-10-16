@@ -51,5 +51,5 @@ DefaultProperties
 
     HUDType=class'DrHUD'
     PlayerControllerClass=class'DrPlayerController'
-    DefaultPawnClass=class'DrRookiePawn'
+    DefaultPawnClass=class'DrPawnRookie'
 }

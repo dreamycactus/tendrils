@@ -1,4 +1,4 @@
-class DrRookiePawn extends DrGunPawn;
+class DrPawnRookie extends DrPawnGunman;
 
 var Actor CurrentRoom;
 
@@ -10,7 +10,9 @@ var Actor CurrentRoom;
 
 function AddDefaultInventory()
 {
-    InvManager.CreateInventory( class'DrWeaponShotty' ); //InvManager is the pawn's InventoryManager
+    local Inventory Inv;
+    Inv = InvManager.CreateInventory( class'DrWeaponShotty' );
+    DrInventoryManager( InvManager ).SelectedItem = DrItem( Inv );
 }
 
 simulated event PostBeginPlay()

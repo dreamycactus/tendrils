@@ -62,7 +62,7 @@ simulated function BecomeViewTarget( DrPlayerController PC )
 {
     if ( LocalPlayer( PC.Player ) != none ) {
         //PC.SetBehindView( true );
-        //DrRookiePawn( PC.Pawn ).SetHidden( PC.bBehindView );
+        //DrPawnRookie( PC.Pawn ).SetHidden( PC.bBehindView );
         //PC.bNoCrosshair = true;
     }
 }
