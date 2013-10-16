@@ -11,8 +11,10 @@ var int ArmorAmt;
 var int ArmorMax;
 var EArmorType ArmorType;
 
+var float CurSpeed;
 var float WalkSpeed;
 var float RunSpeed;
+var float StunSpeed;
 
 var float PainRegen;
 var float Pain;
@@ -21,6 +23,18 @@ var float PainMax;
 var float RecoilRegen;
 var float RecoilShake;
 var float RecoilMax;
+
+state SMove
+{
+}
+
+state SStun
+{
+}
+
+state SDead
+{
+}
 
 DefaultProperties
 {
