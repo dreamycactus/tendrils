@@ -36,8 +36,29 @@ state SDead
 {
 }
 
+simulated event BecomeViewTarget( PlayerController PC )
+{
+   local UTPlayerController UTPC;
+
+   Super.BecomeViewTarget( PC );
+
+   if (LocalPlayer( PC.Player ) != None)
+   {
+      UTPC = UTPlayerController(PC);
+      if (UTPC != None)
+      {
+         //set player controller to behind view and make mesh visible
+         UTPC.SetBehindView(true);
+         SetMeshVisibility(UTPC.bBehindView); 
+         UTPC.bNoCrosshair = true;
+      }
+   }
+}
+
+
 DefaultProperties
 {
+	bFollowPlayerRotation=false;
     Health=100
     HealthMax=100
 }

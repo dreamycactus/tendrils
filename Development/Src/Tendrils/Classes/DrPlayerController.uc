@@ -1,4 +1,4 @@
-class DrPlayerController extends PlayerController;
+class DrPlayerController extends UTPlayerController;
 
 var vector MouseWorldOrg;
 var vector MousePosWorldDir;
@@ -37,6 +37,7 @@ function AlignCameraToActor( Actor Act )
 {
     DrCamera( PlayerCamera ).CurrentCamera.SetTargetYaw( Act.Rotation.Yaw );
 }
+
 
 state PlayerWalking
 {
@@ -114,6 +115,50 @@ function UpdateRotation( float DeltaTime )
         Pawn.FaceRotation( NewRotation, DeltaTime );
 }
 
+simulated event GetPlayerViewPoint( out vector out_Location, out Rotator out_Rotation )
+{
+	local Actor TheViewTarget;
+
+	// sometimes the PlayerCamera can be none and we probably do not want this
+	// so we will check to see if we have a CameraClass.  Having a CameraClass is
+	// saying:  we want a camera so make certain one exists by spawning one
+	if( PlayerCamera == None )
+	{
+		if( CameraClass != None )
+		{
+			// Associate Camera with PlayerController
+			PlayerCamera = Spawn(CameraClass, Self);
+			if( PlayerCamera != None )
+			{
+				PlayerCamera.InitializeFor( Self );
+			}
+			else
+			{
+				`log("Couldn't Spawn Camera Actor for Player!!");
+			}
+		}
+	}
+
+	if( PlayerCamera != None )
+	{
+		PlayerCamera.GetCameraViewPoint(out_Location, out_Rotation);
+	}
+	else
+	{
+		TheViewTarget = GetViewTarget();
+
+		if( TheViewTarget != None )
+		{
+			out_Location = TheViewTarget.Location;
+			out_Rotation = TheViewTarget.Rotation;
+		}
+		else
+		{
+			super.GetPlayerViewPoint(out_Location, out_Rotation);
+		}
+	}
+}
+
 //simulated event PostBeginPlay()
 //{
 //    Super.PostBeginPlay();
@@ -121,20 +166,23 @@ function UpdateRotation( float DeltaTime )
 //    Pawn.CalcCamera( 
 //}
 
-simulated event GetPlayerViewPoint( out vector out_Loc, out Rotator out_Rot )
-{
-	super.GetPlayerViewPoint( out_Loc, out_Rot );
+
+
+//simulated event GetPlayerViewPoint( out vector out_Loc, out Rotator out_Rot )
+//{
+//	super.GetPlayerViewPoint( out_Loc, out_Rot );
 	
-	if ( Pawn != none ) {
-		//out_Loc = CurrentCameraLocation;
-        /* TODO Align rotation to room */
-	    //out_Rot = 
-	}
-}
+//	if ( Pawn != none ) {
+//		//out_Loc = CurrentCameraLocation;
+//        /* TODO Align rotation to room */
+//	    //out_Rot = 
+//	}
+//}
 
 
 defaultproperties
 {
+	bBehindView=true
     InputClass=class'DrMouseInput'
     RotationOffset=0
     CameraClass=class'DrCamera'

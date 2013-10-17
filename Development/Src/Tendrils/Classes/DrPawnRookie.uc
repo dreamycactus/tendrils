@@ -11,7 +11,7 @@ var Actor CurrentRoom;
 function AddDefaultInventory()
 {
     local Inventory Inv;
-    Inv = InvManager.CreateInventory( class'DrWeaponFlashlight' );
+    Inv = InvManager.CreateInventory( class'DrWeaponShotty' );
     DrInventoryManager( InvManager ).SelectedItem = DrItem( Inv );
 }
 
@@ -26,10 +26,12 @@ simulated event BecomeViewTarget( PlayerController PC )
 
     DPC = DrPlayerController( PC );
 
+	//super.BecomeViewTarget( PC ;)
+
     if ( DPC != none && DrCamera( DPC.PlayerCamera ) != none ) {
         DrCamera( DPC.PlayerCamera ).BecomeViewTarget( DPC );
     } else {
-        super.BecomeViewTarget( PC );
+        
     }
 }
 
