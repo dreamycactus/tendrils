@@ -38,7 +38,6 @@ DefaultProperties
     Components.Add(Sprite)
 
     Begin Object Class=StaticMeshComponent Name=HelperMesh
-        Materials(0)=Material'EditorMaterials.WidgetMaterial_Z'
         CollideActors=true
         BlockRigidBody=true
 	End Object

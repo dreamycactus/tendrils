@@ -3,10 +3,6 @@ class DrPawnGunman extends DrPawn;
 simulated event PostBeginPlay()
 {
     super.PostBeginPlay();
-
-    foreach InvManager.InventoryActors( class'DrItem', DrInventoryManager( InvManager ).SelectedItem ) {
-        break;
-    }
 }
 
 exec function StartIronsight()
@@ -41,8 +37,9 @@ state SWalk
 
         `log( "Enter walk" );
 
-    	if ( DrWeapon( IM.SelectedItem ) != none ) {
-	    	IM.SetCurrentWeapon( IM.SelectedItem );
+    	if (  IM.SelectedItem != none ) {
+	    	IM.SetCurrentWeapon( Weapon( IM.SelectedItem ) );
+            SetWeaponAttachmentVisibility( true );
 	    }
         GroundSpeed = WalkSpeed;
     }

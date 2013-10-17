@@ -11,8 +11,8 @@ var Actor CurrentRoom;
 function AddDefaultInventory()
 {
     local Inventory Inv;
-    Inv = InvManager.CreateInventory( class'DrWeaponShotty' );
-    DrInventoryManager( InvManager ).SelectedItem = DrItem( Inv );
+    Inv = InvManager.CreateInventory( class'UTWeap_ShockRifle', true );
+    DrInventoryManager( InvManager ).SelectedItem = Inv;
 }
 
 simulated event PostBeginPlay()
@@ -54,9 +54,8 @@ DefaultProperties
 		SkeletalMesh=SkeletalMesh'CH_IronGuard_Male.Mesh.SK_CH_IronGuard_MaleA'
 		AnimSets(0)=AnimSet'CH_AnimHuman.Anims.K_AnimHuman_BaseMale'
 		AnimTreeTemplate=AnimTree'CH_AnimHuman_Tree.AT_CH_Human'
-		HiddenGame=FALSE
-		HiddenEditor=FALSE
         CollideActors=true
+        //bOverrideAttachmentOwnerVisibility=true
     End Object
     Components.Add(RookiePawnSkeletalMesh)
 

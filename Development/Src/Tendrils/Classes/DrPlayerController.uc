@@ -1,4 +1,4 @@
-class DrPlayerController extends UTPlayerController;
+class DrPlayerController extends PlayerController;
 
 var vector MouseWorldOrg;
 var vector MousePosWorldDir;
