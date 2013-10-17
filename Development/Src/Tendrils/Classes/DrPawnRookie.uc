@@ -11,7 +11,7 @@ var Actor CurrentRoom;
 function AddDefaultInventory()
 {
     local Inventory Inv;
-    Inv = InvManager.CreateInventory( class'DrWeaponShotty' );
+    Inv = InvManager.CreateInventory( class'DrWeaponFlashlight' );
     DrInventoryManager( InvManager ).SelectedItem = DrItem( Inv );
 }
 
