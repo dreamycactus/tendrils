@@ -71,8 +71,7 @@ function UpdateViewTarget( out TViewTarget OutVT, float DeltaTime )
    {
       // Give Pawn Viewtarget a chance to dictate the camera position.
       // If Pawn doesn't override the camera view, then we proceed with our own defaults
-      if( Pawn(OutVT.Target) == None ||
-         !Pawn(OutVT.Target).CalcCamera(DeltaTime, OutVT.POV.Location, OutVT.POV.Rotation, OutVT.POV.FOV) )
+      if( Pawn(OutVT.Target) == None || true )
       {
          //Pawn didn't want control and we have a custom mode
          if( CurrentCamera != none ) {
