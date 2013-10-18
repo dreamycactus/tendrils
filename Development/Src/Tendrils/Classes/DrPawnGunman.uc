@@ -40,6 +40,8 @@ state SWalk
     	if (  IM.SelectedItem != none ) {
 	    	IM.SetCurrentWeapon( Weapon( IM.SelectedItem ) );
             SetWeaponAttachmentVisibility( true );
+            CurrentWeaponAttachmentClass = none;
+            WeaponAttachmentChanged();
 	    }
         GroundSpeed = WalkSpeed;
     }

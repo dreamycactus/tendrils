@@ -11,7 +11,7 @@ var Actor CurrentRoom;
 function AddDefaultInventory()
 {
     local Inventory Inv;
-    Inv = InvManager.CreateInventory( class'UTWeap_ShockRifle', true );
+    Inv = InvManager.CreateInventory( class'DrWeaponShotty', true );
     DrInventoryManager( InvManager ).SelectedItem = Inv;
 }
 
@@ -30,6 +30,9 @@ simulated event BecomeViewTarget( PlayerController PC )
 
     if ( DPC != none && DrCamera( DPC.PlayerCamera ) != none ) {
         DrCamera( DPC.PlayerCamera ).BecomeViewTarget( DPC );
+        DPC.SetBehindView(false);
+        SetMeshVisibility(true); 
+        DPC.bNoCrosshair = true;
     } else {
         
     }
@@ -58,6 +61,7 @@ DefaultProperties
         //bOverrideAttachmentOwnerVisibility=true
     End Object
     Components.Add(RookiePawnSkeletalMesh)
+    Mesh=RookiePawnSkeletalMesh
 
     InventoryManagerClass=class'Tendrils.DrInventoryManagerRookie'
 }
