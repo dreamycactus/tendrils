@@ -18,6 +18,7 @@ exec function StartIronsight()
 exec function EndIronsight()
 {
     DrPawnGunman( Pawn ).EndIronsight();
+	DrHUD( myHUD ).bDrawAimline = false;
 }
 
 exec function StartFire( optional byte FireModeNum )

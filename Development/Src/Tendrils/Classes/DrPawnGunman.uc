@@ -18,6 +18,8 @@ function Tick( float DT )
     `log( "====" @ GetStateName() );
 }
 
+
+
 state SWalk
 {
     function EndIronsight()
@@ -37,11 +39,9 @@ state SWalk
 
         `log( "Enter walk" );
 
-    	if (  IM.SelectedItem != none ) {
+    	if ( IM.SelectedItem != none ) {
 	    	IM.SetCurrentWeapon( Weapon( IM.SelectedItem ) );
-            SetWeaponAttachmentVisibility( true );
-            CurrentWeaponAttachmentClass = none;
-            WeaponAttachmentChanged();
+            //WeaponAttachmentChanged();
 	    }
         GroundSpeed = WalkSpeed;
     }
@@ -61,8 +61,11 @@ auto state SRun
     event BeginState( name PrevName )
     {
         `log( "Enter run" );
-        InvManager.SetCurrentWeapon( none );
+			SetPuttingDownWeapon( true ); 
+        
         GroundSpeed = RunSpeed;
+	    //SetWeaponAttachmentVisibility( false );
+        //WeaponAttachmentChanged();
     }
 }
 

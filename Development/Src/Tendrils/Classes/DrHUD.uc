@@ -25,9 +25,11 @@ event PostRender()
 
     HitLoc = GetMouseWorldLoc();
 
-    LineCol.A = 200;
-    LineCol.R = 100;
-    Draw2DLine( self.SizeX/2, self.SizeY/2, MouseInput.MousePos.X, MouseInput.MousePos.Y, LineCol );
+	if ( bDrawAimline ) {
+		LineCol.A = 200;
+		LineCol.R = 100;
+		Draw2DLine( self.SizeX/2, self.SizeY/2, MouseInput.MousePos.X, MouseInput.MousePos.Y, LineCol );
+	}
 
 }
 

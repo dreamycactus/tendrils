@@ -66,7 +66,7 @@ simulated event BecomeViewTarget( PlayerController PC )
       if (UTPC != None)
       {
          //set player controller to behind view and make mesh visible
-         UTPC.SetBehindView(false);
+         UTPC.SetBehindView(true);
          SetMeshVisibility(true); 
          UTPC.bNoCrosshair = true;
       }

@@ -12,6 +12,7 @@ function AddDefaultInventory()
 {
     local Inventory Inv;
     Inv = InvManager.CreateInventory( class'DrWeaponShotty', true );
+    Inv = InvManager.CreateInventory( class'UTWeap_LinkGun', true );
     DrInventoryManager( InvManager ).SelectedItem = Inv;
 }
 
@@ -30,7 +31,7 @@ simulated event BecomeViewTarget( PlayerController PC )
 
     if ( DPC != none && DrCamera( DPC.PlayerCamera ) != none ) {
         DrCamera( DPC.PlayerCamera ).BecomeViewTarget( DPC );
-        DPC.SetBehindView(false);
+        DPC.SetBehindView(true);
         SetMeshVisibility(true); 
         DPC.bNoCrosshair = true;
     } else {
@@ -58,7 +59,7 @@ DefaultProperties
 		AnimSets(0)=AnimSet'CH_AnimHuman.Anims.K_AnimHuman_BaseMale'
 		AnimTreeTemplate=AnimTree'CH_AnimHuman_Tree.AT_CH_Human'
         CollideActors=true
-        //bOverrideAttachmentOwnerVisibility=true
+        bOverrideAttachmentOwnerVisibility=true
     End Object
     Components.Add(RookiePawnSkeletalMesh)
     Mesh=RookiePawnSkeletalMesh
