@@ -9,6 +9,8 @@ var float HeightHint;
 var vector CamPos;
 var int RotationOffset;
 
+function CheckAutoObjective( bool b );
+
 exec function StartIronsight()
 {
     DrPawnGunman( Pawn ).StartIronsight();

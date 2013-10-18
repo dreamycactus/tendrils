@@ -53,6 +53,8 @@ simulated function bool ShouldRefire()
 
 DefaultProperties
 {
+    GameName="Shotgun"
+
     ShotCost(0)=0 // keep these for testing purpose!
 	ShotCost(1)=0
 	MaxAmmoCount=1

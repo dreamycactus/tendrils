@@ -1,7 +1,36 @@
 class DrInventoryManager extends UTInventoryManager;
 
-var Inventory SelectedItem;
+var int SelectedIndex;
+var int MaxSlots;
+var int ItemCount;
 
+function bool HandlePickupQuery( class<Inventory> ItemClass, Actor Pickup )
+{
+    if ( ItemCount >= MaxSlots ) {
+        return false;
+    }
+    return true;
+}
+
+reliable client function SetCurrentWeapon( Weapon DesiredWeapon )
+{
+    //SelectedItem
+    super.SetCurrentWeapon( DesiredWeapon );
+}
+
+simulated function DrWeapon GetBestMeleeWeapon()
+{
+    local DrWeapon W, BestW;
+
+    foreach InventoryActors( class'DrWeapon', W ) {
+        if ( !W.bMeleeWeapon ) {
+            continue;
+        }
+        BestW = W;
+    }
+
+    return BestW;
+}
 simulated function ClientWeaponSet(Weapon NewWeapon, bool bOptionalSet, optional bool bDoNotActivate)
 {
 	local Weapon OldWeapon;

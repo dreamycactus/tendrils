@@ -11,4 +11,5 @@ var float StoppingPower;
 
 DefaultProperties
 {
+    bUseable=true
 }

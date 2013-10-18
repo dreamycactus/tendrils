@@ -33,15 +33,14 @@ state SWalk
     event BeginState( name PrevName )
     {
         local DrInventoryManager IM;
+        local array<UTWeapon> outWeapList;
         IM = DrInventoryManager( InvManager );
 
         `log( "Enter walk" );
-
-    	if (  IM.SelectedItem != none ) {
-	    	IM.SetCurrentWeapon( Weapon( IM.SelectedItem ) );
-            SetWeaponAttachmentVisibility( true );
-            CurrentWeaponAttachmentClass = none;
-            WeaponAttachmentChanged();
+        
+        IM.GetWeaponList( outWeapList,,,false );
+    	if ( outWeapList[IM.SelectedIndex] != none ) {
+	    	IM.SetCurrentWeapon( outWeapList[IM.SelectedIndex] );
 	    }
         GroundSpeed = WalkSpeed;
     }
@@ -61,7 +60,7 @@ auto state SRun
     event BeginState( name PrevName )
     {
         `log( "Enter run" );
-        InvManager.SetCurrentWeapon( none );
+        InvManager.SetCurrentWeapon( DrInventoryManager( InvManager ).GetBestMeleeWeapon() );
         GroundSpeed = RunSpeed;
     }
 }
@@ -70,4 +69,5 @@ DefaultProperties
 {
     WalkSpeed=00300.000000
     RunSpeed=00600.000000
+    bWeaponAttachmentVisible=true
 }
