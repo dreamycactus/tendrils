@@ -1,5 +1,6 @@
 class DrSectionLink extends Actor
-    placeable;
+    placeable
+    ClassGroup(Tendrils);
 
 var DrSection Src;
 var DrSection Dest;
