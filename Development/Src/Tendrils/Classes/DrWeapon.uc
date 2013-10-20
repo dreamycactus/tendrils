@@ -7,8 +7,10 @@ var float RecoilMax;
 var float RecoilPerShot;
 var float Recoil;
 var float StoppingPower;
+var float SpeedPenalty;
 //var float Weight;
 
 DefaultProperties
 {
+    bUseable=true
 }

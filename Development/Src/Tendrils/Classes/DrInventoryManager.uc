@@ -1,58 +1,50 @@
 class DrInventoryManager extends UTInventoryManager;
 
-var Inventory SelectedItem;
+var int SelectedIndex;
+var int MaxSlots;
+var int ItemCount;
+var float LastItemAdjust;
+
+function bool HandlePickupQuery( class<Inventory> ItemClass, Actor Pickup )
+{
+    if ( ItemCount >= MaxSlots ) {
+        return false;
+    }
+    return true;
+}
+
+reliable client function SetCurrentWeapon( Weapon DesiredWeapon )
+{
+    if ( DrWeapon( DesiredWeapon ) == none || DrPawn( Instigator ) == none ) {
+		`warn( "In SetCurrentWeapon of InvMgr of " @ Instigator @ " Weapon and Pawn " @ DesiredWeapon @ Instigator );
+    }
+    super.SetCurrentWeapon( DesiredWeapon );
+	Instigator.GroundSpeed = DrPawn( Instigator ).WalkSpeed - DrWeapon( DesiredWeapon ).SpeedPenalty;
+
+}
+
+simulated function DrWeapon GetBestMeleeWeapon()
+{
+    local DrWeapon W, BestW;
+
+    foreach InventoryActors( class'DrWeapon', W ) {
+        if ( !W.bMeleeWeapon ) {
+            continue;
+        }
+        BestW = W;
+    }
+
+    return BestW;
+}
 
 simulated function ClientWeaponSet(Weapon NewWeapon, bool bOptionalSet, optional bool bDoNotActivate)
 {
-	local Weapon OldWeapon;
-
-	OldWeapon = Instigator.Weapon;
-
 	if ( bDoNotActivate ) {
 		NewWeapon.GotoState('Inactive');
 		return;
 	}
-
-	// If no current weapon, then set this one
-	if (  ( OldWeapon == None || OldWeapon.bDeleteMe || OldWeapon.IsInState('Inactive') ) )
-	{
-		SetCurrentWeapon(NewWeapon);
-		return;
-	}
-
-	if ( OldWeapon == NewWeapon )
-	{
-		return;
-	}
-
-	if (!bOptionalSet)
-	{
-		SetCurrentWeapon(NewWeapon);
-		return;
-	}
-
-	if (Instigator.IsHumanControlled() && PlayerController(Instigator.Controller).bNeverSwitchOnPickup)
-	{
-		NewWeapon.GotoState('Inactive');
-		return;
-	}
 	
-	if ( OldWeapon.IsFiring() || OldWeapon.DenyClientWeaponSet() && (UTWeapon(NewWeapon) != None) )
-	{
-		NewWeapon.GotoState('Inactive');
-		RetrySwitchTo(UTWeapon(NewWeapon));
-			return;
-	}
-
-	// Compare switch priority and decide if we should switch to new weapon
-	if ( (PendingWeapon == None || !PendingWeapon.HasAnyAmmo() || PendingWeapon.GetWeaponRating() < NewWeapon.GetWeaponRating()) &&
-		(!Instigator.Weapon.HasAnyAmmo() || Instigator.Weapon.GetWeaponRating() < NewWeapon.GetWeaponRating()) )
-	{
-		SetCurrentWeapon(NewWeapon);
-		return;
-	}
-
-	NewWeapon.GotoState('Inactive');
+	super.ClientWeaponSet( NewWeapon, bOptionalSet,  );
 }
 
 simulated function SetPendingWeapon( Weapon DesiredWeapon )
@@ -136,6 +128,47 @@ simulated function SetPendingWeapon( Weapon DesiredWeapon )
 	}
 }
 
+function int GetNumItems()
+{
+	local Inventory Item;
+	local int Sum;
+
+	Sum = 0;
+	foreach InventoryActors( class'Inventory', Item ) {
+		++Sum;
+	}
+
+	return Sum;
+}
+
+simulated function AdjustItem( int NewOffset )
+{
+	local array<UTWeapon> WeaponList;
+
+	// don't allow multiple weapon switches very close to one another (seems to happen with some mouse wheels)
+	if ( WorldInfo.TimeSeconds - LastItemAdjust < 0.05 ) {
+		return;
+	}
+	LastItemAdjust = WorldInfo.TimeSeconds;
+
+
+   	GetWeaponList( WeaponList,,, false );
+   	if ( WeaponList.length == 0 ){
+   		return;
+   	}
+
+	SelectedIndex += NewOffset;
+	if ( SelectedIndex < 0 ) {
+		SelectedIndex += WeaponList.Length;
+	} else if ( SelectedIndex >= WeaponList.Length ) {
+		SelectedIndex -= WeaponList.Length;
+	}
+
+	if ( DrWeapon( WeaponList[SelectedIndex] ) != none ) {
+		SetCurrentWeapon( WeaponList[SelectedIndex] );
+	}
+
+}
 
 DefaultProperties
 {

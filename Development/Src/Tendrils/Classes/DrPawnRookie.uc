@@ -12,8 +12,9 @@ function AddDefaultInventory()
 {
     local Inventory Inv;
     Inv = InvManager.CreateInventory( class'DrWeaponShotty', true );
-    Inv = InvManager.CreateInventory( class'UTWeap_LinkGun', true );
-    DrInventoryManager( InvManager ).SelectedItem = Inv;
+    Inv = InvManager.CreateInventory( class'DrWeaponRifle', true );
+    Inv = InvManager.CreateInventory( class'DrWeaponKnife', true );
+    DrInventoryManager( InvManager ).SelectedIndex = 0;
 }
 
 simulated event PostBeginPlay()

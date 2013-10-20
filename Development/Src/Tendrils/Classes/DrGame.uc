@@ -50,6 +50,6 @@ DefaultProperties
     LevelGen=Gen
 
     HUDType=class'DrHUD'
-    PlayerControllerClass=class'DrPlayerController'
+    PlayerControllerClass=class'DrPCRookie'
     DefaultPawnClass=class'DrPawnRookie'
 }

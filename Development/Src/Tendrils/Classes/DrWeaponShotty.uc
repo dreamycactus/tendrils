@@ -1,6 +1,5 @@
 class DrWeaponShotty extends DrWeapon
-    placeable
-    ClassGroup(Tendrils);
+    placeable;
 
 var int Shells; // Amount of bullets to be shot!
 var bool bIsShotgun; // Used as a detector if the weapon should fire as a shotgun or normally.
@@ -53,6 +52,9 @@ simulated function bool ShouldRefire()
 
 DefaultProperties
 {
+    GameName="Shotgun"
+	SpeedPenalty=200
+
     ShotCost(0)=0 // keep these for testing purpose!
 	ShotCost(1)=0
 	MaxAmmoCount=1
@@ -71,6 +73,7 @@ DefaultProperties
 	WeaponProjectiles(0)=class'UTProj_LinkPlasma' // The projectile you want the gun to fire!
 	FireInterval(0)=+0.3 // Fire speed!
 	Spread(0)=0.5 // the spread of the bullets!
+	EquipTime=0.1
     
 
 	// Weapon SkeletalMesh

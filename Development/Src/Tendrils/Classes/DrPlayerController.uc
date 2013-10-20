@@ -9,6 +9,8 @@ var float HeightHint;
 var vector CamPos;
 var int RotationOffset;
 
+function CheckAutoObjective( bool b );
+
 exec function StartIronsight()
 {
     DrPawnGunman( Pawn ).StartIronsight();
@@ -33,25 +35,20 @@ exec function StartFire( optional byte FireModeNum )
 	}
 }
 
+exec function PrevItem()
+{
+	DrInventoryManager( Pawn.InvManager ).AdjustItem( 1 );
+}
+
+exec function NextItem()
+{
+	DrInventoryManager( Pawn.InvManager ).AdjustItem( -1 );
+}
+
 
 function AlignCameraToActor( Actor Act )
 {
     DrCamera( PlayerCamera ).CurrentCamera.SetTargetYaw( Act.Rotation.Yaw );
-}
-
-
-state PlayerWalking
-{
-    function ProcessMove( float DeltaTime, vector newAccel, eDoubleClickDir DoubleClickMove, rotator DeltaRot )
-    {
-	    local vector X, Y, Z, AltAccel;
-
-	    GetAxes( PlayerCamera.Rotation , X, Y, Z );
-	    AltAccel = PlayerInput.aForward * Z + PlayerInput.aStrafe * Y;
-	    //AltAccel.Z = 0;
-	    AltAccel = Pawn.AccelRate * Normal( AltAccel );
-	    super.ProcessMove( DeltaTime, AltAccel, DoubleClickMove, DeltaRot );
-    }	
 }
 
 exec function IncCamHeight()
@@ -114,6 +111,20 @@ function UpdateRotation( float DeltaTime )
 
     if ( Pawn != None )
         Pawn.FaceRotation( NewRotation, DeltaTime );
+}
+
+state PlayerWalking
+{
+    function ProcessMove( float DeltaTime, vector newAccel, eDoubleClickDir DoubleClickMove, rotator DeltaRot )
+    {
+	    local vector X, Y, Z, AltAccel;
+
+	    GetAxes( PlayerCamera.Rotation , X, Y, Z );
+	    AltAccel = PlayerInput.aForward * Z + PlayerInput.aStrafe * Y;
+	    //AltAccel.Z = 0;
+	    AltAccel = Pawn.AccelRate * Normal( AltAccel );
+	    super.ProcessMove( DeltaTime, AltAccel, DoubleClickMove, DeltaRot );
+    }	
 }
 
 simulated event GetPlayerViewPoint( out vector out_Location, out Rotator out_Rotation )
