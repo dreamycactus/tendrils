@@ -14,6 +14,7 @@ function AddDefaultInventory()
     Inv = InvManager.CreateInventory( class'DrWeaponShotty', true );
     Inv = InvManager.CreateInventory( class'DrWeaponRifle', true );
     Inv = InvManager.CreateInventory( class'DrWeaponKnife', true );
+	Inv = InvManager.CreateInventory( class'UTWeap_Physicsgun', true );
     DrInventoryManager( InvManager ).SelectedIndex = 0;
 }
 
@@ -55,6 +56,8 @@ event Tick( float DT )
 }
 DefaultProperties
 {
+	BlockRigidBody=true
+
     Begin Object class=SkeletalMeshComponent Name=RookiePawnSkeletalMesh
 		SkeletalMesh=SkeletalMesh'CH_IronGuard_Male.Mesh.SK_CH_IronGuard_MaleA'
 		AnimSets(0)=AnimSet'CH_AnimHuman.Anims.K_AnimHuman_BaseMale'
