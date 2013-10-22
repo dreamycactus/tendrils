@@ -17,7 +17,7 @@ event simulated PostBeginPlay()
 event Touch( Actor Other, PrimitiveComponent OtherComp, Vector HitLocation, Vector HitNormal )
 {
 	`log( "LIGHT TOUCH" @ Other );
-	if( DrRookiePawn( Other ) != None ) {
+	if( DrPawnRookie( Other ) != None ) {
 		`log("touched player");
 	}
 }

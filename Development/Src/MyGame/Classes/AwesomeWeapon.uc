@@ -27,7 +27,7 @@ defaultproperties
 	WeaponProjectiles(0)=class'UTProj_Rocket'
 	WeaponProjectiles(1)=class'UTProj_Rocket'
 
-	AmmoCount=30
+	AmmoCount=300
 	MaxAmmoCount=30
 
 	FireRates(0)=1.5

@@ -1,5 +1,4 @@
-class DrSectionDoppler extends Actor
-	placeable;
+class DrSectionDoppler extends Actor;
 
 var StaticMeshComponent StaticMeshComponent;
 var bool bRoomCollisionFlag;

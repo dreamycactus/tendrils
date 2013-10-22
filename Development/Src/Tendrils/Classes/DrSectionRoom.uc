@@ -3,7 +3,8 @@
  * They just contain extra info about cam yaw and height hints...
  */
 class DrSectionRoom extends Actor
-	placeable;
+	placeable
+	ClassGroup(Tendrils);
 
 var(Tendrils) DrRoomInfoCmp RoomInfo;
 var DrSectionDoppler Dopple;
@@ -37,7 +38,6 @@ DefaultProperties
     Components.Add(Sprite)
 
     Begin Object Class=StaticMeshComponent Name=HelperMesh
-        Materials(0)=Material'EditorMaterials.WidgetMaterial_Z'
         CollideActors=true
         BlockRigidBody=true
 	End Object
