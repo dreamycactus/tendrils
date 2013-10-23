@@ -14,7 +14,6 @@ function AddDefaultInventory()
     Inv = InvManager.CreateInventory( class'DrWeaponShotty', true );
     Inv = InvManager.CreateInventory( class'DrWeaponRifle', true );
     Inv = InvManager.CreateInventory( class'DrWeaponKnife', true );
-	Inv = InvManager.CreateInventory( class'UTWeap_Physicsgun', true );
     DrInventoryManager( InvManager ).SelectedIndex = 0;
 }
 

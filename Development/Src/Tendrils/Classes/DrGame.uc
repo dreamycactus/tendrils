@@ -9,18 +9,12 @@ event PostBeginPlay()
     //local array<DrSection> Sections;
     local DrSection Sec;
     local DrGraphStratSimple Strat;
-	local MatineeActor MA;
 
     `log( " === Game === " );
     foreach AllActors( class'DrSection', Sec ) {
         Sec.Initialize();
         Sections.AddItem( Sec );
     }
-
-	foreach AllActors( class'MatineeActor', MA ) {
-		`log("HELLO");
-		break;
-	}
 	
     `log( Sections.Length @ " Sections detected." );
 
@@ -30,7 +24,7 @@ event PostBeginPlay()
 		return;
 	}
 
-    Level = LevelGen.GenLevelGraph( Sections, Strat );
+    //Level = LevelGen.GenLevelGraph( Sections, Strat );
 
 	if ( !Strat.VerifyLevel( Sections ) ) {
 		`warn( "CRITICAL: Something went wrong with level generation" );
