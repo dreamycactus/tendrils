@@ -34,9 +34,3 @@ Content Complete    - March 30
 Polish and Ship     - April 20
 * Gameplay tweaked and playtested (last month for game balancing only)
 * Final report, post mortem
-
-----------------------------
-Mini milestones
-* Scenarios
-* General system 
-
