@@ -25,7 +25,13 @@ state SOpen
 
 auto state SIdle
 {
-	ignores Tick;
+	event Touch( Actor Other, PrimitiveComponent OtherComp, Vector HitLoc, Vector HitNorm )
+	{
+		GotoState( 'SOpen' );
+	}
+Begin:
+	sleep( 0.1 );
+	goto 'Begin';
 }
 
 simulated event PostBeginPlay()
@@ -38,7 +44,7 @@ simulated event PostBeginPlay()
 DefaultProperties
 {
 	OpenTime=2.0
-	EndLocRel=(X=0.0,Y=0.0,Z=10.0)
+	EndLocRel=(X=0.0,Y=0.0,Z=30.0)
 
 	bBlockActors=true
 	bCollideActors=true

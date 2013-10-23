@@ -34,9 +34,7 @@ simulated event PostBeginPlay()
 
 function onTouch( Actor Other, PrimitiveComponent OtherComp, Vector HitLoc, Vector HitNorm )
 {
-	if ( !DoorWay.IsInState( 'SOpen' ) ) {
-		DoorWay.GotoState( 'SOpen' );
-	}
+	RealDoor.Touch( Other, OtherComp, HitLoc, HitNorm );
 }
 
 DefaultProperties
