@@ -52,8 +52,8 @@ function Vector GetMouseWorldLoc()
     MousePosition.X = MouseInput.MousePos.X;
     MousePosition.Y = MouseInput.MousePos.Y;
     Canvas.DeProject( MousePosition, MouseWorldOrg, MouseWorldDir );
-    DrPlayerController( PlayerOwner ).MouseWorldOrg = MouseWorldOrg;
-    DrPlayerController( PlayerOwner ).MousePosWorldDir = MouseWorldDir;
+    DrPCRookie( PlayerOwner ).MouseWorldOrg = MouseWorldOrg;
+    DrPCRookie( PlayerOwner ).MousePosWorldDir = MouseWorldDir;
 
     Trace( HitLoc, HitNorm, MouseWorldOrg + MouseWorldDir * 65536.f, MouseWorldOrg, true,,, TRACEFLAG_Bullet );
     return HitLoc;

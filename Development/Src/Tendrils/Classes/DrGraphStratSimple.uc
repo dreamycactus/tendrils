@@ -1,5 +1,7 @@
 class DrGraphStratSimple extends DrGraphStrategy;
 
+var DrDoor DOORMAN;
+
 function DrLevel GenLevelGraph( array<DrSection> inSections, delegate<LinkSelect> LinkSelector )
 {
 	local int iter;
@@ -50,6 +52,8 @@ function bool GenIter( array<DrSection> inSections, out DrLevel out_Level, deleg
 				l = LinkSelector( OpenLinks, l );
 				if ( class'DrGraphCmp'.static.TryConnectSection( self, ShuffledLinks[j], OpenLinks[l]) ) {
 					`log( "Placed" @ inSections[i] @ "with" @ OpenLinks[l] @ "in section " @ OpenLinks[l].Src );
+
+                    ShuffledLinks[j].Spawn( class'DrDoor',,, ShuffledLinks[j].Location, ShuffledLinks[j].Rotation, DOORMAN );
 					/* Update link edges */
 					inSections[i].Graph.LinkNodes[ inSections[i].Graph.LinkNodes.Find( ShuffledLinks[j] ) ].Dest = OpenLinks[l].Src;
 				    ShuffledLinks[j].Dest = OpenLinks[l].Src;
@@ -80,4 +84,5 @@ SUCCESS:
 
 DefaultProperties
 {
+    DOORMAN=DrDoor'MyTendrils.MyDoor'
 }

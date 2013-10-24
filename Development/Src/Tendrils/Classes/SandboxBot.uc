@@ -1,4 +1,4 @@
-class SandboxBot extends UDKPawn
+class SandboxBot extends UTPawn
     placeable;
  
 function AddDefaultInventory()
@@ -31,7 +31,7 @@ DefaultProperties
     Mesh=SandboxPawnSkeletalMesh
  
     Components.Add(SandboxPawnSkeletalMesh)
-    ControllerClass=class'MyGame.SandboxAIController'
+    ControllerClass=class'SandboxAIController'
     InventoryManagerClass=class'MyGame.SandboxInventoryManager'
  
     bJumpCapable=false

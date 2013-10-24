@@ -24,7 +24,7 @@ event PostBeginPlay()
 		return;
 	}
 
-    //Level = LevelGen.GenLevelGraph( Sections, Strat );
+    Level = LevelGen.GenLevelGraph( Sections, Strat );
 
 	if ( !Strat.VerifyLevel( Sections ) ) {
 		`warn( "CRITICAL: Something went wrong with level generation" );

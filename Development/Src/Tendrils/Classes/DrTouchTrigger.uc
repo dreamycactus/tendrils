@@ -2,11 +2,16 @@ class DrTouchTrigger extends DynamicTriggerVolume
 	placeable;
 
 delegate onTouch( Actor Other, PrimitiveComponent OtherComp, Vector HitLoc, Vector HitNorm );
+delegate onUntouch( Actor Other );
 
 event Touch( Actor Other, PrimitiveComponent OtherComp, Vector HitLoc, Vector HitNorm )
 {
-	`log( "HI" );
 	onTouch( Other, OtherComp, HitLoc, HitNorm );
+}
+
+event UnTouch( Actor Other )
+{
+    onUntouch( Other );
 }
 
 DefaultProperties
