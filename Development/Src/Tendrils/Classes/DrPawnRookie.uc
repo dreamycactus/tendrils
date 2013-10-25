@@ -20,6 +20,7 @@ function AddDefaultInventory()
 simulated event PostBeginPlay()
 {
     super.PostBeginPlay();
+
 }
 
 simulated event BecomeViewTarget( PlayerController PC )

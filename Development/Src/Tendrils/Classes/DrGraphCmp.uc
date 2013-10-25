@@ -8,7 +8,7 @@ var array<DrSectionLink> LinkNodes;    // Edges
 static function bool TryConnectSection( DrGraphStrategy Strat, DrSectionLink ToAdd, DrSectionLink LevelLink )
 {
     local int DeltaRot;
-	local vector AboveSite, DestDelta, OriginalLoc;
+	local vector AboveSite, DestDelta, OriginalLoc, DoppleOffset, Doff;
     local Rotator OriginalRot;
     local int i;
     
@@ -32,21 +32,23 @@ static function bool TryConnectSection( DrGraphStrategy Strat, DrSectionLink ToA
 	 */
 	DestDelta = vect( 0, 0, 0 );
 	DestDelta.Z = LevelLink.Location.Z - ToAdd.Location.Z;
-
+	DoppleOffset = vect( 0, 0, -10000 );
     /* Spawn a ghost version of room for detecting collision.. a bit hacky */
+	LevelLink.Src.Rooms[0].SpawnDopple( LevelLink.Src, vect( 0, 0, 10000 ) );
+	LevelLink.Src.Rooms[0].Dopple.AllMove( vect( 0, 0, -10000 ) );
     for ( i = 0; i < ToAdd.Src.Rooms.Length; ++i ) {
-        ToAdd.Src.Rooms[i].SpawnDopple( ToAdd.Src );
-        ToAdd.Src.Rooms[i].Dopple.Move( DestDelta );
+        //ToAdd.Src.Rooms[i].SpawnDopple( ToAdd.Src, DoppleOffset );
+        ToAdd.Src.Rooms[i].Dopple.AllMove( DestDelta - DoppleOffset );
         if ( ToAdd.Src.Rooms[i].Dopple.bRoomCollisionFlag ) {
             ToAdd.Src.SetLocation( OriginalLoc );
             ToAdd.Src.SetRotation( OriginalRot );
             ToAdd.Src.Rooms[i].DestroyDopple();
             return false;
 	    }
-        ToAdd.Src.Rooms[0].DestroyDopple();
+        //ToAdd.Src.Rooms[0].DestroyDopple();
     }
       
-    ToAdd.Src.SetLocation( AboveSite + DestDelta );
+    `log( "===setloc" @ ToAdd.Src.SetLocation( AboveSite + DestDelta ) );
     return true;
 }
 

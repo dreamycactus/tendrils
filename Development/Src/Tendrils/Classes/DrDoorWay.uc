@@ -90,6 +90,8 @@ DefaultProperties
 
 	bBlockActors=true
 	bCollideActors=true
+	bPathColliding=false
+	bBlocksNavigation=false
 	CollisionType=COLLIDE_BlockAll
 	Begin Object class='StaticMeshComponent' name=Doorway
 		CollideActors=true

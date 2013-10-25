@@ -9,12 +9,17 @@ event PostBeginPlay()
     //local array<DrSection> Sections;
     local DrSection Sec;
     local DrGraphStratSimple Strat;
+	local InterpActor IA;
 
     `log( " === Game === " );
     foreach AllActors( class'DrSection', Sec ) {
         Sec.Initialize();
         Sections.AddItem( Sec );
     }
+
+	foreach AllActors( class'InterpActor', IA ) {
+		IA.SetPhysics( PHYS_None );
+	}
 	
     `log( Sections.Length @ " Sections detected." );
 

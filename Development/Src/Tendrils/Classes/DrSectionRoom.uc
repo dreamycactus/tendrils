@@ -10,11 +10,24 @@ var(Tendrils) DrRoomInfoCmp RoomInfo;
 var DrSectionDoppler Dopple;
 var StaticMeshComponent StaticMeshComponent;
 
-function SpawnDopple( DrSection Sec )
+function SpawnDopple( DrSection Sec, vector Offset )
 {
-	Dopple = Spawn( class'DrSectionDoppler', none,, Location, Rotation );
+	local InterpActor IA;
+	local DrSectionDopplite Dlite;
+	Dopple = Spawn( class'DrSectionDoppler', none,, Location + Offset, Rotation );
     Dopple.Section = Sec;
     Dopple.StaticMeshComponent.SetStaticMesh( self.StaticMeshComponent.StaticMesh );
+	foreach BasedActors( class'InterpActor', IA ) {
+		if ( IA.StaticMeshComponent.StaticMesh == none ) {
+			`log( IA @ "is an empty interpactor!!" );
+			continue;
+		}
+		Dlite = Spawn( class'DrSectionDopplite',,, IA.Location + Offset, IA.Rotation );
+		Dlite.StaticMeshComponent.SetStaticMesh( IA.StaticMeshComponent.StaticMesh );
+		Dlite.Dop = Dopple;
+		Dlite.SetBase( Dopple,,,'Attachy' );
+		Dopple.Dopplites.AddItem( Dlite );
+	}
     //Dopple.StaticMeshComponent.SetScale( 0.95 ); // Make doppler scale a little less than room's for robust collision
 }
 
@@ -23,6 +36,7 @@ function DestroyDopple()
     Dopple.Destroy();
     Dopple = none;
 }
+
 
 simulated event PostBeginPlay()
 {
@@ -54,5 +68,6 @@ DefaultProperties
     bCollideActors=true
 	bBlockActors=true
 	BlockRigidBody=true
+	bHardAttach=false
     CollisionType=COLLIDE_BlockAll
 }

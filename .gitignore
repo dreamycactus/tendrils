@@ -17,7 +17,6 @@ UDKGame/Content/Maps/*
 
 UDKGame/Config/*
 !UDKGame/Config/Default*.ini
-!UDKGame/Config/UDKInput.ini
 
 
 .udkproj

@@ -65,6 +65,10 @@ function RenderInventory()
 	local int i;
     local float outX, outY;
 	local array<UTWeapon> outWeapList;
+	
+	if ( InvMgr == none ) {
+		return;
+	}
 
     Canvas.SetPos( 0.0, 0.0, );
     Canvas.Font = Font'UI_Fonts.Fonts.UI_Fonts_AmbexHeavy18';

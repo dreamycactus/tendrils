@@ -53,7 +53,9 @@ DefaultProperties
 {
 	bBlockActors=true
 	bCollideActors=true
+	bPathColliding=false
 	CollisionType=COLLIDE_BlockAll
+	bBlocksNavigation=false
 
     RotationOffset=16384
 

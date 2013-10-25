@@ -1,17 +1,21 @@
-class DrSectionDoppler extends Actor;
+class DrSectionDoppler extends InterpActor
+	placeable;
 
-var StaticMeshComponent StaticMeshComponent;
+var() StaticMeshComponent StaticMeshComponent;
 var bool bRoomCollisionFlag;
 var DrSection Section;
+var DebugCon Con;
+var array<DrSectionDopplite> Dopplites;
 
-simulated event PostBeginPlay()
+event bool EncroachingOn(Actor Other)
 {
-	super.PostBeginPlay();
+	super.EncroachingOn( Other );
 }
+
 
 event UnTouch( Actor Other ) {
     local Actor OtherSec;
-
+	`log( "DOPPY UNTOUCH" @ self @ ", " @ Other );
     OtherSec = class'DrUtils'.static.GetBaseSection( Other );
     if ( DrSectionRoom( Other ) != none && OtherSec != none &&
         OtherSec != Section ) {
@@ -29,6 +33,7 @@ event Touch( Actor Other, PrimitiveComponent OtherComp, vector HitLocation, vect
 {
     local Actor OtherSec;
 
+	`log( "DOPPY TOUCH" @ self @ ", " @ Other );
     OtherSec = class'DrUtils'.static.GetBaseSection( Other );
     if (  DrSectionRoom( Other ) != none && OtherSec != none && 
         OtherSec != Section ) {
@@ -41,23 +46,47 @@ event Touch( Actor Other, PrimitiveComponent OtherComp, vector HitLocation, vect
     }
 }
 
+event Bump( Actor Other, PrimitiveComponent OtherComp, vector HitNormal )
+{
+	`log( "DOPPY DUMP" @ self @ ", " @ Other );
+}
+
+function AllMove( vector D )
+{
+	local int i;
+
+	SetLocation( D );
+	for ( i = 0; i < Dopplites.Length; ++i ) {
+		Dopplites[i].Move( D );
+	}
+}
+
 DefaultProperties
 {
     Begin Object class='StaticMeshComponent' Name=Mesha
         BlockNonZeroExtent=true
         BlockZeroExtent=true
         CollideActors=true
+		BlockActors=false
     End Object
     Components.Add(Mesha)
     StaticMeshComponent=Mesha
     CollisionComponent=Mesha
     
-    bCollideComplex=true
 	bCollideActors=true
     bCollideWorld=true
     bBlockActors=false
 
     bRoomCollisionFlag=false
+	bWorldGeometry=true
+	Physics=PHYS_None
+	bStatic=false
+	bNoDelete=false
+	bCollideWhenPlacing=true
+	bCollideAsEncroacher=true
+	bIgnoreEncroachers=false
+	bAlwaysEncroachCheck=true
+	bCollideAsEncroacher=true
     
 	CollisionType=COLLIDE_TouchAll
 

@@ -9,6 +9,35 @@ var float HeightHint;
 var vector CamPos;
 var int RotationOffset;
 
+var DrSectionDoppler Dop;
+
+exec function MoveUp( float Z )
+{
+	local vector Off;
+	Off.Z = Z;
+	Dop.Move( Off );
+}
+
+exec function MoveRight( float Z )
+{
+	local vector Off;
+	Off.X = Z;
+	Dop.Move( Off );
+}
+
+exec function MoveForward( float Z )
+{
+	local vector Off;
+	Off.Y = Z;
+	Dop.Move( Off );
+}
+
+simulated event PostBeginPlay()
+{
+	foreach AllActors( class'DrSectionDoppler', Dop ) {
+		break;
+	}
+}
 
 exec function StartIronsight()
 {
@@ -31,7 +60,6 @@ exec function NextItem()
 {
 	DrInventoryManager( Pawn.InvManager ).AdjustItem( -1 );
 }
-
 
 function AlignCameraToActor( Actor Act )
 {
@@ -111,6 +139,13 @@ simulated event GetPlayerViewPoint( out vector out_Location, out Rotator out_Rot
 		}
 	}
 }
+
+event Possess(Pawn inPawn, bool bVehicleTransition)
+{
+	Super.Possess(inPawn, bVehicleTransition);
+    DrHUD( myHUD ).InvMgr = DrInventoryManagerRookie( Pawn.InvManager );
+}
+
 function Rotator GetAdjustedAimFor( Weapon W, vector StartFireLoc ) 
 {
 	local Rotator rot;
@@ -125,15 +160,15 @@ function UpdateRotation( float DeltaTime )
 {
     local Rotator DeltaRot, NewRotation, ViewRotation;
 	local Vector out_HitNorm, out_HitLoc;
-
+    if ( Pawn == none ) {
+		return;
+	}
     Trace( out_HitLoc, out_HitNorm, MouseWorldOrg + MousePosWorldDir * 65536.f, MouseWorldOrg, true,,, TRACEFLAG_Bullet );
 
     ViewRotation = Rotator( out_HitLoc - Pawn.Location );
     ViewRotation.Yaw += RotationOffset;
 
-    if ( Pawn != none ) {
-        Pawn.SetDesiredRotation( ViewRotation );
-    }
+	Pawn.SetDesiredRotation( ViewRotation );
 
     DeltaRot = rot( 0, 0, 0 );
     ProcessViewRotation( DeltaTime, ViewRotation, DeltaRot );
@@ -145,12 +180,6 @@ function UpdateRotation( float DeltaTime )
     if ( Pawn != None )
         Pawn.FaceRotation( NewRotation, DeltaTime );
 
-}
-
-reliable client function ClientSetHUD(class<HUD> newHUDType)
-{
-    super.ClientSetHUD( newHUDType );
-    DrHUD( myHUD ).InvMgr = DrInventoryManagerRookie( Pawn.InvManager );
 }
 
 DefaultProperties
