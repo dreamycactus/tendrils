@@ -32,12 +32,16 @@ function bool GenIter( array<DrSection> inSections, out DrLevel out_Level, deleg
 	local int i, j, k, l;
     local DrGraphCmp CurGraph;
     local array<DrSectionLink> OpenLinks, ShuffledLinks;
+	local InterpActor IA;
 
     if ( inSections.Length == 0 ) { return true; }
 
     SortSections( inSections );
 	
 	inSections[0].SetLocation( vect( 0, 0, 0 ) );
+	foreach inSections[0].Rooms[0].BasedActors( class'InterpActor', IA ) {
+		IA.SetPhysics( PHYS_None );
+	}
 	OpenLinks = LinksConcat( OpenLinks, ShuffleLinks( inSections[0].Graph.LinkNodes ) );
 
     for ( i = 1; i < inSections.Length; ++i ) {

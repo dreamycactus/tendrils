@@ -35,9 +35,7 @@ event Touch( Actor Other, PrimitiveComponent OtherComp, vector HitLocation, vect
 
 	`log( "DOPPY TOUCH" @ self @ ", " @ Other );
     OtherSec = class'DrUtils'.static.GetBaseSection( Other );
-    if (  DrSectionRoom( Other ) != none && OtherSec != none && 
-        OtherSec != Section ) {
-
+    if ( OtherSec != none && OtherSec != Section ) {
         /* Don't collide against links */
         if ( DrSectionLink ( Other ) == none && Pawn( Other ) == none ) {
             `log( "Room Collision " @ self @ ", " @ Other );

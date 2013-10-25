@@ -33,7 +33,12 @@ function SpawnDopple( DrSection Sec, vector Offset )
 
 function DestroyDopple()
 {
+	local int i;
     Dopple.Destroy();
+	for ( i = 0; i < Dopple.Dopplites.Length; ++i ) {
+		Dopple.Dopplites[i].Destroy();
+	}
+	Dopple.Dopplites.Length = 0;
     Dopple = none;
 }
 

@@ -37,18 +37,20 @@ static function bool TryConnectSection( DrGraphStrategy Strat, DrSectionLink ToA
 	LevelLink.Src.Rooms[0].SpawnDopple( LevelLink.Src, vect( 0, 0, 10000 ) );
 	LevelLink.Src.Rooms[0].Dopple.AllMove( vect( 0, 0, -10000 ) );
     for ( i = 0; i < ToAdd.Src.Rooms.Length; ++i ) {
-        //ToAdd.Src.Rooms[i].SpawnDopple( ToAdd.Src, DoppleOffset );
+        ToAdd.Src.Rooms[i].SpawnDopple( ToAdd.Src, DoppleOffset );
         ToAdd.Src.Rooms[i].Dopple.AllMove( DestDelta - DoppleOffset );
         if ( ToAdd.Src.Rooms[i].Dopple.bRoomCollisionFlag ) {
             ToAdd.Src.SetLocation( OriginalLoc );
             ToAdd.Src.SetRotation( OriginalRot );
             ToAdd.Src.Rooms[i].DestroyDopple();
+			LevelLink.Src.Rooms[0].DestroyDopple();
             return false;
 	    }
         //ToAdd.Src.Rooms[0].DestroyDopple();
     }
-      
+
     `log( "===setloc" @ ToAdd.Src.SetLocation( AboveSite + DestDelta ) );
+	//LevelLink.Src.Rooms[0].DestroyDopple();
     return true;
 }
 
