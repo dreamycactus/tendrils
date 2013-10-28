@@ -15,27 +15,32 @@ exec function MoveUp( float Z )
 {
 	local vector Off;
 	Off.Z = Z;
-	Dop.Move( Off );
+	Dop.AllMove( Off );
 }
 
 exec function MoveRight( float Z )
 {
 	local vector Off;
 	Off.X = Z;
-	Dop.Move( Off );
+	Dop.AllMove( Off );
 }
 
 exec function MoveForward( float Z )
 {
 	local vector Off;
 	Off.Y = Z;
-	Dop.Move( Off );
+	Dop.AllMove( Off );
 }
 
 simulated event PostBeginPlay()
 {
+    local int i, j;
+    i = 1;
+    j = 0;
 	foreach AllActors( class'DrSectionDoppler', Dop ) {
-		break;
+        if ( i == j )
+		    break;
+        ++j;
 	}
 }
 

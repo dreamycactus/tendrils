@@ -6,18 +6,20 @@ function DrLevel GenLevelGraph( array<DrSection> inSections, delegate<LinkSelect
 {
 	local int iter;
 	local DrLevel out_Level;
+    local array<DrSectionDoppler> Dopplers;
 
     /* Sink all sections down low low low low */
     for ( iter = 0; iter < inSections.Length; ++iter ) {
-        inSections[iter].SetRelativeLocation( vect( 0, 0, -5000 ) );
+        inSections[iter].SetRelativeLocation( vect( 0, 0, -50000 ) );
     }
 
 	iter = 0;
-	while ( iter++ < 20 ) {
-		if ( GenIter( inSections, out_Level, LinkSelector ) ) {
+	while ( iter++ < 1 ) {
+        Dopplers = GenDopplers( inSections, vect( 0, 0, 0 ) );
+		if ( GenIter( Dopplers, out_Level, LinkSelector ) ) {
 			break;
 		}
-		CleanLinks( inSections );
+		//CleanLinks( inSections );
 	}
 	
 	if ( out_Level == none ) {
@@ -27,7 +29,24 @@ function DrLevel GenLevelGraph( array<DrSection> inSections, delegate<LinkSelect
 	return out_Level;
 }
 
-function bool GenIter( array<DrSection> inSections, out DrLevel out_Level, delegate<LinkSelect> LinkSelector )
+function array<DrSectionDoppler> GenDopplers( array<DrSection> inSections, vector Offset )
+{
+    local array<DrSectionDoppler> Ret;
+    local DrSectionDoppler Dop;
+    local int i;
+
+    for ( i = 0; i < inSections.Length; ++i ) {
+        Offset.X = inSections[i].Location.X;
+        Offset.Y = inSections[i].Location.Y;
+
+        Dop = inSections[i].SpawnDopple( Offset );
+        Ret.AddItem( Dop );
+    }
+
+    return Ret;
+}
+
+function bool GenIter( array<DrSectionDoppler> inSections, out DrLevel out_Level, delegate<LinkSelect> LinkSelector )
 {
 	local int i, j, k, l;
     local DrGraphCmp CurGraph;
@@ -38,10 +57,7 @@ function bool GenIter( array<DrSection> inSections, out DrLevel out_Level, deleg
 
     SortSections( inSections );
 	
-	inSections[0].SetLocation( vect( 0, 0, 0 ) );
-	foreach inSections[0].Rooms[0].BasedActors( class'InterpActor', IA ) {
-		IA.SetPhysics( PHYS_None );
-	}
+    inSections[0].AllSetLocation( vect( 0, 0, 0 ) );
 	OpenLinks = LinksConcat( OpenLinks, ShuffleLinks( inSections[0].Graph.LinkNodes ) );
 
     for ( i = 1; i < inSections.Length; ++i ) {
@@ -54,10 +70,10 @@ function bool GenIter( array<DrSection> inSections, out DrLevel out_Level, deleg
 			k = -1;
 			while ( OpenLinks.Length != 0 && k++ < Max( OpenLinks.Length, 10 ) ) {
 				l = LinkSelector( OpenLinks, l );
-				if ( class'DrGraphCmp'.static.TryConnectSection( self, ShuffledLinks[j], OpenLinks[l]) ) {
+				if ( class'DrGraphCmp'.static.TryConnectSection( ShuffledLinks[j], OpenLinks[l]) ) {
 					`log( "Placed" @ inSections[i] @ "with" @ OpenLinks[l] @ "in section " @ OpenLinks[l].Src );
 
-                    ShuffledLinks[j].Spawn( class'DrDoor',,, ShuffledLinks[j].Location, ShuffledLinks[j].Rotation, DOORMAN );
+                    //ShuffledLinks[j].Spawn( class'DrDoor',,, ShuffledLinks[j].Location, ShuffledLinks[j].Rotation, DOORMAN );
 					/* Update link edges */
 					inSections[i].Graph.LinkNodes[ inSections[i].Graph.LinkNodes.Find( ShuffledLinks[j] ) ].Dest = OpenLinks[l].Src;
 				    ShuffledLinks[j].Dest = OpenLinks[l].Src;

@@ -1,14 +1,7 @@
-class DrSectionDopplite extends InterpActor;
+class DrSectionDopplite extends Actor;
 
 var DrSectionDoppler Dop;
 var StaticMeshComponent StaticMeshComponent;
-
-//exec function MoveDown( float Z )
-//{
-//	local vector Off;
-//	Off.Z =- Z;
-//	SetLocation( Off );
-//}
 
 function SetDoppler( DrSectionDoppler Doppler )
 {
@@ -41,6 +34,11 @@ event HitWall(Vector HitNormal, Actor Wall, PrimitiveComponent WallComp)
 	SetLocation( Location );
 }
 
+event BaseChange()
+{
+    `log( "BASE CHANGE" );
+}
+
 DefaultProperties
 {
     Begin Object class='StaticMeshComponent' Name=Mesha
@@ -54,14 +52,14 @@ DefaultProperties
     CollisionComponent=Mesha
 
 	bCollideActors=true
-    bCollideWorld=true
     bBlockActors=false
+    bMovable=true
+    bHardAttach=true
+    bStatic=false
+    bNoDelete=false
 
     bRoomCollisionFlag=false
-	bWorldGeometry=true
-	Physics=PHYS_None
-	bStatic=false
-	bNoDelete=false
+	Physics=PHYS_Interpolating
 	bCollideWhenPlacing=true
 	bCollideAsEncroacher=true
 	bIgnoreEncroachers=false

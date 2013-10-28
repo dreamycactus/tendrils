@@ -17,10 +17,6 @@ event PostBeginPlay()
         Sections.AddItem( Sec );
     }
 
-	//foreach AllActors( class'InterpActor', IA ) {
-	//	IA.SetPhysics( PHYS_None );
-	//}
-	
     `log( Sections.Length @ " Sections detected." );
 
     Strat = new class'DrGraphStratSimple';

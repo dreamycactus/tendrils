@@ -1,7 +1,6 @@
-class DrSectionDoppler extends InterpActor
+class DrSectionDoppler extends DrSection
 	placeable;
 
-var() StaticMeshComponent StaticMeshComponent;
 var bool bRoomCollisionFlag;
 var DrSection Section;
 var DebugCon Con;
@@ -11,7 +10,6 @@ event bool EncroachingOn(Actor Other)
 {
 	super.EncroachingOn( Other );
 }
-
 
 event UnTouch( Actor Other ) {
     local Actor OtherSec;
@@ -49,15 +47,59 @@ event Bump( Actor Other, PrimitiveComponent OtherComp, vector HitNormal )
 	`log( "DOPPY DUMP" @ self @ ", " @ Other );
 }
 
+event Attach( Actor Other ) 
+{
+    `log( "Attach" @ Other @ self );
+}
+
+function AllSetLocation( vector D )
+{
+	local int i;
+    local vector delta;
+    
+    delta = D - Location;
+
+    SetLocation( D );
+	for ( i = 0; i < Dopplites.Length; ++i ) {
+		Dopplites[i].SetLocation( Dopplites[i].Location + delta );
+	}
+    for ( i = 0; i < Graph.LinkNodes.Length; ++i ) {
+        Graph.LinkNodes[i].SetLocation( Dopplites[i].Location +  delta );
+    }
+}
+
+function AllSetRotation( rotator R )
+{
+	local int i;
+    local vector NewLoc;
+    
+    delta = R - Rotation;
+
+    SetRotation( R );
+	for ( i = 0; i < Dopplites.Length; ++i ) {
+		Dopplites[i].SetRotation( R );
+	}
+    for ( i = 0; i < Graph.LinkNodes.Length; ++i ) {
+        Graph.LinkNodes[i].SetRotation( R );
+        Graph.LinkNodes[i].SetLocation( NewLoc );
+    }
+}
+
 function AllMove( vector D )
 {
 	local int i;
 
-	SetLocation( D );
+	Move( D );
 	for ( i = 0; i < Dopplites.Length; ++i ) {
 		Dopplites[i].Move( D );
 	}
+    for ( i = 0; i < Graph.LinkNodes.Length; ++i ) {
+        Graph.LinkNodes[i].Move( D );
+    }
 }
+
+function DrSectionDoppler SpawnDopple( vector Offset );
+function DestroyDopple();
 
 DefaultProperties
 {

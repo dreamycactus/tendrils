@@ -8,6 +8,7 @@ class DrSection extends Actor
 
 var(Tendrils) editconst DrGraphCmp Graph;
 var array<DrSectionRoom> Rooms;
+var DrSectionDoppler Dopple;
 
 var DrLevel Level;
 simulated function Initialize()
@@ -26,6 +27,49 @@ simulated function Initialize()
             Graph.LinkNodes.AddItem( Link );
         }
 	}
+}
+
+function DrSectionDoppler SpawnDopple( vector NewLoc )
+{
+	local InterpActor IA;
+	local DrSectionDopplite Dlite;
+    local vector IAOffset;
+
+	Dopple = Spawn( class'DrSectionDoppler',,, NewLoc, Rotation );
+    Dopple.Section = self;
+    Dopple.Graph = Graph.CloneFor( Dopple );
+
+	foreach Rooms[0].BasedActors( class'InterpActor', IA ) {
+		if ( IA.StaticMeshComponent.StaticMesh == none ) {
+			`log( IA @ "is an empty interpactor!!" );
+			continue;
+		}
+        IAOffset = IA.Location - Location;
+		Dlite = Spawn( class'DrSectionDopplite', Dopple,, Dopple.Location + IAOffset, IA.Rotation );
+		Dlite.SetBase( Dopple );
+		Dlite.StaticMeshComponent.SetStaticMesh( IA.StaticMeshComponent.StaticMesh );
+		Dlite.Dop = Dopple;
+		Dopple.Dopplites.AddItem( Dlite );
+	}
+
+    return Dopple;
+    //Dopple.StaticMeshComponent.SetScale( 0.95 ); // Make doppler scale a little less than room's for robust collision
+}
+
+event Attach( Actor Other ) 
+{
+    `log( "Attach" @ Other @ self );
+}
+
+function DestroyDopple()
+{
+	local int i;
+    Dopple.Destroy();
+	for ( i = 0; i < Dopple.Dopplites.Length; ++i ) {
+		Dopple.Dopplites[i].Destroy();
+	}
+	Dopple.Dopplites.Length = 0;
+    Dopple = none;
 }
 
 DefaultProperties
