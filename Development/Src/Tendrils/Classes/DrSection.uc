@@ -32,33 +32,45 @@ simulated function Initialize()
 function DrSectionDoppler SpawnDopple( vector NewLoc )
 {
 	local InterpActor IA;
+	local DrSectionLink Link;
 	local DrSectionDopplite Dlite;
-    local vector IAOffset;
+    local vector ItemOffset;
+	local int i;
 
-	Dopple = Spawn( class'DrSectionDoppler',,, NewLoc, Rotation );
+	Dopple = Spawn( class'DrSectionDoppler',,, Location + NewLoc, Rotation );
     Dopple.Section = self;
-    Dopple.Graph = Graph.CloneFor( Dopple );
 
 	foreach Rooms[0].BasedActors( class'InterpActor', IA ) {
 		if ( IA.StaticMeshComponent.StaticMesh == none ) {
 			`log( IA @ "is an empty interpactor!!" );
 			continue;
 		}
-        IAOffset = IA.Location - Location;
-		Dlite = Spawn( class'DrSectionDopplite', Dopple,, Dopple.Location + IAOffset, IA.Rotation );
+        ItemOffset = IA.Location - Location;
+		Dlite = Spawn(  class'DrSectionDopplite', 
+						Dopple,, 
+						Dopple.Location + ItemOffset, 
+						IA.Rotation );
 		Dlite.SetBase( Dopple );
 		Dlite.StaticMeshComponent.SetStaticMesh( IA.StaticMeshComponent.StaticMesh );
 		Dlite.Dop = Dopple;
 		Dopple.Dopplites.AddItem( Dlite );
 	}
 
+	Dopple.Graph = new class'DrGraphCmp';
+	Dopple.Graph.Current = Dopple;
+
+	for ( i = 0; i < Graph.LinkNodes.Length; ++i ) {
+		ItemOffset = Graph.LinkNodes[i].Location - Location;
+		Link = Spawn(	class'DrSectionLink',,,
+						Dopple.Location + ItemOffset,
+						Graph.LinkNodes[i].Rotation );
+		Link.Src = Dopple;
+		Link.SetBase( Dopple );
+		Dopple.Graph.LinkNodes.AddItem( Link );
+	}
+
     return Dopple;
     //Dopple.StaticMeshComponent.SetScale( 0.95 ); // Make doppler scale a little less than room's for robust collision
-}
-
-event Attach( Actor Other ) 
-{
-    `log( "Attach" @ Other @ self );
 }
 
 function DestroyDopple()

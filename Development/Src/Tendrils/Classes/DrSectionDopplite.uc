@@ -1,4 +1,4 @@
-class DrSectionDopplite extends Actor;
+class DrSectionDopplite extends KActorSpawnable;
 
 var DrSectionDoppler Dop;
 var StaticMeshComponent StaticMeshComponent;
@@ -16,12 +16,16 @@ event Attach( Actor Other )
 
 event UnTouch( Actor Other ) 
 {
-	Dop.UnTouch( Other );    
+	if ( DrSectionDopplite( Other ) != none && DrSectionDopplite( Other ).Dop != Dop ) {
+		Dop.UnTouch( Other );    
+	}
 }
 
 event Touch( Actor Other, PrimitiveComponent OtherComp, vector HitLocation, vector HitNormal )
 {
-	Dop.Touch( Other, OtherComp, HitLocation, HitNormal );
+	if ( DrSectionDopplite( Other ) != none && DrSectionDopplite( Other ).Dop != Dop ) {
+		Dop.Touch( Other, OtherComp, HitLocation, HitNormal );
+	}
 }
 
 event Bump( Actor Other, PrimitiveComponent OtherComp, vector HitNormal )
@@ -32,11 +36,6 @@ event Bump( Actor Other, PrimitiveComponent OtherComp, vector HitNormal )
 event HitWall(Vector HitNormal, Actor Wall, PrimitiveComponent WallComp)
 {
 	SetLocation( Location );
-}
-
-event BaseChange()
-{
-    `log( "BASE CHANGE" );
 }
 
 DefaultProperties
@@ -52,19 +51,20 @@ DefaultProperties
     CollisionComponent=Mesha
 
 	bCollideActors=true
-    bBlockActors=false
+    //bBlockActors=false
     bMovable=true
-    bHardAttach=true
-    bStatic=false
-    bNoDelete=false
+    //bHardAttach=true
+    //bStatic=false
+    //bNoDelete=false
+	bIgnoreBaseRotation=false
 
-    bRoomCollisionFlag=false
-	Physics=PHYS_Interpolating
-	bCollideWhenPlacing=true
-	bCollideAsEncroacher=true
-	bIgnoreEncroachers=false
-	bAlwaysEncroachCheck=true
-	bCollideAsEncroacher=true
+	Physics=PHYS_None
+	//bCollideWhenPlacing=true
+	//bCollideAsEncroacher=true
+	//bIgnoreEncroachers=false
+	//bAlwaysEncroachCheck=true
+	//bCollideAsEncroacher=true
+	//bSkipAttachedMoves=false
     
 	CollisionType=COLLIDE_TouchAll
 

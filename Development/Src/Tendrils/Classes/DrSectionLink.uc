@@ -18,4 +18,6 @@ DefaultProperties
 	End Object
     Components.Add(HelperMesh)
     StaticMeshComponent=HelperMesh
+
+	bIgnoreBaseRotation=false
 }

@@ -15,21 +15,21 @@ exec function MoveUp( float Z )
 {
 	local vector Off;
 	Off.Z = Z;
-	Dop.AllMove( Off );
+	Dop.Move( Off );
 }
 
 exec function MoveRight( float Z )
 {
 	local vector Off;
 	Off.X = Z;
-	Dop.AllMove( Off );
+	Dop.Move( Off );
 }
 
 exec function MoveForward( float Z )
 {
 	local vector Off;
 	Off.Y = Z;
-	Dop.AllMove( Off );
+	Dop.Move( Off );
 }
 
 simulated event PostBeginPlay()
