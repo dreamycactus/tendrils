@@ -7,9 +7,9 @@ var DrRoomInfoCmp RoomInfo;                         // TRICKY. Only RoomInfo.Hei
 event Touch (Actor Other, PrimitiveComponent OtherComp, Object.Vector HitLocation, Object.Vector HitNormal)
 {
 	if ( !bDisableCameraWork && DrPawnRookie( Other ) != none ) {
-		DrCamera ( DrPlayerController( DrPawnRookie( Other ).Controller ).PlayerCamera ).CurrentCamera.SetTargetYaw( Rotation.Yaw );
+		DrCamera ( DrPCRookie( DrPawnRookie( Other ).Controller ).PlayerCamera ).CurrentCamera.SetTargetYaw( Rotation.Yaw );
 		if ( RoomInfo != none ) {
-			DrPlayerController( DrPawnRookie( Other ).Controller ).HeightHint = RoomInfo.HeightHint;
+			DrPCRookie( DrPawnRookie( Other ).Controller ).HeightHint = RoomInfo.HeightHint;
 		}
 	}
 }

@@ -4,6 +4,7 @@ class DrSectionLink extends Actor
 
 var DrSection Src;
 var DrSection Dest;
+var StaticMeshComponent StaticMeshComponent;
 
 DefaultProperties
 {
@@ -16,4 +17,7 @@ DefaultProperties
         BlockRigidBody=false
 	End Object
     Components.Add(HelperMesh)
+    StaticMeshComponent=HelperMesh
+
+	bIgnoreBaseRotation=false
 }

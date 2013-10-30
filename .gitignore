@@ -18,5 +18,6 @@ UDKGame/Content/Maps/*
 UDKGame/Config/*
 !UDKGame/Config/Default*.ini
 
+
 .udkproj
 .exe

@@ -15,10 +15,17 @@ exec function EndIronsight()
 
 function Tick( float DT )
 {
-    `log( "====" @ GetStateName() );
 }
 
+exec function FIREFIRE()
+{
+	super.StartFire( 0 );
+}
 
+simulated function StartFire( byte FireModeNum )
+{
+    super.StartFire( FireModeNum );
+}
 
 state SWalk
 {

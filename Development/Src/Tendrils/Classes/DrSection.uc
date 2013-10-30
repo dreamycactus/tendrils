@@ -7,25 +7,22 @@ class DrSection extends Actor
     ClassGroup(Tendrils);
 
 var(Tendrils) editconst DrGraphCmp Graph;
-var array<DrSectionRoom> Rooms;
-
+var(Tendrils) DrSectionVolume VolumeHint;
 var DrLevel Level;
+var DrSectionDoppler Dopple;
+
 simulated function Initialize()
 {
-	local DrSectionRoom Ro;
     local DrSectionLink Link;
 
     if ( Attached.Length == 0 ) { `log( "No attachment to section " @ self,,'CRITICAL' ); return; }
 
 	Graph.Current = self;
 
-	foreach BasedActors( class'DrSectionRoom', Ro ) {
-        Rooms.AddItem( Ro );
-        foreach Ro.BasedActors( class'DrSectionLink', Link ) {
-		    Link.Src = self;
-            Graph.LinkNodes.AddItem( Link );
-        }
-	}
+    foreach BasedActors( class'DrSectionLink', Link ) {
+	    Link.Src = self;
+        Graph.LinkNodes.AddItem( Link );
+    }
 }
 
 DefaultProperties

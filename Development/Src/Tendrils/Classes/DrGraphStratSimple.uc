@@ -1,31 +1,54 @@
 class DrGraphStratSimple extends DrGraphStrategy;
 
+var DrDoor DOORMAN;
+
 function DrLevel GenLevelGraph( array<DrSection> inSections, delegate<LinkSelect> LinkSelector )
 {
-	local int iter;
-	local DrLevel out_Level;
+	local int iter, i;
+	local DrLevel out_DopplerLevel, Level;
+    local array<DrSectionDoppler> Dopplers;
 
     /* Sink all sections down low low low low */
     for ( iter = 0; iter < inSections.Length; ++iter ) {
-        inSections[iter].SetRelativeLocation( vect( 0, 0, -5000 ) );
+        inSections[iter].SetRelativeLocation( vect( 0, 0, -50000 ) );
     }
 
 	iter = 0;
-	while ( iter++ < 20 ) {
-		if ( GenIter( inSections, out_Level, LinkSelector ) ) {
-			break;
+	while ( iter++ < 5 ) {
+        Dopplers = GenDopplers( inSections, vect( 0, 0, -50000 ) );
+		if ( GenIter( Dopplers, out_DopplerLevel, LinkSelector ) ) {
+			iter = 10000; //Break after deleting
 		}
-		CleanLinks( inSections );
+		for ( i = 0; i < inSections.Length; ++i ) {
+			class'DrSectionDoppler'.static.DeleteDopple( inSections[i] );
+		}
 	}
 	
-	if ( out_Level == none ) {
+	if ( out_DopplerLevel == none ) {
 		`warn( "CRITICAL ERROR, UNABLE TO GENERATE FEASIBLE LEVEL" );
+		return none;
 	}
 
-	return out_Level;
+	/* Arrange the actual level */
+	Level = GenLevelFromDoppler( out_DopplerLevel );
+
+	return Level;
 }
 
-function bool GenIter( array<DrSection> inSections, out DrLevel out_Level, delegate<LinkSelect> LinkSelector )
+function array<DrSectionDoppler> GenDopplers( array<DrSection> inSections, vector Offset )
+{
+    local array<DrSectionDoppler> Ret;
+    local int i;
+
+    for ( i = 0; i < inSections.Length; ++i ) {
+        inSections[i].Dopple = class'DrSectionDoppler'.static.SpawnDopple( inSections[i], Offset );
+        Ret.AddItem( inSections[i].Dopple );
+    }
+
+    return Ret;
+}
+
+function bool GenIter( array<DrSectionDoppler> inSections, out DrLevel out_Level, delegate<LinkSelect> LinkSelector )
 {
 	local int i, j, k, l;
     local DrGraphCmp CurGraph;
@@ -35,7 +58,7 @@ function bool GenIter( array<DrSection> inSections, out DrLevel out_Level, deleg
 
     SortSections( inSections );
 	
-	inSections[0].SetLocation( vect( 0, 0, 0 ) );
+    inSections[0].SetLocation( vect( 0, 0, 0 ) );
 	OpenLinks = LinksConcat( OpenLinks, ShuffleLinks( inSections[0].Graph.LinkNodes ) );
 
     for ( i = 1; i < inSections.Length; ++i ) {
@@ -48,8 +71,10 @@ function bool GenIter( array<DrSection> inSections, out DrLevel out_Level, deleg
 			k = -1;
 			while ( OpenLinks.Length != 0 && k++ < Max( OpenLinks.Length, 10 ) ) {
 				l = LinkSelector( OpenLinks, l );
-				if ( class'DrGraphCmp'.static.TryConnectSection( self, ShuffledLinks[j], OpenLinks[l]) ) {
+				if ( class'DrGraphCmp'.static.TryConnectSection( ShuffledLinks[j], OpenLinks[l]) ) {
 					`log( "Placed" @ inSections[i] @ "with" @ OpenLinks[l] @ "in section " @ OpenLinks[l].Src );
+
+                    //ShuffledLinks[j].Spawn( class'DrDoor',,, ShuffledLinks[j].Location, ShuffledLinks[j].Rotation, DOORMAN );
 					/* Update link edges */
 					inSections[i].Graph.LinkNodes[ inSections[i].Graph.LinkNodes.Find( ShuffledLinks[j] ) ].Dest = OpenLinks[l].Src;
 				    ShuffledLinks[j].Dest = OpenLinks[l].Src;
@@ -78,6 +103,26 @@ SUCCESS:
     return true;
 }
 
+function DrLevel GenLevelFromDoppler( DrLevel DopplerLevel )
+{
+	local int i;
+	local DrSectionDoppler Dopple;
+	local DrLevel Level;
+
+	Level = new class'DrLevel';
+	Level.Head = DopplerLevel.AllSections[0];
+
+	for ( i = 0; i < DopplerLevel.AllSections.Length; ++i ) {
+		Dopple = DrSectionDoppler( DopplerLevel.AllSections[i] );
+		Dopple.Section.SetLocation( Dopple.Location );
+		Dopple.Section.SetRotation( Dopple.Rotation );
+		Level.AllSections.AddItem( Dopple.Section );
+	}
+
+	return Level;
+}
+
 DefaultProperties
 {
+    DOORMAN=DrDoor'MyTendrils.MyDoor'
 }

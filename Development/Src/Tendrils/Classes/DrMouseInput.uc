@@ -11,6 +11,11 @@ event PlayerInput( float DeltaTime )
     Super.PlayerInput( DeltaTime );
 }
 
+exec function Jump()
+{
+     super.Jump();
+}
+
 DefaultProperties
 {
 }

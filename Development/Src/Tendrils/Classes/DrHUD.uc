@@ -52,8 +52,8 @@ function Vector GetMouseWorldLoc()
     MousePosition.X = MouseInput.MousePos.X;
     MousePosition.Y = MouseInput.MousePos.Y;
     Canvas.DeProject( MousePosition, MouseWorldOrg, MouseWorldDir );
-    DrPlayerController( PlayerOwner ).MouseWorldOrg = MouseWorldOrg;
-    DrPlayerController( PlayerOwner ).MousePosWorldDir = MouseWorldDir;
+    DrPCRookie( PlayerOwner ).MouseWorldOrg = MouseWorldOrg;
+    DrPCRookie( PlayerOwner ).MousePosWorldDir = MouseWorldDir;
 
     Trace( HitLoc, HitNorm, MouseWorldOrg + MouseWorldDir * 65536.f, MouseWorldOrg, true,,, TRACEFLAG_Bullet );
     return HitLoc;
@@ -65,9 +65,13 @@ function RenderInventory()
 	local int i;
     local float outX, outY;
 	local array<UTWeapon> outWeapList;
+	
+	if ( InvMgr == none ) {
+		return;
+	}
 
     Canvas.SetPos( 0.0, 0.0, );
-    Canvas.Font = Font'UI_Fonts.Fonts.UI_Fonts_AmbexHeavy18';
+    Canvas.Font = Font'UI_Fonts.Fonts.UI_Fonts_Positec14';
     
     i = 0;
 	InvMgr.GetWeaponList( outWeapList,,,false );

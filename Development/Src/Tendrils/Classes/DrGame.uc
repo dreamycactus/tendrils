@@ -15,7 +15,7 @@ event PostBeginPlay()
         Sec.Initialize();
         Sections.AddItem( Sec );
     }
-	
+
     `log( Sections.Length @ " Sections detected." );
 
     Strat = new class'DrGraphStratSimple';
@@ -39,7 +39,6 @@ event Tick( float DT )
     i = 5;
 		
 }
-
 
 DefaultProperties
 {

@@ -79,4 +79,5 @@ DefaultProperties
 	bFollowPlayerRotation=false;
     Health=100
     HealthMax=100
+	Physics=PHYS_Flying
 }
