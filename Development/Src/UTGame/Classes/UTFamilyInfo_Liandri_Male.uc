@@ -9,7 +9,7 @@ defaultproperties
 {
 	FamilyID="LIAM"
 
-	CharacterMesh='SkeletalMesh'Bryan.bot_test_leg_l'
+	CharacterMesh=SkeletalMesh'CH_LIAM_Cathode.Mesh.SK_CH_LIAM_Cathode'
 
 	ArmMeshPackageName="CH_Corrupt_Arms"
 	ArmMesh=CH_Corrupt_Arms.Mesh.SK_CH_Corrupt_Arms_MaleA_1P
