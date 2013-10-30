@@ -6,39 +6,73 @@ var DrSection Section;
 var DebugCon Con;
 var array<DrSectionDopplite> Dopplites;
 
-//event UnTouch( Actor Other ) {
-//    local Actor OtherSec;
-//	`log( "DOPPY UNTOUCH" @ self @ ", " @ Other );
-//    OtherSec = class'DrUtils'.static.GetBaseSection( Other );
-//    if ( DrSectionRoom( Other ) != none && OtherSec != none &&
-//        OtherSec != Section ) {
-
-//        /* Don't collide against links */
-//        if ( DrSectionLink ( Other ) == none && Pawn( Other ) == none ) {
-//            `log( "UNDO Room Collision " @ self @ ", " @ Other );
-//            bRoomCollisionFlag = false;
-//        }
-//    }
-    
-//}
-
 event Touch( Actor Other, PrimitiveComponent OtherComp, vector HitLocation, vector HitNormal )
 {
-	`log( "Overlapping section detected" @ self @ ", " @ Other );
     bRoomCollisionFlag = true;
 }
 
-function DrSectionDoppler SpawnDopple( vector Offset );
 function DestroyDopple();
 
-function DeleteAll()
+static function DrSectionDoppler SpawnDopple( DrSection Section, vector NewLoc )
 {
+	local DrSectionDoppler Dopple;
+    local InterpActor IA;
+	local DrSectionLink Link;
+	local DrSectionDopplite Dlite;
+    local vector ItemOffset;
 	local int i;
 
-	for ( i = 0; i < Attached.Length; ++i ) {
-		Attached[i].Destroy();
+	Dopple = Section.Spawn( class'DrSectionDoppler',,, Section.Location + NewLoc, Section.Rotation );
+    Dopple.Section = Section;
+
+    for ( i = 0; i < Section.VolumeHint.Bases.Length; ++i ) {
+        IA = Section.VolumeHint.Bases[i];
+		if ( IA.StaticMeshComponent.StaticMesh == none ) {
+			`log( IA @ "is an empty interpactor!!" );
+			continue;
+		}
+        ItemOffset = IA.Location - Section.Location;
+		Dlite = Section.Spawn(  class'DrSectionDopplite',
+						Dopple,,
+						Dopple.Location + ItemOffset, 
+						IA.Rotation );
+		Dlite.SetBase( Dopple );
+		Dlite.StaticMeshComponent.SetStaticMesh( IA.StaticMeshComponent.StaticMesh );
+		Dlite.Dop = Dopple;
+		Dopple.Dopplites.AddItem( Dlite );
 	}
-	Destroy();
+
+	Dopple.Graph = new class'DrGraphCmp';
+	Dopple.Graph.Current = Dopple;
+
+	for ( i = 0; i < Section.Graph.LinkNodes.Length; ++i ) {
+		ItemOffset = Section.Graph.LinkNodes[i].Location - Section.Location;
+		Link = Section.Spawn(	class'DrSectionLink',,,
+						Dopple.Location + ItemOffset,
+						Section.Graph.LinkNodes[i].Rotation );
+		Link.Src = Dopple;
+		Link.SetBase( Dopple );
+		Dopple.Graph.LinkNodes.AddItem( Link );
+	}
+
+    return Dopple;
+    //Dopple.StaticMeshComponent.SetScale( 0.95 ); // Make doppler scale a little less than room's for robust collision
+}
+
+static function DeleteDopple( DrSection Section )
+{
+	local int i;
+    local Actor Dop;
+
+    while ( Section.Dopple.Attached.Length != 0 ) {
+        Dop = Section.Dopple.Attached[0];
+        Dop.SetBase( none );
+        Dop.Destroy();
+    }
+
+    Section.Dopple.Dopplites.Length = 0;
+	Section.Dopple.Destroy();
+    Section.Dopple = none;
 }
 
 DefaultProperties

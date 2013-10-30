@@ -67,20 +67,11 @@ function bool VerifyLevel( array<DrSection> Sections ) {
 		if ( Sections[i].Base != none ) {
 			`warn( "Section " @ Sections[i] @ " has a base... " );
 		}
-        /* Verify each room is attached to a section */
-        for ( j = 0; j < Sections[i].Rooms.Length; ++j ) {
-            if ( Sections[i].Rooms[j].Base == none || DrSection( Sections[i].Rooms[j].Base ) == none ) {
-                `warn( "CRITICAL: Room " @ Sections[i].Rooms[j] @ " has no section!" );
-                bGood = false;
-            }
+        if ( Sections[i].VolumeHint == none ) {
+            `warn( "Section " @ Sections[i] @ " has no volume hint!" );
+            bGood = false;
         }
     }
-
-	foreach Sections[0].AllActors( class'DrSectionLink', SL ) {
-		if ( SL.Base == none || DrSectionRoom( class'DrUtils'.static.GetRoomBase( SL ) ) == none ) {
-			`warn( "SectionLink " @ SL @ " has invalid base!" );
-		}
-	}
 
     return bGood;
 }

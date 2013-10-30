@@ -71,7 +71,7 @@ function RenderInventory()
 	}
 
     Canvas.SetPos( 0.0, 0.0, );
-    Canvas.Font = Font'UI_Fonts.Fonts.UI_Fonts_AmbexHeavy18';
+    Canvas.Font = Font'UI_Fonts.Fonts.UI_Fonts_Positec14';
     
     i = 0;
 	InvMgr.GetWeaponList( outWeapList,,,false );

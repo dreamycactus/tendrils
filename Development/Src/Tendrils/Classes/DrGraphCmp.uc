@@ -27,6 +27,7 @@ static function bool TryConnectSection( DrSectionLink ToAdd, DrSectionLink Level
     SrcDoppler.SetLocation( DestLoc );
 
     if ( SrcDoppler.bRoomCollisionFlag ) {
+	    `log( "Overlapping section detected " @ DrSectionDoppler( LevelLink.Src ).Section @ ", and " @ SrcDoppler.Section );
         SrcDoppler.SetLocation( OriginalLoc );
         SrcDoppler.SetRotation( OriginalRot );
         return false;

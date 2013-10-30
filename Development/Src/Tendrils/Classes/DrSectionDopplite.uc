@@ -55,7 +55,7 @@ DefaultProperties
     bMovable=true
     //bHardAttach=true
     //bStatic=false
-    //bNoDelete=false
+    bNoDelete=false
 	bIgnoreBaseRotation=false
 
 	Physics=PHYS_None

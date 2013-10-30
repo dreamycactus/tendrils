@@ -34,14 +34,7 @@ exec function MoveForward( float Z )
 
 simulated event PostBeginPlay()
 {
-    local int i, j;
-    i = 1;
-    j = 0;
-	foreach AllActors( class'DrSectionDoppler', Dop ) {
-        if ( i == j )
-		    break;
-        ++j;
-	}
+    super.PostBeginPlay();
 }
 
 exec function StartIronsight()
@@ -145,11 +138,6 @@ simulated event GetPlayerViewPoint( out vector out_Location, out Rotator out_Rot
 	}
 }
 
-event Possess(Pawn inPawn, bool bVehicleTransition)
-{
-	Super.Possess(inPawn, bVehicleTransition);
-    DrHUD( myHUD ).InvMgr = DrInventoryManagerRookie( Pawn.InvManager );
-}
 
 function Rotator GetAdjustedAimFor( Weapon W, vector StartFireLoc ) 
 {
@@ -186,6 +174,14 @@ function UpdateRotation( float DeltaTime )
         Pawn.FaceRotation( NewRotation, DeltaTime );
 
 }
+
+
+event Possess(Pawn inPawn, bool bVehicleTransition)
+{
+	Super.Possess(inPawn, bVehicleTransition);
+    DrHUD( myHUD ).InvMgr = DrInventoryManagerRookie( Pawn.InvManager );
+}
+
 
 DefaultProperties
 {

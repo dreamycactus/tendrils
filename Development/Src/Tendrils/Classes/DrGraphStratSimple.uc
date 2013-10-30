@@ -17,10 +17,10 @@ function DrLevel GenLevelGraph( array<DrSection> inSections, delegate<LinkSelect
 	while ( iter++ < 5 ) {
         Dopplers = GenDopplers( inSections, vect( 0, 0, -50000 ) );
 		if ( GenIter( Dopplers, out_DopplerLevel, LinkSelector ) ) {
-			break;
+			iter = 10000; //Break after deleting
 		}
-		for ( i = 0; i < Dopplers.Length; ++i ) {
-			Dopplers[i].DeleteAll();
+		for ( i = 0; i < inSections.Length; ++i ) {
+			class'DrSectionDoppler'.static.DeleteDopple( inSections[i] );
 		}
 	}
 	
@@ -32,23 +32,17 @@ function DrLevel GenLevelGraph( array<DrSection> inSections, delegate<LinkSelect
 	/* Arrange the actual level */
 	Level = GenLevelFromDoppler( out_DopplerLevel );
 
-	/* Delete all existing dopplers */
-	for ( i = 0; i < Dopplers.Length; ++i ) {
-		Dopplers[i].DeleteAll();
-	}
-
 	return Level;
 }
 
 function array<DrSectionDoppler> GenDopplers( array<DrSection> inSections, vector Offset )
 {
     local array<DrSectionDoppler> Ret;
-    local DrSectionDoppler Dop;
     local int i;
 
     for ( i = 0; i < inSections.Length; ++i ) {
-        Dop = inSections[i].SpawnDopple( Offset );
-        Ret.AddItem( Dop );
+        inSections[i].Dopple = class'DrSectionDoppler'.static.SpawnDopple( inSections[i], Offset );
+        Ret.AddItem( inSections[i].Dopple );
     }
 
     return Ret;

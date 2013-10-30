@@ -9,7 +9,6 @@ event PostBeginPlay()
     //local array<DrSection> Sections;
     local DrSection Sec;
     local DrGraphStratSimple Strat;
-	local InterpActor IA;
 
     `log( " === Game === " );
     foreach AllActors( class'DrSection', Sec ) {
@@ -40,7 +39,6 @@ event Tick( float DT )
     i = 5;
 		
 }
-
 
 DefaultProperties
 {
