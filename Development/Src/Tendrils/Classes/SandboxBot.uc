@@ -3,9 +3,7 @@ class SandboxBot extends UTPawn
  
 function AddDefaultInventory()
 {
-    //InvManager.CreateInventory(class'MyGame.SandboxPaintballGun');
-    //For those in the back who don't follow, SandboxPaintballGun is a custom weapon
-    //I've made in an earlier article, don't look for it in  your UDK build.
+    InvManager.CreateInventory( class'UTWeap_LinkGun', true );
 }
  
 event PostBeginPlay()
@@ -32,7 +30,7 @@ DefaultProperties
  
     Components.Add(SandboxPawnSkeletalMesh)
     ControllerClass=class'SandboxAIController'
-    InventoryManagerClass=class'MyGame.SandboxInventoryManager'
+    InventoryManagerClass=class'UTInventoryManager'
  
     bJumpCapable=false
     bCanJump=false

@@ -67,7 +67,11 @@ Begin:
         //We can't follow, so get the hell out of this state, otherwise we'll enter an infinite loop.
         GotoState('Idle');
     }
- 
+    if ( CanSee( Pawn( target ) ) ) {
+        Pawn.StartFire( 0 );
+    } else {
+        Pawn.StopFire( 0 );
+    }
     goto 'Begin';
 }
  
