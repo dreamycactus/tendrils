@@ -1,12 +1,19 @@
 class SandboxAIController extends AIController;
- 
+
+var Actor Rookie;
 var Actor target;
 var Actor LastKnown;
+var Vector TempDest;
+var Vector tempV;
 var bool bTrackingPlayer;
 
 simulated event PostBeginPlay()
 {
-	LastKnown = Spawn( class
+	local vector V;
+
+	super.PostBeginPlay();
+	v.Z = Location.Z;
+	LastKnown = Spawn( class'DrPawnRookieLastKnown',,, V );
 }
 
 event Possess(Pawn inPawn, bool bVehicleTransition)
@@ -21,7 +28,7 @@ auto state Idle
     event SeePlayer (Pawn Seen)
     {
         super.SeePlayer(Seen);
-        target = Seen;
+        Rookie = Seen;
 		
         GotoState('Searching');
     }
@@ -38,21 +45,29 @@ state Searching
         NavigationHandle.PathGoalList = none;
  
         // Create constraints
-        class'NavMeshPath_Toward'.static.TowardGoal( NavigationHandle,target );
-        class'NavMeshGoal_At'.static.AtActor( NavigationHandle, target,32 );
+        class'NavMeshPath_Toward'.static.TowardGoal( NavigationHandle, target );
+        class'NavMeshGoal_At'.static.AtActor( NavigationHandle, target, 32 );
  
         // Find path
         return NavigationHandle.FindPath();
     }
 Begin:
-    if ( CanSee( Pawn( target ) ) ) {
+    if ( CanSee( Pawn( Rookie ) ) ) {
         Pawn.StartFire( 0 );
-		LastKnown = target;
-		bTrackingPlayer = true;
+		if ( !bTrackingPlayer ) {
+			bTrackingPlayer = true;
+			target = Rookie;
+			tempV = Location;
+			tempV.Z = 10000;
+			LastKnown.SetLocation( tempV );
+		}
     } else {
         Pawn.StopFire( 0 );
-		LastKnown = 
-		bTrackingPlayer = false;
+		if ( bTrackingPlayer ) {
+			bTrackingPlayer = false;
+			LastKnown.SetLocation( Rookie.Location );
+			target = LastKnown;
+		}
     }
 
     if( NavigationHandle.ActorReachable( target ) )
@@ -64,21 +79,21 @@ Begin:
     }
     else if( FindNavMeshPath() )
     {
-        NavigationHandle.SetFinalDestination( LastKnownPos );
+        NavigationHandle.SetFinalDestination( target.Location );
         FlushPersistentDebugLines();
         NavigationHandle.DrawPathCache(,TRUE);
  
         // move to the first node on the path
-        if( NavigationHandle.GetNextMoveLocation( LastKnownPos, Pawn.GetCollisionRadius()) )
+        if( NavigationHandle.GetNextMoveLocation( TempDest, Pawn.GetCollisionRadius()) )
         {
-            DrawDebugLine(Pawn.Location,LastKnownPos,255,0,0,true);
-            DrawDebugSphere(LastKnownPos,16,20,255,0,0,true);
-            MoveTo( LastKnownPos );
+            DrawDebugLine( Pawn.Location, TempDest, 255, 0, 0, true );
+            DrawDebugSphere( TempDest,16,20,255,0,0,true);
+            MoveTo( TempDest );
         }
     } else {
         //We can't follow, so get the hell out of this state, otherwise we'll enter an infinite loop.
         GotoState('Idle');
-		target = none;
+		Rookie = none;
     }
 
     goto 'Begin';
