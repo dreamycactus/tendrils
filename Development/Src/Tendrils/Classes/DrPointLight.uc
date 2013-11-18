@@ -5,12 +5,19 @@ var PointLightComponent PLC;
 
 event simulated PostBeginPlay()
 {
+	local StaticMeshComponent Sphere;
 	foreach ComponentList( class'PointLightComponent', PLC ) {
 		break;
 	}
     //CollisionComponent.SetActorCollision( true, false, true );
 	if ( PLC != none ) {
-		CollisionComponent.SetScale( PLC.Radius / SphereRadius );
+		Spawn( class'DrSphereLight',,, Location );
+		Sphere = new class'StaticMeshComponent';
+		Sphere.SetActorCollision( true, false, true );
+		Sphere.SetStaticMesh( StaticMesh'EngineMeshes.Sphere' );
+		Sphere.SetScale( PLC.Radius / SphereRadius );
+		CollisionComponent = Sphere;
+		AttachComponent( Sphere );
 	}
 }
 
@@ -35,17 +42,11 @@ event UnTouch(Actor Other)
 	//	P.removePointLight(self);	
 	//}
 	//`log("POINTlight"@self@"just UNtouched"@Other);
+
 }
 
 DefaultProperties
 {
-	bCollideActors=true
-    bCollideWorld=true
-    bBlockActors=false
-    bNoEncroachCheck=false
-	CollisionType=COLLIDE_TouchAll
-	SphereRadius=160.0
-
 	Begin Object Name=PointLightComponent0
 	    LightAffectsClassification=LAC_DYNAMIC_AND_STATIC_AFFECTING
 	    CastShadows=TRUE
@@ -56,12 +57,15 @@ DefaultProperties
 	    LightingChannels=(BSP=false,Static=false,Dynamic=TRUE,bInitialized=TRUE)
 	End Object
 
-	Begin Object class='StaticMeshComponent' name=SphereCollision
-		CollideActors=true
-		BlockZeroExtent=true
-		BlockNonZeroExtent=true
-		StaticMesh=StaticMesh'EngineMeshes.Sphere'
-	End Object
-	CollisionComponent=SphereCollision
-	Components.Add(SphereCollision)
+	//Begin Object class='StaticMeshComponent' name=SphereCollision
+	//	HiddenGame = false
+	//	CollideActors=true
+	//	BlockActors=false
+	//	BlockZeroExtent=true
+	//	BlockNonZeroExtent=true
+	//	BlockRigidBody=false
+	//	StaticMesh=StaticMesh'EngineMeshes.Sphere'
+	//End Object
+	//CollisionComponent=SphereCollision
+	//Components.Add(SphereCollision)
 }

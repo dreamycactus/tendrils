@@ -1,7 +1,13 @@
 class SandboxAIController extends AIController;
  
 var Actor target;
-var() Vector TempDest;
+var Actor LastKnown;
+var bool bTrackingPlayer;
+
+simulated event PostBeginPlay()
+{
+	LastKnown = Spawn( class
+}
 
 event Possess(Pawn inPawn, bool bVehicleTransition)
 {
@@ -16,13 +22,13 @@ auto state Idle
     {
         super.SeePlayer(Seen);
         target = Seen;
- 
-        GotoState('Follow');
+		
+        GotoState('Searching');
     }
 Begin:
 }
 
-state Follow
+state Searching
 {
     ignores SeePlayer;
     function bool FindNavMeshPath()
@@ -39,46 +45,45 @@ state Follow
         return NavigationHandle.FindPath();
     }
 Begin:
- 
-    if( NavigationHandle.ActorReachable( target) )
+    if ( CanSee( Pawn( target ) ) ) {
+        Pawn.StartFire( 0 );
+		LastKnown = target;
+		bTrackingPlayer = true;
+    } else {
+        Pawn.StopFire( 0 );
+		LastKnown = 
+		bTrackingPlayer = false;
+    }
+
+    if( NavigationHandle.ActorReachable( target ) )
     {
         FlushPersistentDebugLines();
  
         //Direct move
-        MoveToward( target,target );
+        MoveToward( target, target );
     }
     else if( FindNavMeshPath() )
     {
-        NavigationHandle.SetFinalDestination(target.Location);
+        NavigationHandle.SetFinalDestination( LastKnownPos );
         FlushPersistentDebugLines();
         NavigationHandle.DrawPathCache(,TRUE);
  
         // move to the first node on the path
-        if( NavigationHandle.GetNextMoveLocation( TempDest, Pawn.GetCollisionRadius()) )
+        if( NavigationHandle.GetNextMoveLocation( LastKnownPos, Pawn.GetCollisionRadius()) )
         {
-            DrawDebugLine(Pawn.Location,TempDest,255,0,0,true);
-            DrawDebugSphere(TempDest,16,20,255,0,0,true);
- 
-            MoveTo( TempDest, target );
+            DrawDebugLine(Pawn.Location,LastKnownPos,255,0,0,true);
+            DrawDebugSphere(LastKnownPos,16,20,255,0,0,true);
+            MoveTo( LastKnownPos );
         }
-    }
-    else
-    {
+    } else {
         //We can't follow, so get the hell out of this state, otherwise we'll enter an infinite loop.
         GotoState('Idle');
+		target = none;
     }
-    if ( CanSee( Pawn( target ) ) ) {
-        Pawn.StartFire( 0 );
-    } else {
-        Pawn.StopFire( 0 );
-    }
+
     goto 'Begin';
 }
  
-DefaultProperties
-{
-}
-
 DefaultProperties
 {
 }

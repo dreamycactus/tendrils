@@ -73,11 +73,16 @@ simulated event BecomeViewTarget( PlayerController PC )
    }
 }
 
+event Bump( Actor O, PrimitiveComponent OC, Vector HT )
+{
+	super.Bump( O, OC, HT );
+	`log ( "BUM" @ O );
+}
 
 DefaultProperties
 {
 	bFollowPlayerRotation=false;
     Health=100
     HealthMax=100
-	Physics=PHYS_Flying
+	bBlockActors=true
 }
