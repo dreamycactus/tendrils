@@ -16,7 +16,8 @@ function bool HandlePickupQuery( class<Inventory> ItemClass, Actor Pickup )
 reliable client function SetCurrentWeapon( Weapon DesiredWeapon )
 {
     if ( DrWeapon( DesiredWeapon ) == none || DrPawn( Instigator ) == none ) {
-		`warn( "In SetCurrentWeapon of InvMgr of " @ Instigator @ " Weapon and Pawn " @ DesiredWeapon @ Instigator );
+		`log( "In SetCurrentWeapon of InvMgr of " @ Instigator @ " Weapon and Pawn " @ DesiredWeapon @ Instigator );
+		return;
     }
     super.SetCurrentWeapon( DesiredWeapon );
 	Instigator.GroundSpeed = DrPawn( Instigator ).WalkSpeed - DrWeapon( DesiredWeapon ).SpeedPenalty;
