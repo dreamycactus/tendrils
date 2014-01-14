@@ -9,9 +9,9 @@ var StaticMeshComponent StaticMeshComponent;
 DefaultProperties
 {
 	Begin Object Class=StaticMeshComponent Name=HelperMesh
-		StaticMesh=StaticMesh'MyTendrils.frame'
+		StaticMesh=StaticMesh'MyTendrils.TransBase1'
         Materials(0)=Material'EditorMaterials.WidgetMaterial_Y'
-        Scale=0.3
+        //Scale=0.3
         CollideActors=false
         BlockActors=false
         BlockRigidBody=false
