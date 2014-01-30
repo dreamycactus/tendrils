@@ -20,7 +20,17 @@ function DrLevel GenLevelGraph( array<DrSection> Sections, DrGraphStrategy Strat
     Level = Strat.GenLevelGraph( Sections, Strat.MostRecentLS );
     Level.AllSections = Sections;
 
+    SpawnEnemies( Level );
     return Level;
+}
+
+function SpawnEnemies( DrLevel Level )
+{
+    local DrEnemyProxy proxy;
+
+    foreach Level.Head.AllActors( class'DrEnemyProxy', proxy ) {
+        Level.Head.Spawn( class'SandboxBot',,, proxy.Location, proxy.Rotation );
+    }
 }
 
 function int Compare( DrSection a, DrSection b )
