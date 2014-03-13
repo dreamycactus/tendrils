@@ -4,7 +4,7 @@
     <CmdArgs>
     </CmdArgs>
     <LoadMapAtStartup>True</LoadMapAtStartup>
-    <StartupMap>Level22</StartupMap>
+    <StartupMap>Level3</StartupMap>
     <LoadGameType>True</LoadGameType>
     <UserGameType>Tendrils.DrGame</UserGameType>
     <NoSound>False</NoSound>

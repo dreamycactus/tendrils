@@ -72,7 +72,7 @@ function bool GenIter( array<DrSectionDoppler> inSections, out DrLevel out_Level
 			while ( OpenLinks.Length != 0 && k++ < Max( OpenLinks.Length, 10 ) ) {
 				l = LinkSelector( OpenLinks, l );
 				if ( class'DrGraphCmp'.static.TryConnectSection( ShuffledLinks[j], OpenLinks[l]) ) {
-					`log( "Placed" @ inSections[i] @ "with" @ OpenLinks[l] @ "in section " @ OpenLinks[l].Src );
+					`log( "Placed" @ inSections[i].Section @ "with" @ OpenLinks[l] @ "in section " @ DrSectionDoppler( OpenLinks[l].Src).Section );
 
                     //ShuffledLinks[j].Spawn( class'DrDoor',,, ShuffledLinks[j].Location, ShuffledLinks[j].Rotation, DOORMAN );
 					/* Update link edges */
@@ -87,6 +87,7 @@ function bool GenIter( array<DrSectionDoppler> inSections, out DrLevel out_Level
 					goto SUCCESS;
 				}
 			}
+			`log( "Failed to connect section" );
         }
 		/* Failed to find any node to attach section. Need to restart */
 		CleanLinks( inSections );

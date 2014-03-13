@@ -40,6 +40,19 @@ event Tick( float DT )
 		
 }
 
+function NavigationPoint FindPlayerStart( Controller Player, optional byte InTeam, optional string IncomingName )
+{
+	local DrPlayerStart PS;
+	local NavigationPoint Start;
+
+	Start = super.FindPlayerStart( Player, InTeam, IncomingName );
+
+	foreach AllActors( class'DrPlayerStart', PS ) {
+		Start.SetLocation( PS.Location );
+    }
+	return Start;
+}
+
 DefaultProperties
 {
     bDelayedStart=false //We want to jump straight into the game

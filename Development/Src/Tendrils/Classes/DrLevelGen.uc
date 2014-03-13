@@ -16,11 +16,18 @@ function DrHall GenHall( int Type, DrHall Hall )
 function DrLevel GenLevelGraph( array<DrSection> Sections, DrGraphStrategy Strat )
 {
     local DrLevel Level;
+	local DrSectionLink link;
 
     Level = Strat.GenLevelGraph( Sections, Strat.MostRecentLS );
     Level.AllSections = Sections;
 
     SpawnEnemies( Level );
+
+    foreach Level.Head.AllActors( class'DrSectionLink', link ) {
+		link.CollisionComponent=link.StaticMeshComponent;
+		link.SetCollisionType(COLLIDE_BlockAll);
+		link.SetCollision( true, true, true );
+    }
     return Level;
 }
 
