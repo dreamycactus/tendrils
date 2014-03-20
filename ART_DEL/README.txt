@@ -4,6 +4,7 @@ To run these levels you first need to upload the packages(.UPK) to the udk.
 
 In the static_and_skeletal_mesh level, we've added all the preset static meshes we are goin to use. The rusted pipes, barrels, fence, doors and tanks are gonna be used in our 2nd level which is situated in the sewers of the spaceship.The water material is gonna be the material used for poddles in the sewers.The wires, the barrels, the circular blue light and some of the pipes will be used to decorate most of the levels. All these static meshes are preset udk meshes. 
 
+All the levels have really high black walls. The reason for this was to block the player from being able to see inside rooms he is not inside of.
  
 In the static_and_skeletal_mesh level, we've also included 4 skeletal meshes. all skeletal meshes were sculpted using a Mudbox preset by us. The cyborg shape mesh will be our heavy tactical drones. The sphere will be our drones. The zombie looking model will be our mutants and the human will be our hero bob.
 
