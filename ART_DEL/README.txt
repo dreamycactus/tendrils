@@ -8,6 +8,6 @@ All the levels have really high black walls. The reason for this was to block th
  
 In the static_and_skeletal_mesh level, we've also included 4 skeletal meshes. all skeletal meshes were sculpted using a Mudbox preset by us. The cyborg shape mesh will be our heavy tactical drones. The sphere will be our drones. The zombie looking model will be our mutants and the human will be our hero bob.
 
-The folder includes all sections of our 3 levels which will be used by our procedurally generated mapping mechanic. Level2 is our level 1 has the textures we are considering using, which is a udk preset. level3 will be our second level and Section04 will be our 3 level which will host a boss battle.
+The folder includes all sections of our 3 levels which will be used by our procedurally generated mapping mechanic. Level2 is our level 1 has the textures we are considering using, which is a udk preset. level3 will be our second level and Section03 will be our 3 level which will host a boss battle.
 
 For sounds, we are mostly gonna use preset udk sound with the addition to some sounds we found on Freesound.org. These sound can be found in the sound folder.     
