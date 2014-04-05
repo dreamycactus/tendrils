@@ -1,3 +1,5 @@
+// Doors comprise of two parts, a door frame and a door.
+// This class shares responsibility with Door to make an automatic door
 class DrDoorWay extends Actor
 	placeable;
 

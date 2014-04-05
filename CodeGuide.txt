@@ -1,0 +1,58 @@
+Code Guide
+
+All the source code I wrote can be found under Development/src/Tendrils/Classes
+There are a couple of areas that the code is responsible for handling.
+
+The big parts and the related files:
+Level generation
+	Level pieces
+		Door,Doorway,Hall - reusable set pieces
+		
+	Algorithm
+		Level, Levelgen - Some container ds for level tree
+		GraphCmp - Represents a single node in the level tree
+		GraphStrat - Represents a way to generate a level. Uses Strategy OO pattern
+		RoomFrame,RoomInfo - contains some meta data about each room
+		Section, SectionDoppler - The front end for representing a Section. The Doppler is used
+			as a hack around collision detection
+		Link
+			- An edge in the level tree. Allows rooms to be connected at specific points
+		Volume
+			- A shape representing the overall volume of an irregularly shaped section. Used for 
+			collision detection
+		
+	
+Players, and player objects
+	Rookie - player character
+	Inventory,Item
+	Weapon
+	
+AI and Navigation
+	EnemyProxy - used to spawn enemies
+	DrPatrolPoint - used to make enemies patrol in a specific pattern
+	Robot,Bot
+	
+Camera
+	DrCamera*
+	
+Game setup
+	DrGame		- Some UDK game info stuff
+	DrGameInfo
+
+Input and Misc
+	MouseInput
+	
+Level generation
+================
+A level is comprised of individual Sections which are pieced together at runtime. Each section is 
+self-contained and has links which allow it to connect to other sections. During level startup,
+a specific level generation strategy is chosen dynamically (although we only have DrGraphStratSimple right now) and the Sections are arranged according to the strategy. This allows us to customize some levels to be very deep with few branches, or very shallow with many branches.
+
+To move each Section requires a bunch of workarounds. Anything related to a Section must be attached to a Section base. This means all walls, floors, meshes must be attached together. Then all of this is associated to a DrSection instance. DrVolume must also be specified which gives hints about the overall shape of the section. Then, once all the sections are created by the level designer and the level loads, the following happens:
+
+All sections are sunk really low on the Y axis. We run the level generation strategy. A sample run might choose a random section, place it at (0,0). Then, another section is chosen, and attached
+to the first section by connecting one DrSectionLink from each DrSection. Once we attach it, we need to verify if there is any collision with between sections and other parts of the level. 
+
+For some reason, InterpActors don't like collision with each other, so, that's why we need to duplicate a Section using a SectionDoppler and have it behave as a Static Mesh actor and check for any collisions. If everything is good, then we go on and attach the next piece. If there is a collision, we must reset the current piece and try another pair of links.
+
+Sometimes, there's no way to create a level because no attachment can be made without Section collision. In this case, the whole process is restarted, and we try again.

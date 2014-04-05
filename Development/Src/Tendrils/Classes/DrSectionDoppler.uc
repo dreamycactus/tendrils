@@ -13,6 +13,7 @@ event Touch( Actor Other, PrimitiveComponent OtherComp, vector HitLocation, vect
 
 function DestroyDopple();
 
+// Spawns a copy of a section using the dopple to check for collision
 static function DrSectionDoppler SpawnDopple( DrSection Section, vector NewLoc )
 {
 	local DrSectionDoppler Dopple;

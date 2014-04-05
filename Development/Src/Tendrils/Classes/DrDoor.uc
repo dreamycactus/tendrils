@@ -1,3 +1,5 @@
+// DrDoor opens and closes automatically and uses states to keep track of "motion"
+// in front of a door
 class DrDoor extends Actor
 	placeable;
 

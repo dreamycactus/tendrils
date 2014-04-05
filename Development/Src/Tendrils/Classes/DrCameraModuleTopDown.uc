@@ -1,3 +1,5 @@
+// Notable features include
+// Camera orientation (yaw) and smooth linear interpolation to avoid jitter
 class DrCameraModuleTopDown extends Object implements(DrCameraModule);
 
 const YawRotRate = 3;

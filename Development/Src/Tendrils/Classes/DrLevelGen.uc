@@ -1,3 +1,4 @@
+// Top level level gen object. Calls the level gen strategy, spawns enemies
 class DrLevelGen extends Object
     config(Test);
 

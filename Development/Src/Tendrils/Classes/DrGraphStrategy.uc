@@ -22,6 +22,7 @@ static function CleanLinks( array<DrSection> inSections )
 
 
 /* Too bad unrealscript has no generics.. Fisher Yates*/
+// Randomly shuffles the link order for a section
 static function array<DrSectionLink> ShuffleLinks( array<DrSectionLink> inLinks )
 {
 	local DrSectionLink L;
@@ -52,6 +53,7 @@ static function array<int> ShuffleInt( array<int> inLinks )
 	return inLinks;
 }
 
+// Check if all sections have the correct components
 function bool VerifyLevel( array<DrSection> Sections ) {
     local int i, j;
     local bool bGood;

@@ -1,3 +1,6 @@
+// This class contains logic for our top down Camera. Notable features include
+// Camera orientation (yaw) and smooth linear interpolation to avoid jitter
+// This code is adapted from UDN tutorials
 class DrCamera extends Camera
     config(Camera);
 

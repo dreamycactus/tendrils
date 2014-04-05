@@ -1,3 +1,5 @@
+// The game starts the levelgen process on load, performing initializations of level
+// node values
 class DrGame extends UDKGame;
 
 var DrLevel Level;

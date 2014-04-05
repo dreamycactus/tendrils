@@ -1,3 +1,6 @@
+// This is a instance of a strategy to generate a level.
+// It attempts to create a level with a few branches, but prefers to make the level end position
+// far from the start location
 class DrGraphStratSimple extends DrGraphStrategy;
 
 var DrDoor DOORMAN;
@@ -35,11 +38,11 @@ function DrLevel GenLevelGraph( array<DrSection> inSections, delegate<LinkSelect
 	return Level;
 }
 
+// Generates SectionDopplers for level Section collision detection
 function array<DrSectionDoppler> GenDopplers( array<DrSection> inSections, vector Offset )
 {
     local array<DrSectionDoppler> Ret;
     local int i;
-
     for ( i = 0; i < inSections.Length; ++i ) {
         inSections[i].Dopple = class'DrSectionDoppler'.static.SpawnDopple( inSections[i], Offset );
         Ret.AddItem( inSections[i].Dopple );
@@ -48,6 +51,7 @@ function array<DrSectionDoppler> GenDopplers( array<DrSection> inSections, vecto
     return Ret;
 }
 
+// Runs one iteration of a level generation run. Another iteration required if no feasible level can be made
 function bool GenIter( array<DrSectionDoppler> inSections, out DrLevel out_Level, delegate<LinkSelect> LinkSelector )
 {
 	local int i, j, k, l;
@@ -104,6 +108,7 @@ SUCCESS:
     return true;
 }
 
+// Creates a static version of the level for collision checks
 function DrLevel GenLevelFromDoppler( DrLevel DopplerLevel )
 {
 	local int i;

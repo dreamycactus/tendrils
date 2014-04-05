@@ -1,3 +1,7 @@
+// This is just a proxy class used in the editor to
+// Indicate a position and orientation an enemy should be
+// spawned
+
 class DrEnemyProxy extends Actor
     placeable;
 
