@@ -123,7 +123,7 @@ DefaultProperties
     End Object
  
     Begin Object Class=SkeletalMeshComponent Name=SandboxPawnSkeletalMesh
-        SkeletalMesh=SkeletalMesh'Bryan.Test_1'
+        SkeletalMesh=SkeletalMesh'Bryan.zombie'
 		bHasPhysicsAssetInstance=true
 		bUpdateKinematicBonesFromAnimation=true
         AnimSets(0)=AnimSet'Bryan.Test_1_Anims'
