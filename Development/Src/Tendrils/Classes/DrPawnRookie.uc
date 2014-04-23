@@ -58,7 +58,8 @@ event Tick( float DT )
 DefaultProperties
 {
     Begin Object class=SkeletalMeshComponent Name=RookiePawnSkeletalMesh
-		SkeletalMesh=SkeletalMesh'CH_LIAM_Cathode.Mesh.SK_CH_LIAM_Cathode'
+		//SkeletalMesh=SkeletalMesh'CH_LIAM_Cathode.Mesh.SK_CH_LIAM_Cathode'
+		SkeletalMesh=SkeletalMesh'Bryan.Bob'
 		AnimSets(0)=AnimSet'CH_AnimHuman.Anims.K_AnimHuman_BaseMale'
 		AnimTreeTemplate=AnimTree'CH_AnimHuman_Tree.AT_CH_Human'
         bOverrideAttachmentOwnerVisibility=true
