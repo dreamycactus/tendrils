@@ -123,12 +123,17 @@ DefaultProperties
     End Object
  
     Begin Object Class=SkeletalMeshComponent Name=SandboxPawnSkeletalMesh
-        SkeletalMesh=SkeletalMesh'Bryan.zombie'
+        /*SkeletalMesh=SkeletalMesh'Bryan.zombie'
 		bHasPhysicsAssetInstance=true
 		bUpdateKinematicBonesFromAnimation=true
         AnimSets(0)=AnimSet'Bryan.Test_1_Anims'
         AnimTreeTemplate=AnimTree'Bryan.Test'
-        PhysicsAsset=PhysicsAsset'Bryan.Test_1_Physics'
+        PhysicsAsset=PhysicsAsset'Bryan.Test_1_Physics'*/
+	
+	SkeletalMesh=SkeletalMesh'Bryan.Heavy_drone'
+		AnimSets(0)=AnimSet'CH_AnimHuman.Anims.K_AnimHuman_BaseMale'
+		AnimTreeTemplate=AnimTree'CH_AnimHuman_Tree.AT_CH_Human'
+	
         HiddenGame=FALSE
         HiddenEditor=FALSE
         BlockRigidBody=TRUE
