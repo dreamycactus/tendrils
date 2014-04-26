@@ -18,6 +18,9 @@ function DrLevel GenLevelGraph( array<DrSection> Sections, DrGraphStrategy Strat
 {
     local DrLevel Level;
 	local DrSectionLink link;
+    local DrPlayerStart PS;
+    local DrPawnRookie Rookie;
+    local InterpActor IA;
 
     Level = Strat.GenLevelGraph( Sections, Strat.MostRecentLS );
     Level.AllSections = Sections;
@@ -29,6 +32,11 @@ function DrLevel GenLevelGraph( array<DrSection> Sections, DrGraphStrategy Strat
 		link.SetCollisionType(COLLIDE_BlockAll);
 		link.SetCollision( true, true, true );
     }
+
+    foreach Level.Head.AllActors( class'InterpActor', IA ) {
+        IA.SetCollisionType(COLLIDE_BlockAll);
+        IA.SetCollision(true, true, true );
+    }
     return Level;
 }
 
@@ -37,7 +45,7 @@ function SpawnEnemies( DrLevel Level )
     local DrEnemyProxy proxy;
 
     foreach Level.Head.AllActors( class'DrEnemyProxy', proxy ) {
-        Level.Head.Spawn( class'SandboxBot',,, proxy.Location, proxy.Rotation );
+        Level.Head.Spawn( class'DrPawnDrone',,, proxy.Location, proxy.Rotation );
     }
 }
 

@@ -77,7 +77,7 @@ exec function Zoom( float Amount ) {
 DefaultProperties
 {
     Height=2024.0
-    HeightTarget=2024.0
+    HeightTarget=1300.0
     MaxHeight=2048.0
     MinHeight=300.0
 	YawTarget=12000

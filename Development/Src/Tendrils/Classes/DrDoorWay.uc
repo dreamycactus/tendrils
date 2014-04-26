@@ -84,7 +84,6 @@ simulated event PostBeginPlay()
 	EndLocWorld = Location + EndLocRel.X * oX + EndLocRel.Y * oY + EndLocRel.Z * oZ;
 }
 
-
 DefaultProperties
 {
 	TransitionTime=1.0
@@ -96,6 +95,7 @@ DefaultProperties
 	bBlocksNavigation=false
 	CollisionType=COLLIDE_BlockAll
 	Begin Object class='StaticMeshComponent' name=Doorway
+        StaticMesh=StaticMesh'LT_Doors.SM.Mesh.S_LT_Doors_SM_DoorWay04'
 		CollideActors=true
 		BlockZeroExtent=true
 		BlockNonZeroExtent=true

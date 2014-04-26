@@ -1,9 +1,19 @@
-class SandboxBot extends UTPawn
+class DrPawnZombie extends UTPawn
     placeable;
  
+var AnimSequence SwingAnim;
+
+simulated event PostInitAnimTree(SkeletalMeshComponent SkelComp)
+{
+	super.PostInitAnimTree(SkelComp);
+
+	//SwingAnim = AnimNodePlayCustomAnim(SkelComp.FindAnimNode('claw_animation'));
+    SwingAnim = Mesh.FindAnimSequence('claw_animation');
+}
+
 function AddDefaultInventory()
 {
-    InvManager.CreateInventory( class'UTWeap_LinkGun', true );
+    InvManager.CreateInventory( class'DrZombieClaw', true );
 }
 
 function SetDyingPhysics()
@@ -123,23 +133,13 @@ DefaultProperties
     End Object
  
     Begin Object Class=SkeletalMeshComponent Name=SandboxPawnSkeletalMesh
-        /*SkeletalMesh=SkeletalMesh'Bryan.zombie'
+        SkeletalMesh=SkeletalMesh'Bryan.zombie'
 		bHasPhysicsAssetInstance=true
 		bUpdateKinematicBonesFromAnimation=true
         AnimSets(0)=AnimSet'Bryan.Test_1_Anims'
         AnimTreeTemplate=AnimTree'Bryan.Test'
-        PhysicsAsset=PhysicsAsset'Bryan.Test_1_Physics'*/
-	
-	SkeletalMesh=SkeletalMesh'Bryan.Heavy_drone'
-		AnimSets(0)=AnimSet'CH_AnimHuman.Anims.K_AnimHuman_BaseMale'
-		AnimTreeTemplate=AnimTree'CH_AnimHuman_Tree.AT_CH_Human'
-		bHasPhysicsAssetInstance=true
-		bUpdateKinematicBonesFromAnimation=true
-        PhysicsAsset=PhysicsAsset'CH_AnimCorrupt.Mesh.SK_CH_Corrupt_Male_Physics'
-        HiddenGame=FALSE
-        HiddenEditor=FALSE
-        BlockRigidBody=TRUE
-    End Object
+        PhysicsAsset=PhysicsAsset'Bryan.Test_1_Physics'
+	End Object
  
     Mesh=SandboxPawnSkeletalMesh
  

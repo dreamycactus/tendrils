@@ -1,9 +1,9 @@
-class SandboxBot extends UTPawn
+class DrPawnDrone extends UTPawn
     placeable;
  
 function AddDefaultInventory()
 {
-    InvManager.CreateInventory( class'UTWeap_LinkGun', true );
+    InvManager.CreateInventory( class'DrWeapRocket', true );
 }
 
 function SetDyingPhysics()
@@ -79,6 +79,7 @@ simulated function bool Died(Controller Killer, class<DamageType> DamageType, ve
     Mesh.SetTickGroup(TG_PostAsyncWork);
     CollisionComponent = Mesh;
     CylinderComponent.SetActorCollision(false, false);
+    CylinderComponent.SetCylinderSize(90, 60);
     Mesh.SetActorCollision(true, false);
     Mesh.SetTraceBlocking(true, true);
     SetPhysics(PHYS_RigidBody);
@@ -130,19 +131,20 @@ DefaultProperties
         AnimTreeTemplate=AnimTree'Bryan.Test'
         PhysicsAsset=PhysicsAsset'Bryan.Test_1_Physics'*/
 	
-	SkeletalMesh=SkeletalMesh'Bryan.Heavy_drone'
-		AnimSets(0)=AnimSet'CH_AnimHuman.Anims.K_AnimHuman_BaseMale'
-		AnimTreeTemplate=AnimTree'CH_AnimHuman_Tree.AT_CH_Human'
+	SkeletalMesh=SkeletalMesh'Bryan.drone_bot'
+		AnimSets(0)=AnimSet'Bryan.drone_bot_Anims'
+		AnimTreeTemplate=AnimTree'Bryan.drone_bot_Animtree'
 		bHasPhysicsAssetInstance=true
 		bUpdateKinematicBonesFromAnimation=true
-        PhysicsAsset=PhysicsAsset'CH_AnimCorrupt.Mesh.SK_CH_Corrupt_Male_Physics'
+        PhysicsAsset=PhysicsAsset'Bryan.drone_bot_Physics'
         HiddenGame=FALSE
         HiddenEditor=FALSE
         BlockRigidBody=TRUE
     End Object
  
     Mesh=SandboxPawnSkeletalMesh
- 
+    HealthMax=1000
+    Health=1000
     Components.Add(SandboxPawnSkeletalMesh)
     ControllerClass=class'SandboxAIController'
     InventoryManagerClass=class'UTInventoryManager'
@@ -150,5 +152,8 @@ DefaultProperties
     bJumpCapable=false
     bCanJump=false
  
-    GroundSpeed=200.0 //Making the bot slower than the player
+    GroundSpeed=100.0 //Making the bot slower than the player
+}
+DefaultProperties
+{
 }

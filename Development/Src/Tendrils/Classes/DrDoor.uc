@@ -61,6 +61,13 @@ DefaultProperties
 
     RotationOffset=16384
 
+    Begin Object class='StaticMeshComponent' name=Doorway
+        StaticMesh=StaticMesh'LT_Doors.SM.Mesh.S_LT_Doors_SM_Door04'
+		CollideActors=true
+		BlockZeroExtent=true
+		BlockNonZeroExtent=true
+	End Object
+
 	Begin Object Class=SpriteComponent Name=Sprite
         Sprite=Texture2D'EnvyEditorResources.BlueDefense'
         HiddenGame=True

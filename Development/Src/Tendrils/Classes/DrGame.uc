@@ -34,14 +34,6 @@ event PostBeginPlay()
 	}
 }
 
-event Tick( float DT )
-{
-    local int i;
-
-    i = 5;
-		
-}
-
 function NavigationPoint FindPlayerStart( Controller Player, optional byte InTeam, optional string IncomingName )
 {
 	local DrPlayerStart PS;
@@ -50,8 +42,9 @@ function NavigationPoint FindPlayerStart( Controller Player, optional byte InTea
 	Start = super.FindPlayerStart( Player, InTeam, IncomingName );
 
 	foreach AllActors( class'DrPlayerStart', PS ) {
-		Start.SetLocation( PS.Location );
+		return PS;
     }
+    
 	return Start;
 }
 
