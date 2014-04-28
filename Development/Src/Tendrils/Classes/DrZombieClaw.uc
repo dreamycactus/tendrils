@@ -40,12 +40,13 @@ simulated state Swinging extends WeaponFiring
 {
     event BeginState(Name PrevState) 
     {
-        DrPawnZombie(Instigator).Mesh.PlayAnim('claw_animation', 1.0, true, false);
+        DrPawnZombie(Instigator).Mesh.PlayAnim('claw_animation', 2.0, true, false);
     }
     simulated event Tick(float DeltaTime)
 	{
 		super.Tick(DeltaTime);
 		TraceSwing();
+        DrPawnZombie(Instigator).Mesh.PlayAnim('claw_animation',2.0,true,false);
 	}
 
     event EndState(Name NewSt)

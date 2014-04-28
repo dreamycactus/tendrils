@@ -6,10 +6,12 @@ class DrEnemyProxy extends Actor
     placeable;
 
 var string EnemyName;
+var int EnemyType;
 
 DefaultProperties
 {
     EnemyName="Bob"
+    EnemyType=-1;
     bCollideActors=false
 
     Begin Object Class=SpriteComponent Name=Sprite

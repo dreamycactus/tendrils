@@ -43,9 +43,21 @@ function DrLevel GenLevelGraph( array<DrSection> Sections, DrGraphStrategy Strat
 function SpawnEnemies( DrLevel Level )
 {
     local DrEnemyProxy proxy;
+    local int enemyType;
 
     foreach Level.Head.AllActors( class'DrEnemyProxy', proxy ) {
-        Level.Head.Spawn( class'DrPawnDrone',,, proxy.Location, proxy.Rotation );
+        enemyType = proxy.EnemyType == -1 ? Rand (2) : proxy.EnemyType;
+        switch(enemyType) {
+        case 0:
+            Level.Head.Spawn( class'DrPawnZombie',,, proxy.Location, proxy.Rotation );
+            break;
+        case 1:
+            Level.Head.Spawn( class'SandboxBot',,, proxy.Location, proxy.Rotation );
+            break;
+        case 4:
+            Level.Head.Spawn( class'DrPawnDrone',,, proxy.Location, proxy.Rotation );
+            break;
+        }
     }
 }
 
