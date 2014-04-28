@@ -121,6 +121,7 @@ DefaultProperties
 {
     Begin Object Name=CollisionCylinder
         CollisionHeight=+44.000000
+        CollisionRadius=50
     End Object
  
     Begin Object Class=SkeletalMeshComponent Name=SandboxPawnSkeletalMesh
@@ -143,8 +144,8 @@ DefaultProperties
     End Object
  
     Mesh=SandboxPawnSkeletalMesh
-    HealthMax=1000
-    Health=1000
+    HealthMax=600
+    Health=600
     Components.Add(SandboxPawnSkeletalMesh)
     ControllerClass=class'SandboxAIController'
     InventoryManagerClass=class'UTInventoryManager'

@@ -1,14 +1,14 @@
 class DrPawnZombie extends UTPawn
     placeable;
  
-var AnimSequence SwingAnim;
+var AnimNodePlayCustomAnim SwingAnim;
 
 simulated event PostInitAnimTree(SkeletalMeshComponent SkelComp)
 {
 	super.PostInitAnimTree(SkelComp);
 
 	//SwingAnim = AnimNodePlayCustomAnim(SkelComp.FindAnimNode('claw_animation'));
-    SwingAnim = Mesh.FindAnimSequence('claw_animation');
+    SwingAnim = AnimNodePlayCustomAnim(SkelComp.FindAnimNode('Fwalk_swing'));
 }
 
 function AddDefaultInventory()

@@ -40,13 +40,14 @@ simulated state Swinging extends WeaponFiring
 {
     event BeginState(Name PrevState) 
     {
-        DrPawnZombie(Instigator).Mesh.PlayAnim('claw_animation', 2.0, true, false);
+        //AnimNodePlayCustomAnim(SkelComp.FindAnimNode('SwingCustomAnim'));
+        DrPawnZombie(Instigator).SwingAnim.PlayCustomAnim('claw_animation', 2.0);
     }
     simulated event Tick(float DeltaTime)
 	{
 		super.Tick(DeltaTime);
 		TraceSwing();
-        DrPawnZombie(Instigator).Mesh.PlayAnim('claw_animation',2.0,true,false);
+        DrPawnZombie(Instigator).SwingAnim.PlayCustomAnim('claw_animation', 2.0);
 	}
 
     event EndState(Name NewSt)
