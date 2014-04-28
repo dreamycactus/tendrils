@@ -6,7 +6,7 @@ class DrEnemyProxy extends Actor
     placeable;
 
 var string EnemyName;
-var int EnemyType;
+var(Tendrils) int EnemyType;
 
 DefaultProperties
 {

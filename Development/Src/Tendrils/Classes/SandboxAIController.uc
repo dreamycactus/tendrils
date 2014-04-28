@@ -52,7 +52,7 @@ state Searching
         return NavigationHandle.FindPath();
     }
 Begin:
-    if ( CanSee( Pawn( Rookie ) ) ) {
+    if ( CanSee( Pawn( Rookie ) ) && VSize(Rookie.Location - Pawn.Location ) < 1500 ) {
         Pawn.StartFire( 0 );
 		if ( !bTrackingPlayer ) {
 			bTrackingPlayer = true;
