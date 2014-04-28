@@ -80,14 +80,14 @@ Begin:
     else if( FindNavMeshPath() )
     {
         NavigationHandle.SetFinalDestination( target.Location );
-        FlushPersistentDebugLines();
-        NavigationHandle.DrawPathCache(,TRUE);
+        //FlushPersistentDebugLines();
+        //NavigationHandle.DrawPathCache(,TRUE);
  
         // move to the first node on the path
         if( NavigationHandle.GetNextMoveLocation( TempDest, Pawn.GetCollisionRadius()) )
         {
-            DrawDebugLine( Pawn.Location, TempDest, 255, 0, 0, true );
-            DrawDebugSphere( TempDest,16,20,255,0,0,true);
+            //DrawDebugLine( Pawn.Location, TempDest, 255, 0, 0, true );
+            //DrawDebugSphere( TempDest,16,20,255,0,0,true);
             MoveTo( TempDest );
         }
     } else {
